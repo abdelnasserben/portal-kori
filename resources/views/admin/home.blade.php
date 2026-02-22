@@ -9,6 +9,7 @@
             <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.terminals.create') }}">Créer un terminal</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.admins.create') }}">Créer un admin</a>
         </div>
     </div>
 @endsection
