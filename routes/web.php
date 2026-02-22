@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\MerchantsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
 use App\Http\Controllers\Backoffice\TransactionsController;
@@ -31,6 +32,10 @@ Route::middleware(['auth.portal'])->group(function () {
 
         Route::get('/admin/terminals/new', [TerminalsController::class, 'create'])->name('admin.terminals.create');
         Route::post('/admin/terminals', [TerminalsController::class, 'store'])->name('admin.terminals.store');
+
+        Route::get('/admin/agents', [AgentsController::class, 'index'])->name('admin.agents.index');
+        Route::get('/admin/agents/new', [AgentsController::class, 'create'])->name('admin.agents.create');
+        Route::post('/admin/agents', [AgentsController::class, 'store'])->name('admin.agents.store');
     });
 
     Route::middleware(['role:MERCHANT'])->group(function () {

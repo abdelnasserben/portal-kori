@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="card p-4">
-    <h5 class="fw-semibold mb-2">Espace Admin</h5>
-    <div class="text-muted">
-        Placeholder Admin. Prochaine étape : Transactions / Lookup / Audit / Acteurs.
+    <div class="card p-4">
+        <h5 class="fw-semibold mb-3">Espace Admin</h5>
+
+        <div class="d-flex gap-2 flex-wrap">
+            <a class="btn btn-primary" href="{{ route('admin.transactions.index') }}">Transactions</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.terminals.create') }}">Créer un terminal</a>
+        </div>
     </div>
-</div>
 @endsection

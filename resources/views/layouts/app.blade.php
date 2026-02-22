@@ -47,8 +47,6 @@
 
                 @if ($roles->has('ADMIN'))
                     <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.home') }}">Admin</a>
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.transactions.index') }}">Transactions</a>
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
                 @endif
 
                 @if ($roles->has('MERCHANT'))
