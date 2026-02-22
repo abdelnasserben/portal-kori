@@ -15,9 +15,8 @@ class KoriApiClient
 {
     public function __construct(private readonly TokenService $tokens) {}
 
-    public function request(): PendingRequest
+    public function request(array $headers = []): PendingRequest
     {
-        //dd(session('access_token'));
         $cfg = config('kori.api');
 
         $req = Http::baseUrl(rtrim($cfg['base_url'], '/'))
@@ -29,33 +28,36 @@ class KoriApiClient
                 $cfg['retry']['sleep_ms']
             );
 
-        // Ajout Bearer token si dispo (sans localStorage)
         $access = $this->tokens->getValidAccessToken();
         if (is_string($access) && $access !== '') {
             $req = $req->withToken($access);
         }
 
+        if (!empty($headers)) {
+            $req = $req->withHeaders($headers);
+        }
+
         return $req;
     }
 
-    public function get(string $uri, array $query = []): array
+    public function get(string $uri, array $query = [], array $headers = []): array
     {
-        return $this->send(fn() => $this->request()->get($uri, $query), 'GET', $uri);
+        return $this->send(fn() => $this->request($headers)->get($uri, $query), 'GET', $uri);
     }
 
-    public function post(string $uri, array $data = []): array
+    public function post(string $uri, array $data = [], array $headers = []): array
     {
-        return $this->send(fn() => $this->request()->post($uri, $data), 'POST', $uri);
+        return $this->send(fn() => $this->request($headers)->post($uri, $data), 'POST', $uri);
     }
 
-    public function put(string $uri, array $data = []): array
+    public function put(string $uri, array $data = [], array $headers = []): array
     {
-        return $this->send(fn() => $this->request()->put($uri, $data), 'PUT', $uri);
+        return $this->send(fn() => $this->request($headers)->put($uri, $data), 'PUT', $uri);
     }
 
-    public function delete(string $uri, array $query = []): array
+    public function delete(string $uri, array $query = [], array $headers = []): array
     {
-        return $this->send(fn() => $this->request()->delete($uri, $query), 'DELETE', $uri);
+        return $this->send(fn() => $this->request($headers)->delete($uri, $query), 'DELETE', $uri);
     }
 
     private function send(callable $fn, string $method, string $uri): array

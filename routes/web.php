@@ -1,17 +1,40 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backoffice\MerchantsController;
+use App\Http\Controllers\Backoffice\TransactionsController;
 use App\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+})->name('home');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/auth/callback', [AuthController::class, 'callback'])->name('auth.callback');
 
+// Tout ce qui suit nécessite une session portail (access_token en session)
 Route::middleware(['auth.portal'])->group(function () {
+
     Route::view('/auth/success', 'auth.success')->name('auth.success');
 
+    Route::middleware(['role:ADMIN'])->group(function () {
+        Route::view('/admin', 'admin.home')->name('admin.home');
+
+        Route::get('/admin/transactions', [TransactionsController::class, 'index'])
+            ->name('admin.transactions.index');
+
+        Route::get('/admin/merchants', [MerchantsController::class, 'index'])->name('admin.merchants.index');
+        Route::get('/admin/merchants/new', [MerchantsController::class, 'create'])->name('admin.merchants.create');
+        Route::post('/admin/merchants', [MerchantsController::class, 'store'])->name('admin.merchants.store');
+    });
+
+    Route::middleware(['role:MERCHANT'])->group(function () {
+        Route::view('/merchant', 'merchant.home')->name('merchant.home');
+    });
+
+    // Test API (peut échouer si token/claims API)
     Route::get('/health', HealthController::class)->name('health');
 
-    // Logout complet (local + Keycloak)
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });

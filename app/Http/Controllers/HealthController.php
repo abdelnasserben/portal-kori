@@ -12,7 +12,7 @@ class HealthController extends Controller
 
     public function __invoke()
     {
-        $health = $this->api->get('/api/v1/backoffice/transactions');
+        $health = $this->api->get('/api/v1/config/platform');
 
         return view('health', [
             'health' => $health,
