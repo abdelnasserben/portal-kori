@@ -30,8 +30,14 @@
             <div class="mono">X-Correlation-Id: {{ $meta['correlationId'] }}</div>
         </details>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-primary" href="{{ route('admin.merchants.index') }}">Voir la liste</a>
+            @if (!empty($created['code']))
+                <a class="btn btn-outline-primary"
+                    href="{{ route('admin.terminals.create', ['merchantCode' => $created['code']]) }}">
+                    Créer un terminal pour ce marchand
+                </a>
+            @endif
             <a class="btn btn-outline-secondary" href="{{ route('admin.merchants.create') }}">Créer un autre</a>
         </div>
     </div>

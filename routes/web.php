@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backoffice\MerchantsController;
+use App\Http\Controllers\Backoffice\TerminalsController;
 use App\Http\Controllers\Backoffice\TransactionsController;
 use App\Http\Controllers\HealthController;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,9 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::get('/admin/merchants', [MerchantsController::class, 'index'])->name('admin.merchants.index');
         Route::get('/admin/merchants/new', [MerchantsController::class, 'create'])->name('admin.merchants.create');
         Route::post('/admin/merchants', [MerchantsController::class, 'store'])->name('admin.merchants.store');
+
+        Route::get('/admin/terminals/new', [TerminalsController::class, 'create'])->name('admin.terminals.create');
+        Route::post('/admin/terminals', [TerminalsController::class, 'store'])->name('admin.terminals.store');
     });
 
     Route::middleware(['role:MERCHANT'])->group(function () {

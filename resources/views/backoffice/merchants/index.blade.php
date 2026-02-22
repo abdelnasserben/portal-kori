@@ -8,7 +8,10 @@
                 <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
             </div>
 
-            <a class="btn btn-sm btn-primary" href="{{ route('admin.merchants.create') }}">+ Créer un marchand</a>
+            <div class="d-flex gap-2">
+                <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.terminals.create') }}">+ Créer un terminal</a>
+                <a class="btn btn-sm btn-primary" href="{{ route('admin.merchants.create') }}">+ Créer un marchand</a>
+            </div>
         </div>
 
         <form method="GET" action="{{ route('admin.merchants.index') }}" class="mt-3">
@@ -74,6 +77,10 @@
                                 {{ $it['actorRef'] ?? '' }}
                                 @if (!empty($it['actorRef']))
                                     <x-copy-button :value="$it['actorRef']" />
+                                    <a class="btn btn-sm btn-link py-0 px-1"
+                                        href="{{ route('admin.terminals.create', ['merchantCode' => $it['actorRef']]) }}">
+                                        + Terminal
+                                    </a>
                                 @endif
                             </td>
                             <td style="white-space:nowrap;">
