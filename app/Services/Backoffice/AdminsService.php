@@ -8,6 +8,13 @@ class AdminsService
 {
     public function __construct(private readonly KoriApiClient $api) {}
 
+    public function list(array $filters): array
+    {
+        $query = array_filter($filters, fn ($v) => !is_null($v) && $v !== '');
+
+        return $this->api->get('/api/v1/backoffice/admins', $query);
+    }
+
     public function create(string $username, string $idempotencyKey, ?string $correlationId = null): array
     {
         $headers = [

@@ -27,7 +27,7 @@
 
             <div class="col-12 d-flex gap-2">
                 <button class="btn btn-primary" type="submit">Créer le terminal</button>
-                <a class="btn btn-outline-secondary" href="{{ route('admin.merchants.index') }}">Annuler</a>
+                <a class="btn btn-outline-secondary" href="{{ route('admin.terminals.index') }}">Annuler</a>
             </div>
         </form>
     </div>

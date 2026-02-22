@@ -13,6 +13,29 @@ class AdminsController extends Controller
 
     public function __construct(private readonly AdminsService $service) {}
 
+    public function index(Request $request)
+    {
+        $filters = $request->validate([
+            'query'       => ['nullable', 'string', 'max:120'],
+            'status'      => ['nullable', 'string', 'max:50'],
+            'createdFrom' => ['nullable', 'string', 'max:50'],
+            'createdTo'   => ['nullable', 'string', 'max:50'],
+            'limit'       => ['nullable', 'integer', 'min:1', 'max:200'],
+            'cursor'      => ['nullable', 'string', 'max:500'],
+            'sort'        => ['nullable', 'string', 'max:50'],
+        ]);
+
+        $filters['limit'] = $filters['limit'] ?? 25;
+
+        $data = $this->service->list($filters);
+
+        return view('backoffice.admins.index', [
+            'filters' => $filters,
+            'items'   => $data['items'] ?? [],
+            'page'    => $data['page'] ?? ['hasMore' => false],
+        ]);
+    }
+
     public function create()
     {
         return view('backoffice.admins.create');

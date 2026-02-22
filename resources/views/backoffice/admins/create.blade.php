@@ -27,7 +27,7 @@
 
             <div class="col-12 d-flex gap-2">
                 <button class="btn btn-primary" type="submit">Créer l'admin</button>
-                <a class="btn btn-outline-secondary" href="{{ route('admin.home') }}">Annuler</a>
+                <a class="btn btn-outline-secondary" href="{{ route('admin.admins.index') }}">Annuler</a>
             </div>
         </form>
     </div>
