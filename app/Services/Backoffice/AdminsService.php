@@ -22,4 +22,23 @@ class AdminsService
             'username' => $username,
         ], $headers);
     }
+
+    public function updateStatus(string $adminUsername, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        $payload = [
+            'targetStatus' => $targetStatus,
+        ];
+
+        if (!is_null($reason) && $reason !== '') {
+            $payload['reason'] = $reason;
+        }
+
+        return $this->api->patch("/api/v1/admins/{$adminUsername}/status", $payload, $headers);
+    }
 }

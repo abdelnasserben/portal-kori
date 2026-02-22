@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class AdminsController extends Controller
 {
+    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
+
     public function __construct(private readonly AdminsService $service) {}
 
     public function create()
@@ -39,5 +41,27 @@ class AdminsController extends Controller
                 'correlationId'  => $correlationId,
             ],
         ]);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $payload = $request->validate([
+            'adminUsername' => ['required', 'string', 'regex:/^[A-Za-z0-9._@-]{3,64}$/'],
+            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $this->service->updateStatus(
+            adminUsername: $payload['adminUsername'],
+            targetStatus: $payload['targetStatus'],
+            reason: $payload['reason'] ?? null,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return back()->with('status_success', sprintf(
+            'Statut admin %s mis à jour vers %s.',
+            $payload['adminUsername'],
+            $payload['targetStatus']
+        ));
     }
 }

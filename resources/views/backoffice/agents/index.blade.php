@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('status_success'))
+        <div class="alert alert-success">{{ session('status_success') }}</div>
+    @endif
     <div class="card p-4 mb-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
@@ -66,6 +69,7 @@
                         <th>Created</th>
                         <th>Actor Ref</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,10 +85,28 @@
                             <td style="white-space:nowrap;">
                                 <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
                             </td>
+                            <td>
+                                @if (!empty($it['actorRef']))
+                                    <form method="POST"
+                                        action="{{ route('admin.agents.status.update', ['agentCode' => $it['actorRef']]) }}"
+                                        class="d-flex gap-1 align-items-center">
+                                        @csrf
+                                        <select name="targetStatus" class="form-select form-select-sm"
+                                            style="min-width:130px">
+                                            @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
+                                                <option value="{{ $status }}">{{ $status }}</option>
+                                            @endforeach
+                                        </select>
+                                        <input name="reason" class="form-control form-control-sm" placeholder="Reason"
+                                            maxlength="255">
+                                        <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
+                                    </form>
+                                @endif
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center text-muted p-4">Aucun agent.</td>
+                            <td colspan="4" class="text-center text-muted p-4">Aucun agent.</td>
                         </tr>
                     @endforelse
                 </tbody>

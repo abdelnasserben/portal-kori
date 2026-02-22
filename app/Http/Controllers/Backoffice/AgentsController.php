@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class AgentsController extends Controller
 {
+    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
+
     public function __construct(private readonly AgentsService $service) {}
 
 
@@ -56,5 +58,25 @@ class AgentsController extends Controller
             ],
         ]);
     }
-}
 
+    public function updateStatus(Request $request, string $agentCode)
+    {
+        $payload = $request->validate([
+            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $this->service->updateStatus(
+            agentCode: $agentCode,
+            targetStatus: $payload['targetStatus'],
+            reason: $payload['reason'] ?? null,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return back()->with('status_success', sprintf(
+            'Statut agent %s mis à jour vers %s.',
+            $agentCode,
+            $payload['targetStatus']
+        ));
+    }
+}

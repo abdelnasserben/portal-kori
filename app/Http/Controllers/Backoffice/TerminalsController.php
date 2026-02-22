@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 
 class TerminalsController extends Controller
 {
+    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
+
     public function __construct(private readonly TerminalsService $service) {}
 
     public function create(Request $request)
@@ -45,5 +47,27 @@ class TerminalsController extends Controller
                 'correlationId'  => $correlationId,
             ],
         ]);
+    }
+
+    public function updateStatus(Request $request)
+    {
+        $payload = $request->validate([
+            'terminalUid' => ['required', 'string', 'max:120'],
+            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $this->service->updateStatus(
+            terminalUid: $payload['terminalUid'],
+            targetStatus: $payload['targetStatus'],
+            reason: $payload['reason'] ?? null,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return back()->with('status_success', sprintf(
+            'Statut terminal %s mis à jour vers %s.',
+            $payload['terminalUid'],
+            $payload['targetStatus']
+        ));
     }
 }

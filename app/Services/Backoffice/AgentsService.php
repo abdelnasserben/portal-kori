@@ -27,5 +27,24 @@ class AgentsService
         // OpenAPI: pas de requestBody pour createAgent
         return $this->api->post('/api/v1/agents', [], $headers);
     }
+
+    public function updateStatus(string $agentCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        $payload = [
+            'targetStatus' => $targetStatus,
+        ];
+
+        if (!is_null($reason) && $reason !== '') {
+            $payload['reason'] = $reason;
+        }
+
+        return $this->api->patch("/api/v1/agents/{$agentCode}/status", $payload, $headers);
+    }
 }
 

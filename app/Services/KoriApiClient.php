@@ -55,6 +55,11 @@ class KoriApiClient
         return $this->send(fn() => $this->request($headers)->put($uri, $data), 'PUT', $uri);
     }
 
+    public function patch(string $uri, array $data = [], array $headers = []): array
+    {
+        return $this->send(fn() => $this->request($headers)->patch($uri, $data), 'PATCH', $uri);
+    }
+
     public function delete(string $uri, array $query = [], array $headers = []): array
     {
         return $this->send(fn() => $this->request($headers)->delete($uri, $query), 'DELETE', $uri);

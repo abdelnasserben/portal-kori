@@ -26,4 +26,23 @@ class MerchantsService
         // OpenAPI: pas de requestBody pour createMerchant
         return $this->api->post('/api/v1/merchants', [], $headers);
     }
+
+    public function updateStatus(string $merchantCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        $payload = [
+            'targetStatus' => $targetStatus,
+        ];
+
+        if (!is_null($reason) && $reason !== '') {
+            $payload['reason'] = $reason;
+        }
+
+        return $this->api->patch("/api/v1/merchants/{$merchantCode}/status", $payload, $headers);
+    }
 }
