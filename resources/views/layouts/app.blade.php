@@ -38,27 +38,39 @@
 
 <body>
 
-    <nav class="navbar navbar-light bg-white px-4">
-        <span class="navbar-brand fw-semibold">Kori Portal</span>
-        @php($roles = app(\App\Services\Auth\RoleService::class))
-        <div class="mb-3">
-            <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route('home') }}">Home</a>
+    <nav class="navbar navbar-light bg-white px-4 py-3">
+        <div class="w-100">
+            @php($roles = app(\App\Services\Auth\RoleService::class))
+            <div class="d-flex align-items-center gap-3 flex-wrap">
+                <span class="navbar-brand fw-semibold m-0">Kori Portal</span>
 
                 @if ($roles->has('ADMIN'))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.home') }}">Admin</a>
+                    <form method="GET" action="{{ route('admin.lookups.index') }}"
+                        class="d-flex align-items-center gap-2 flex-grow-1" style="max-width: 520px;">
+                        <input name="q" class="form-control form-control-sm" value="{{ request('q') }}" required
+                            placeholder="Recherche globale (client, marchand, agent, terminal, admin)">
+                        <button class="btn btn-sm btn-primary" type="submit">Lookup</button>
+                    </form>
                 @endif
 
-                @if ($roles->has('MERCHANT'))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ route('merchant.home') }}">Merchant</a>
-                @endif
+                <div class="d-flex gap-2 flex-wrap ms-auto">
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('home') }}">Home</a>
 
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route('health') }}">API Health</a>
+                    @if ($roles->has('ADMIN'))
+                        <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.home') }}">Admin</a>
+                    @endif
 
-                <form method="POST" action="{{ route('logout') }}" class="ms-auto">
-                    @csrf
-                    <button class="btn btn-sm btn-outline-danger" type="submit">Logout</button>
-                </form>
+                    @if ($roles->has('MERCHANT'))
+                        <a class="btn btn-sm btn-outline-primary" href="{{ route('merchant.home') }}">Merchant</a>
+                    @endif
+
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('health') }}">API Health</a>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button class="btn btn-sm btn-outline-danger" type="submit">Logout</button>
+                    </form>
+                </div>
             </div>
         </div>
     </nav>

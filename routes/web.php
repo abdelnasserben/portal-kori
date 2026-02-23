@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\ClientsController;
+use App\Http\Controllers\Backoffice\LookupsController;
 use App\Http\Controllers\Backoffice\MerchantsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
 use App\Http\Controllers\Backoffice\TransactionsController;
@@ -24,6 +25,8 @@ Route::middleware(['auth.portal'])->group(function () {
 
     Route::middleware(['role:ADMIN'])->group(function () {
         Route::view('/admin', 'admin.home')->name('admin.home');
+
+        Route::get('/admin/lookups', [LookupsController::class, 'index'])->name('admin.lookups.index');
 
         Route::get('/admin/transactions', [TransactionsController::class, 'index'])
             ->name('admin.transactions.index');
