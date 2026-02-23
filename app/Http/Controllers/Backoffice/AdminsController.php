@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
+use App\Services\Backoffice\AuditEventsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -15,6 +16,7 @@ class AdminsController extends Controller
 
     public function __construct(
         private readonly AdminsService $service,
+        private readonly AuditEventsService $auditEvents,
         private readonly JwtDecoder $decoder,
     ) {}
 
@@ -54,8 +56,17 @@ class AdminsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
+        $auditEvents = $this->auditEvents->list([
+            'actorType' => 'ADMIN',
+            'actorRef' => $item['actorRef'] ?? $adminUsername,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
+        ]);
+
         return view('backoffice.admins.show', [
             'item' => $item,
+            'auditEvents' => $auditEvents['items'] ?? [],
+            'historyRoute' => route('admin.audits.index', ['actorType' => 'ADMIN', 'actorRef' => $item['actorRef'] ?? $adminUsername]),
             'currentAdminUsername' => $this->currentAdminUsername(),
         ]);
     }

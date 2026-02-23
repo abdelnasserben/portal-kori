@@ -32,4 +32,6 @@
             <dd class="col-sm-9">{{ $item['lastActivityAt'] ?? '—' }}</dd>
         </dl>
     </div>
+
+    @include('backoffice.partials.actor-history', ['auditEvents' => $auditEvents ?? [], 'historyRoute' => $historyRoute ?? route('admin.audits.index')])
 @endsection

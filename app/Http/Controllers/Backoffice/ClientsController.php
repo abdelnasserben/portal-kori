@@ -3,13 +3,17 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\ClientsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ClientsController extends Controller
 {
-    public function __construct(private readonly ClientsService $service) {}
+    public function __construct(
+        private readonly ClientsService $service,
+        private readonly AuditEventsService $auditEvents,
+    ) {}
 
     public function index(Request $request)
     {
@@ -41,8 +45,17 @@ class ClientsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
+        $auditEvents = $this->auditEvents->list([
+            'actorType' => 'CLIENT',
+            'actorRef' => $item['actorRef'] ?? $clientCode,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
+        ]);
+
         return view('backoffice.clients.show', [
             'item' => $item,
+            'auditEvents' => $auditEvents['items'] ?? [],
+            'historyRoute' => route('admin.audits.index', ['actorType' => 'CLIENT', 'actorRef' => $item['actorRef'] ?? $clientCode]),
         ]);
     }
 }

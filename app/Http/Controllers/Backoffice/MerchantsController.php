@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\MerchantsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,7 +12,10 @@ class MerchantsController extends Controller
 {
     private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
-    public function __construct(private readonly MerchantsService $service) {}
+    public function __construct(
+        private readonly MerchantsService $service,
+        private readonly AuditEventsService $auditEvents,
+    ) {}
 
     public function index(Request $request)
     {
@@ -48,8 +52,17 @@ class MerchantsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
+        $auditEvents = $this->auditEvents->list([
+            'actorType' => 'MERCHANT',
+            'actorRef' => $item['actorRef'] ?? $merchantCode,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
+        ]);
+
         return view('backoffice.merchants.show', [
             'item' => $item,
+            'auditEvents' => $auditEvents['items'] ?? [],
+            'historyRoute' => route('admin.audits.index', ['actorType' => 'MERCHANT', 'actorRef' => $item['actorRef'] ?? $merchantCode]),
         ]);
     }
 

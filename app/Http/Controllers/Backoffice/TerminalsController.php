@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\TerminalsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,7 +12,10 @@ class TerminalsController extends Controller
 {
     private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
-    public function __construct(private readonly TerminalsService $service) {}
+    public function __construct(
+        private readonly TerminalsService $service,
+        private readonly AuditEventsService $auditEvents,
+    ) {}
 
     public function index(Request $request)
     {
@@ -54,8 +58,17 @@ class TerminalsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
+        $auditEvents = $this->auditEvents->list([
+            'actorType' => 'TERMINAL',
+            'actorRef' => $item['actorRef'] ?? $terminalUid,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
+        ]);
+
         return view('backoffice.terminals.show', [
             'item' => $item,
+            'auditEvents' => $auditEvents['items'] ?? [],
+            'historyRoute' => route('admin.audits.index', ['actorType' => 'TERMINAL', 'actorRef' => $item['actorRef'] ?? $terminalUid]),
         ]);
     }
 
