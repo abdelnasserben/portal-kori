@@ -74,7 +74,7 @@ Les endpoints `/me` utilisent automatiquement `actorRef` du token.
 
 ```json
 {
-  ...objet...
+  "...objet..."
 }
 ```
 
