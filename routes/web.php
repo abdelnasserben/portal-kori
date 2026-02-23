@@ -5,6 +5,7 @@ use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
 use App\Http\Controllers\Backoffice\ClientsController;
+use App\Http\Controllers\Backoffice\ConfigurationsController;
 use App\Http\Controllers\Backoffice\LookupsController;
 use App\Http\Controllers\Backoffice\MerchantsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
@@ -61,6 +62,11 @@ Route::middleware(['auth.portal'])->group(function () {
 
         Route::get('/admin/clients', [ClientsController::class, 'index'])->name('admin.clients.index');
         Route::get('/admin/clients/{clientCode}', [ClientsController::class, 'show'])->name('admin.clients.show');
+
+        Route::get('/admin/config', [ConfigurationsController::class, 'index'])->name('admin.config.index');
+        Route::post('/admin/config/fees', [ConfigurationsController::class, 'updateFees'])->name('admin.config.fees.update');
+        Route::post('/admin/config/commissions', [ConfigurationsController::class, 'updateCommissions'])->name('admin.config.commissions.update');
+        Route::post('/admin/config/platform', [ConfigurationsController::class, 'updatePlatform'])->name('admin.config.platform.update');
     });
 
     Route::middleware(['role:MERCHANT'])->group(function () {
