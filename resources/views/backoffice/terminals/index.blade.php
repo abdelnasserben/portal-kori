@@ -89,8 +89,11 @@
                             </td>
                             <td>
                                 @if (!empty($it['actorRef']))
+
+                                <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.terminals.show', ['terminalUid' => $it['actorRef']]) }}">Voir</a>
+
                                     <form method="POST" action="{{ route('admin.terminals.status.update') }}"
-                                        class="d-flex gap-1 align-items-center">
+                                        class="d-flex gap-1 align-items-center mt-1">
                                         @csrf
                                         <input type="hidden" name="terminalUid" value="{{ $it['actorRef'] }}">
                                         <select name="targetStatus" class="form-select form-select-sm"

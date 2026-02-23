@@ -3,15 +3,20 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class AdminsController extends Controller
 {
     private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
-    public function __construct(private readonly AdminsService $service) {}
+    public function __construct(
+        private readonly AdminsService $service,
+        private readonly JwtDecoder $decoder,
+    ) {}
 
     public function index(Request $request)
     {
@@ -33,12 +38,26 @@ class AdminsController extends Controller
             'filters' => $filters,
             'items'   => $data['items'] ?? [],
             'page'    => $data['page'] ?? ['hasMore' => false],
+            'currentAdminUsername' => $this->currentAdminUsername(),
         ]);
     }
 
     public function create()
     {
         return view('backoffice.admins.create');
+    }
+
+    public function show(string $adminUsername)
+    {
+        $item = $this->service->show(
+            adminUsername: $adminUsername,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return view('backoffice.admins.show', [
+            'item' => $item,
+            'currentAdminUsername' => $this->currentAdminUsername(),
+        ]);
     }
 
     public function store(Request $request)
@@ -77,6 +96,12 @@ class AdminsController extends Controller
             'reason' => ['nullable', 'string', 'max:255'],
         ]);
 
+        if ($this->isCurrentAdmin($payload['adminUsername'])) {
+            throw ValidationException::withMessages([
+                'adminUsername' => 'Vous ne pouvez pas modifier votre propre statut.',
+            ]);
+        }
+
         $this->service->updateStatus(
             adminUsername: $payload['adminUsername'],
             targetStatus: $payload['targetStatus'],
@@ -89,5 +114,30 @@ class AdminsController extends Controller
             $payload['adminUsername'],
             $payload['targetStatus']
         ));
+    }
+
+    // Is not the username of Keycloak but the actorRef
+    private function currentAdminUsername(): ?string
+    {
+        $payload = $this->decoder->decodePayload(session('access_token'));
+
+        if (!is_array($payload)) {
+            return null;
+        }
+
+        $value = $payload['actorRef'] ?? null;
+
+        if (is_string($value) && ($value = trim($value)) !== '') {
+            return $value;
+        }
+
+        return null;
+    }
+
+    private function isCurrentAdmin(string $adminUsername): bool
+    {
+        $current = $this->currentAdminUsername();
+
+        return is_string($current) && strcasecmp($current, $adminUsername) === 0;
     }
 }

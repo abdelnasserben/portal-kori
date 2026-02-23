@@ -7,6 +7,7 @@
         <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-primary" href="{{ route('admin.transactions.index') }}">Transactions</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.clients.index') }}">Clients</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.terminals.index') }}">Terminaux</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.admins.index') }}">Admins</a>

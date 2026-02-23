@@ -49,4 +49,15 @@ class AdminsService
 
         return $this->api->patch("/api/v1/admins/{$adminUsername}/status", $payload, $headers);
     }
+
+    public function show(string $adminUsername, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        return $this->api->get("/api/v1/backoffice/actors/ADMIN/{$adminUsername}", [], $headers);
+    }
 }

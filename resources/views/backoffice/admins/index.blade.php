@@ -83,25 +83,31 @@
                                     <x-copy-button :value="$it['actorRef']" />
                                 @endif
                             </td>
-                            <td>{{ $it['displayName'] ?? $it['display'] ?? '—' }}</td>
+                            <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
                             <td style="white-space:nowrap;">
                                 <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
                             </td>
                             <td>
                                 @if (!empty($it['actorRef']))
-                                    <form method="POST" action="{{ route('admin.admins.status.update') }}"
-                                        class="d-flex gap-1 align-items-center">
-                                        @csrf
-                                        <input type="hidden" name="adminUsername" value="{{ $it['actorRef'] }}">
-                                        <select name="targetStatus" class="form-select form-select-sm" style="min-width:130px">
-                                            @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
-                                                <option value="{{ $status }}">{{ $status }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input name="reason" class="form-control form-control-sm" placeholder="Reason"
-                                            maxlength="255">
-                                        <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
-                                    </form>
+                                    <a class="btn btn-sm btn-outline-secondary"
+                                        href="{{ route('admin.admins.show', ['adminUsername' => $it['actorRef']]) }}">Voir</a>
+
+                                    @if (strcasecmp($currentAdminUsername, $it['actorRef']) !== 0)
+                                        <form method="POST" action="{{ route('admin.admins.status.update') }}"
+                                            class="d-flex gap-1 align-items-center mt-1">
+                                            @csrf
+                                            <input type="hidden" name="adminUsername" value="{{ $it['actorRef'] }}">
+                                            <select name="targetStatus" class="form-select form-select-sm"
+                                                style="min-width:130px">
+                                                @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
+                                                    <option value="{{ $status }}">{{ $status }}</option>
+                                                @endforeach
+                                            </select>
+                                            <input name="reason" class="form-control form-control-sm" placeholder="Reason"
+                                                maxlength="255">
+                                            <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
+                                        </form>
+                                    @endif
                                 @endif
                             </td>
                         </tr>

@@ -41,6 +41,18 @@ class MerchantsController extends Controller
         return view('backoffice.merchants.create');
     }
 
+    public function show(string $merchantCode)
+    {
+        $item = $this->service->show(
+            merchantCode: $merchantCode,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return view('backoffice.merchants.show', [
+            'item' => $item,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $payload = $request->validate([

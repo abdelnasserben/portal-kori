@@ -47,6 +47,18 @@ class TerminalsController extends Controller
         ]);
     }
 
+    public function show(string $terminalUid)
+    {
+        $item = $this->service->show(
+            terminalUid: $terminalUid,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return view('backoffice.terminals.show', [
+            'item' => $item,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $payload = $request->validate([

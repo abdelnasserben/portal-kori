@@ -42,6 +42,18 @@ class AgentsController extends Controller
         return view('backoffice.agents.create');
     }
 
+    public function show(string $agentCode)
+    {
+        $item = $this->service->show(
+            agentCode: $agentCode,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return view('backoffice.agents.show', [
+            'item' => $item,
+        ]);
+    }
+
     public function store(Request $request)
     {
         $payload = $request->validate([

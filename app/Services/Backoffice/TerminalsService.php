@@ -49,4 +49,15 @@ class TerminalsService
 
         return $this->api->patch("/api/v1/terminals/{$terminalUid}/status", $payload, $headers);
     }
+
+    public function show(string $terminalUid, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        return $this->api->get("/api/v1/backoffice/actors/TERMINAL/{$terminalUid}", [], $headers);
+    }
 }

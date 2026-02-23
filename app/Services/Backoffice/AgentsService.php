@@ -47,5 +47,16 @@ class AgentsService
 
         return $this->api->patch("/api/v1/agents/{$agentCode}/status", $payload, $headers);
     }
+
+    public function show(string $agentCode, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        return $this->api->get("/api/v1/backoffice/actors/AGENT/{$agentCode}", [], $headers);
+    }
 }
 

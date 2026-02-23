@@ -46,4 +46,15 @@ class MerchantsService
 
         return $this->api->patch("/api/v1/merchants/{$merchantCode}/status", $payload, $headers);
     }
+
+    public function show(string $merchantCode, ?string $correlationId = null): array
+    {
+        $headers = [];
+
+        if ($correlationId) {
+            $headers['X-Correlation-Id'] = $correlationId;
+        }
+
+        return $this->api->get("/api/v1/backoffice/actors/MERCHANT/{$merchantCode}", [], $headers);
+    }
 }
