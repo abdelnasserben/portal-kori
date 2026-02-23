@@ -15,7 +15,7 @@ class TerminalsService
         return $this->api->get('/api/v1/backoffice/terminals', $query);
     }
 
-    public function create(string $merchantCode, string $idempotencyKey, ?string $correlationId = null): array
+    public function create(string $merchantCode, string $displayName, string $idempotencyKey, ?string $correlationId = null): array
     {
         $headers = [
             'Idempotency-Key' => $idempotencyKey,
@@ -27,6 +27,7 @@ class TerminalsService
 
         return $this->api->post('/api/v1/terminals', [
             'merchantCode' => $merchantCode,
+            'displayName' => $displayName,
         ], $headers);
     }
 

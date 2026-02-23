@@ -22,6 +22,11 @@
             </div>
         </div>
 
+        <div class="mb-3">
+            <div class="fw-semibold">Nom</div>
+            <div>{{ $created['displayName'] ?? $meta['displayName'] ?? '' }}</div>
+        </div>
+
         <details class="mb-3">
             <summary class="text-muted">Debug request headers</summary>
             <div class="mono mt-2">Idempotency-Key: {{ $meta['idempotencyKey'] }}</div>

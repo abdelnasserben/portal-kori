@@ -14,7 +14,7 @@ class AgentsService
         return $this->api->get('/api/v1/backoffice/agents', $query);
     }
 
-    public function create(string $idempotencyKey, ?string $correlationId = null): array
+    public function create(string $displayName, string $idempotencyKey, ?string $correlationId = null): array
     {
         $headers = [
             'Idempotency-Key' => $idempotencyKey,
@@ -24,8 +24,9 @@ class AgentsService
             $headers['X-Correlation-Id'] = $correlationId;
         }
 
-        // OpenAPI: pas de requestBody pour createAgent
-        return $this->api->post('/api/v1/agents', [], $headers);
+        return $this->api->post('/api/v1/agents', [
+            'displayName' => $displayName,
+        ], $headers);
     }
 
     public function updateStatus(string $agentCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array

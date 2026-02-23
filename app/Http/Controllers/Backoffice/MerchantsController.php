@@ -43,15 +43,23 @@ class MerchantsController extends Controller
 
     public function store(Request $request)
     {
-        // Pas de champs: l’API ne déclare pas de body pour Create merchant
+        $payload = $request->validate([
+            'displayName' => ['required', 'string', 'max:120'],
+        ]);
+
         $idempotencyKey = (string) Str::uuid();
         $correlationId = (string) Str::uuid();
 
-        $created = $this->service->create($idempotencyKey, $correlationId);
+        $created = $this->service->create(
+            displayName: $payload['displayName'],
+            idempotencyKey: $idempotencyKey,
+            correlationId: $correlationId,
+        );
 
         return view('backoffice.merchants.created', [
             'created' => $created,
             'meta' => [
+                'displayName'    => $payload['displayName'],
                 'idempotencyKey' => $idempotencyKey,
                 'correlationId'  => $correlationId,
             ],

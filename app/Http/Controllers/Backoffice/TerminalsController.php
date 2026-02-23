@@ -51,6 +51,7 @@ class TerminalsController extends Controller
     {
         $payload = $request->validate([
             'merchantCode' => ['required', 'string', 'max:16'],
+            'displayName' => ['required', 'string', 'max:120'],
         ]);
 
         $idempotencyKey = (string) Str::uuid();
@@ -58,6 +59,7 @@ class TerminalsController extends Controller
 
         $created = $this->service->create(
             merchantCode: $payload['merchantCode'],
+            displayName: $payload['displayName'],
             idempotencyKey: $idempotencyKey,
             correlationId: $correlationId,
         );
@@ -66,6 +68,7 @@ class TerminalsController extends Controller
             'created' => $created,
             'meta' => [
                 'merchantCode'   => $payload['merchantCode'],
+                'displayName'    => $payload['displayName'],
                 'idempotencyKey' => $idempotencyKey,
                 'correlationId'  => $correlationId,
             ],

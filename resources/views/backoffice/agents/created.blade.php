@@ -15,6 +15,11 @@
         </div>
 
         <div class="mb-3">
+            <div class="fw-semibold">Nom</div>
+            <div>{{ $created['displayName'] ?? $meta['displayName'] ?? '' }}</div>
+        </div>
+
+        <div class="mb-3">
             <div class="fw-semibold">Agent ID</div>
             <div class="mono">
                 {{ $created['agentId'] ?? '' }}

@@ -14,7 +14,7 @@ class MerchantsService
         return $this->api->get('/api/v1/backoffice/merchants', $query);
     }
 
-    public function create(string $idempotencyKey, ?string $correlationId = null): array
+    public function create(string $displayName, string $idempotencyKey, ?string $correlationId = null): array
     {
         $headers = [
             'Idempotency-Key' => $idempotencyKey,
@@ -23,8 +23,9 @@ class MerchantsService
             $headers['X-Correlation-Id'] = $correlationId;
         }
 
-        // OpenAPI: pas de requestBody pour createMerchant
-        return $this->api->post('/api/v1/merchants', [], $headers);
+        return $this->api->post('/api/v1/merchants', [
+            'displayName' => $displayName,
+        ], $headers);
     }
 
     public function updateStatus(string $merchantCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array

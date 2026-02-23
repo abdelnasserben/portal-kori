@@ -68,6 +68,7 @@
                     <tr>
                         <th>Created</th>
                         <th>Actor Ref</th>
+                        <th>Nom</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -82,6 +83,7 @@
                                     <x-copy-button :value="$it['actorRef']" />
                                 @endif
                             </td>
+                            <td>{{ $it['displayName'] ?? $it['display'] ?? '—' }}</td>
                             <td style="white-space:nowrap;">
                                 <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
                             </td>
@@ -106,7 +108,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted p-4">Aucun agent.</td>
+                            <td colspan="5" class="text-center text-muted p-4">Aucun agent.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -15,7 +15,7 @@ class AdminsService
         return $this->api->get('/api/v1/backoffice/admins', $query);
     }
 
-    public function create(string $username, string $idempotencyKey, ?string $correlationId = null): array
+    public function create(string $username, string $displayName, string $idempotencyKey, ?string $correlationId = null): array
     {
         $headers = [
             'Idempotency-Key' => $idempotencyKey,
@@ -27,6 +27,7 @@ class AdminsService
 
         return $this->api->post('/api/v1/admins', [
             'username' => $username,
+            'displayName' => $displayName,
         ], $headers);
     }
 

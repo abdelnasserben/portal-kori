@@ -45,6 +45,7 @@ class AdminsController extends Controller
     {
         $payload = $request->validate([
             'username' => ['required', 'string', 'regex:/^[A-Za-z0-9._@-]{3,64}$/'],
+            'displayName' => ['required', 'string', 'max:120'],
         ]);
 
         $idempotencyKey = (string) Str::uuid();
@@ -52,6 +53,7 @@ class AdminsController extends Controller
 
         $created = $this->service->create(
             username: $payload['username'],
+            displayName: $payload['displayName'],
             idempotencyKey: $idempotencyKey,
             correlationId: $correlationId,
         );
@@ -60,6 +62,7 @@ class AdminsController extends Controller
             'created' => $created,
             'meta' => [
                 'username'       => $payload['username'],
+                'displayName'    => $payload['displayName'],
                 'idempotencyKey' => $idempotencyKey,
                 'correlationId'  => $correlationId,
             ],

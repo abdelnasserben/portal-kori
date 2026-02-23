@@ -10,7 +10,7 @@
 
         <div class="text-muted mb-3">
             Selon le contrat OpenAPI, la création terminal passe par <span class="mono">POST /api/v1/terminals</span>
-            avec un body contenant <span class="mono">merchantCode</span>.
+            avec un body contenant <span class="mono">merchantCode</span> et <span class="mono">displayName</span>.
         </div>
 
         <form method="POST" action="{{ route('admin.terminals.store') }}" class="row g-3">
@@ -21,6 +21,15 @@
                 <input name="merchantCode" class="form-control @error('merchantCode') is-invalid @enderror"
                     value="{{ old('merchantCode', $merchantCode) }}" maxlength="16" required>
                 @error('merchantCode')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="col-12 col-md-7">
+                <label class="form-label">Nom <span class="text-danger">*</span></label>
+                <input name="displayName" class="form-control @error('displayName') is-invalid @enderror"
+                    value="{{ old('displayName') }}" maxlength="120" required>
+                @error('displayName')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
