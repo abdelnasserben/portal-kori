@@ -17,21 +17,11 @@
             @csrf
 
             <div class="col-12 col-md-5">
-                <label class="form-label">Merchant code <span class="text-danger">*</span></label>
-                <input name="merchantCode" class="form-control @error('merchantCode') is-invalid @enderror"
-                    value="{{ old('merchantCode', $merchantCode) }}" maxlength="16" required>
-                @error('merchantCode')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <x-form.input name="merchantCode" label="Merchant code" :value="old('merchantCode', $merchantCode)" maxlength="16" required />
             </div>
 
             <div class="col-12 col-md-7">
-                <label class="form-label">Nom <span class="text-danger">*</span></label>
-                <input name="displayName" class="form-control @error('displayName') is-invalid @enderror"
-                    value="{{ old('displayName') }}" maxlength="120" required>
-                @error('displayName')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <x-form.input name="displayName" label="Nom" :value="old('displayName')" maxlength="120" required />
             </div>
 
             <div class="col-12 d-flex gap-2">
@@ -49,22 +39,15 @@
             @csrf
 
             <div class="col-12 col-md-4">
-                <label class="form-label">Terminal UID <span class="text-danger">*</span></label>
-                <input name="terminalUid" class="form-control" value="{{ old('terminalUid') }}" maxlength="120" required>
+                <x-form.input name="terminalUid" label="Terminal UID" :value="old('terminalUid')" maxlength="120" required />
             </div>
 
             <div class="col-12 col-md-3">
-                <label class="form-label">Target status <span class="text-danger">*</span></label>
-                <select name="targetStatus" class="form-select" required>
-                    @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
-                        <option value="{{ $status }}" @selected(old('targetStatus') === $status)>{{ $status }}</option>
-                    @endforeach
-                </select>
+                <x-form.select name="targetStatus" label="Target status" :options="array_combine(['ACTIVE', 'SUSPENDED', 'CLOSED'], ['ACTIVE', 'SUSPENDED', 'CLOSED'])" :value="old('targetStatus')" required />
             </div>
 
             <div class="col-12 col-md-5">
-                <label class="form-label">Reason (optionnel)</label>
-                <input name="reason" class="form-control" value="{{ old('reason') }}" maxlength="255">
+                <x-form.input name="reason" label="Reason" :value="old('reason')" maxlength="255" />
             </div>
 
             <div class="col-12">

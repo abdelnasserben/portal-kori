@@ -13,25 +13,18 @@
             <div class="row g-2 align-items-end">
                 <div class="col-12 col-md-6">
                     <label class="form-label mb-1">Recherche</label>
-                    <input name="q" class="form-control form-control-sm" value="{{ $query }}" required>
+                    <x-form.input name="q" :value="$query" class="form-control-sm" required />
                 </div>
 
                 <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Type</label>
-                    <select name="type" class="form-select form-select-sm">
-                        <option value="">Tous</option>
-                        @foreach ($types as $type)
-                            <option value="{{ $type }}" @selected($selectedType === $type)>
-                                {{ Str::before($type, '_') }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <x-form.select name="type" :options="collect($types)->mapWithKeys(fn($type) => [$type => Str::before($type, '_')])->all()" :value="$selectedType" placeholder="Tous"
+                        class="form-select-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Limit</label>
-                    <input name="limit" type="number" class="form-control form-control-sm" value="{{ $limit }}"
-                        min="1" max="200">
+                    <x-form.input name="limit" type="number" :value="$limit" min="1" max="200" class="form-control-sm" />
                 </div>
 
                 <div class="col-12 col-md-1 d-grid">

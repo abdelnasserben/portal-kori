@@ -16,49 +16,11 @@
             </div>
         </div>
 
-        <form method="GET" action="{{ route('admin.agents.index') }}" class="mt-3">
-            <div class="row g-2">
-                <div class="col-12 col-md-4">
-                    <label class="form-label mb-1">Recherche</label>
-                    <input name="query" class="form-control form-control-sm" value="{{ $filters['query'] ?? '' }}"
-                        placeholder="ref, code, …">
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Status</label>
-                    <input name="status" class="form-control form-control-sm" value="{{ $filters['status'] ?? '' }}">
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <label class="form-label mb-1">Created From</label>
-                    <input name="createdFrom" class="form-control form-control-sm"
-                        value="{{ $filters['createdFrom'] ?? '' }}" placeholder="date-time">
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <label class="form-label mb-1">Created To</label>
-                    <input name="createdTo" class="form-control form-control-sm" value="{{ $filters['createdTo'] ?? '' }}"
-                        placeholder="date-time">
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Limit</label>
-                    <input name="limit" type="number" class="form-control form-control-sm"
-                        value="{{ $filters['limit'] ?? 25 }}" min="1" max="200">
-                </div>
-
-                <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Sort</label>
-                    <input name="sort" class="form-control form-control-sm" value="{{ $filters['sort'] ?? '' }}"
-                        placeholder="createdAt,desc">
-                </div>
-
-                <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Filtrer</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.agents.index') }}">Reset</a>
-                </div>
-            </div>
-        </form>
+        @include('backoffice.partials.list-filters', [
+            'routeName' => 'admin.agents.index',
+            'filters' => $filters,
+            'queryPlaceholder' => 'Code…',
+        ])
     </div>
 
     <div class="card p-0">
@@ -91,19 +53,18 @@
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-secondary"
                                         href="{{ route('admin.agents.show', ['agentCode' => $it['actorRef']]) }}">Voir</a>
-                                        
+
                                     <form method="POST"
                                         action="{{ route('admin.agents.status.update', ['agentCode' => $it['actorRef']]) }}"
                                         class="d-flex gap-1 align-items-center mt-1">
                                         @csrf
-                                        <select name="targetStatus" class="form-select form-select-sm"
-                                            style="min-width:130px">
-                                            @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
-                                                <option value="{{ $status }}">{{ $status }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input name="reason" class="form-control form-control-sm" placeholder="Reason"
-                                            maxlength="255">
+                                        <x-form.select name="targetStatus" :options="array_combine(
+                                            ['ACTIVE', 'SUSPENDED', 'CLOSED'],
+                                            ['ACTIVE', 'SUSPENDED', 'CLOSED'],
+                                        )" class="form-select-sm"
+                                            style="min-width:130px" />
+                                        <x-form.input name="reason" placeholder="Reason" maxlength="255"
+                                            class="form-control-sm" />
                                         <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
                                     </form>
                                 @endif
