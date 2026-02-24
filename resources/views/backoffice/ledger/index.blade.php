@@ -14,57 +14,46 @@
         <form method="GET" action="{{ route('admin.ledger.index') }}" class="mt-3">
             <div class="row g-2">
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Account Type *</label>
-                    <input name="accountType" class="form-control form-control-sm"
-                        value="{{ $filters['accountType'] ?? '' }}" placeholder="MERCHANT_CASH..." required>
+                    <x-form.input name="accountType" label="Account Type" class="form-control-sm" :value="$filters['accountType'] ?? ''"
+                        placeholder="MERCHANT_CASH..." required />
                 </div>
 
                 <div class="col-6 col-md-3">
-                    <label class="form-label mb-1">Owner Ref *</label>
-                    <input name="ownerRef" class="form-control form-control-sm" value="{{ $filters['ownerRef'] ?? '' }}"
-                        placeholder="MRC_0001..." required>
+                    <x-form.input name="ownerRef" label="Owner Ref" class="form-control-sm" :value="$filters['ownerRef'] ?? ''"
+                        placeholder="MRC_0001..." required />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Transaction Type</label>
-                    <input name="transactionType" class="form-control form-control-sm"
-                        value="{{ $filters['transactionType'] ?? '' }}" placeholder="PAYIN...">
+                    <x-form.input name="transactionType" label="Transaction Type" class="form-control-sm" :value="$filters['transactionType'] ?? ''"
+                        placeholder="PAYIN..." />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">From</label>
-                    <input name="from" class="form-control form-control-sm" value="{{ $filters['from'] ?? '' }}"
-                        placeholder="2026-02-01T00:00:00Z">
+                    <x-form.input name="from" label="From" type="date" class="form-control-sm" :value="$filters['from'] ?? ''" />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">To</label>
-                    <input name="to" class="form-control form-control-sm" value="{{ $filters['to'] ?? '' }}"
-                        placeholder="2026-02-20T23:59:59Z">
+                    <x-form.input name="to" label="To" type="date" class="form-control-sm" :value="$filters['to'] ?? ''" />
                 </div>
 
                 <div class="col-6 col-md-1">
-                    <label class="form-label mb-1">Limit</label>
-                    <input name="limit" type="number" class="form-control form-control-sm"
-                        value="{{ $filters['limit'] ?? 25 }}" min="1" max="200">
+                    <x-form.input name="limit" label="Limit" type="number" class="form-control-sm" :value="$filters['limit'] ?? 25"
+                        min="1" max="200" />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Min Amount</label>
-                    <input name="minAmount" class="form-control form-control-sm" value="{{ $filters['minAmount'] ?? '' }}"
-                        placeholder="100">
+                    <x-form.input name="minAmount" label="Min Amount" type="number" class="form-control-sm"
+                        :value="$filters['minAmount'] ?? ''" placeholder="100" step="any" />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Max Amount</label>
-                    <input name="maxAmount" class="form-control form-control-sm" value="{{ $filters['maxAmount'] ?? '' }}"
-                        placeholder="10000">
+                    <x-form.input name="maxAmount" label="Max Amount" type="number" class="form-control-sm"
+                        :value="$filters['maxAmount'] ?? ''" placeholder="10000" step="any" />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">View</label>
-                    <input name="view" class="form-control form-control-sm" value="{{ $filters['view'] ?? '' }}"
-                        placeholder="COMPACT...">
+                    <x-form.input name="view" label="View" class="form-control-sm" :value="$filters['view'] ?? ''"
+                        placeholder="COMPACT..." />
                 </div>
 
                 <input type="hidden" name="beforeCreatedAt" value="{{ $filters['beforeCreatedAt'] ?? '' }}">
