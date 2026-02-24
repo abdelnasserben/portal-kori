@@ -10,6 +10,7 @@
             <a class="btn btn-outline-primary" href="{{ route('admin.audits.index') }}">Audits</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.clients.index') }}">Clients</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.cards.index') }}">Cartes</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.terminals.index') }}">Terminaux</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.admins.index') }}">Admins</a>

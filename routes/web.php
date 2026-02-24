@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
+use App\Http\Controllers\Backoffice\CardsController;
 use App\Http\Controllers\Backoffice\ClientsController;
 use App\Http\Controllers\Backoffice\ConfigurationsController;
 use App\Http\Controllers\Backoffice\LedgerController;
@@ -65,6 +66,10 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::get('/admin/clients', [ClientsController::class, 'index'])->name('admin.clients.index');
         Route::get('/admin/clients/{clientCode}', [ClientsController::class, 'show'])->name('admin.clients.show');
         Route::post('/admin/clients/{clientCode}/status', [ClientsController::class, 'updateStatus'])->name('admin.clients.status.update');
+        
+        Route::get('/admin/cards', [CardsController::class, 'index'])->name('admin.cards.index');
+        Route::post('/admin/cards/status', [CardsController::class, 'updateStatus'])->name('admin.cards.status.update');
+        Route::post('/admin/cards/unblock', [CardsController::class, 'unblock'])->name('admin.cards.unblock');
         
         Route::get('/admin/config', [ConfigurationsController::class, 'index'])->name('admin.config.index');
         Route::post('/admin/config/fees', [ConfigurationsController::class, 'updateFees'])->name('admin.config.fees.update');
