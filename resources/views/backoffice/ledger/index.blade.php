@@ -14,8 +14,8 @@
         <form method="GET" action="{{ route('admin.ledger.index') }}" class="mt-3">
             <div class="row g-2">
                 <div class="col-6 col-md-2">
-                    <x-form.input name="accountType" label="Account Type" class="form-control-sm" :value="$filters['accountType'] ?? ''"
-                        placeholder="MERCHANT_CASH..." required />
+                    <x-form.select name="accountType" label="Account Type" class="form-select-sm" :value="$filters['accountType'] ?? ''"
+                        :options="$accountTypeOptions" placeholder="Tous" required />
                 </div>
 
                 <div class="col-6 col-md-3">
@@ -24,8 +24,8 @@
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <x-form.input name="transactionType" label="Transaction Type" class="form-control-sm" :value="$filters['transactionType'] ?? ''"
-                        placeholder="PAYIN..." />
+                    <x-form.select name="transactionType" label="Transaction Type" class="form-select-sm" :value="$filters['transactionType'] ?? ''"
+                        :options="$transactionTypeOptions" placeholder="Tous" />
                 </div>
 
                 <div class="col-6 col-md-2">
@@ -52,8 +52,8 @@
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <x-form.input name="view" label="View" class="form-control-sm" :value="$filters['view'] ?? ''"
-                        placeholder="COMPACT..." />
+                    <x-form.select name="view" label="View" class="form-select-sm" :value="$filters['view'] ?? ''"
+                        :options="$transactionViewOptions" placeholder="Tous" />
                 </div>
 
                 <input type="hidden" name="beforeCreatedAt" value="{{ $filters['beforeCreatedAt'] ?? '' }}">

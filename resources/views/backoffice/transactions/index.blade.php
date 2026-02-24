@@ -20,12 +20,14 @@
 
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Type</label>
-                    <x-form.input name="type" :value="$filters['type'] ?? ''" placeholder="PAYIN…" class="form-control-sm" />
+                    <x-form.select name="type" :value="$filters['type'] ?? ''" :options="$transactionTypeOptions" placeholder="Tous"
+                        class="form-select-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Status</label>
-                    <x-form.input name="status" :value="$filters['status'] ?? ''" placeholder="SUCCESS…" class="form-control-sm" />
+                    <x-form.select name="status" :value="$filters['status'] ?? ''" :options="$transactionStatusOptions" placeholder="Tous"
+                        class="form-select-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
@@ -51,7 +53,8 @@
                 <div class="col-12 col-md-3">
                     <label class="form-label mb-1">Actor</label>
                     <div class="d-flex gap-2">
-                        <x-form.input name="actorType" :value="$filters['actorType'] ?? ''" placeholder="admin…" class="form-control-sm" />
+                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="Tous"
+                            class="form-select-sm" />
                         <x-form.input name="actorRef" :value="$filters['actorRef'] ?? ''" placeholder="super@admin…"
                             class="form-control-sm" />
                     </div>

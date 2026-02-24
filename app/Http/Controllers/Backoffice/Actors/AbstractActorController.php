@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Backoffice\Actors\ActorServiceContract;
 use App\Services\Backoffice\AuditEventsService;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Support\Str;
 
 abstract class AbstractActorController extends Controller
@@ -28,6 +29,7 @@ abstract class AbstractActorController extends Controller
             'filters' => $filtersUi, // surtout pas $filtersDto->toArray()
             'items' => array_map(static fn(ActorSummary $item): array => $item->toArray(), $result->items),
             'page' => $result->page->toArray(),
+            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
         ]);
     }
 

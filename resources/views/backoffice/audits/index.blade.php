@@ -21,7 +21,8 @@
                 <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Actor</label>
                     <div class="d-flex gap-2">
-                        <x-form.input name="actorType" :value="$filters['actorType'] ?? ''" placeholder="AGENT..." class="form-control-sm" />
+                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="Tous"
+                            class="form-select-sm" />
                         <x-form.input name="actorRef" :value="$filters['actorRef'] ?? ''" placeholder="AG-000000..."
                             class="form-control-sm" />
                     </div>

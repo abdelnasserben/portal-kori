@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\TransactionsIndexRequest;
 use App\Services\Backoffice\TransactionsService;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Support\Str;
 
 class TransactionsController extends Controller
@@ -22,6 +23,9 @@ class TransactionsController extends Controller
             'filters' => $filtersUi,
             'items'   => $data['items'] ?? [],
             'page'    => $data['page'] ?? ['hasMore' => false],
+            'transactionTypeOptions' => FilterEnums::options(FilterEnums::TRANSACTION_TYPES),
+            'transactionStatusOptions' => FilterEnums::options(FilterEnums::TRANSACTION_STATUSES),
+            'actorTypeOptions' => FilterEnums::options(FilterEnums::ACTOR_TYPES),
         ]);
     }
 

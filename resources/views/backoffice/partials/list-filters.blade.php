@@ -1,4 +1,4 @@
-@props(['routeName', 'filters' => [], 'queryPlaceholder' => 'ref, code, …'])
+@props(['routeName', 'filters' => [], 'queryPlaceholder' => 'ref, code, …', 'statusOptions' => []])
 
 <form method="GET" action="{{ route($routeName) }}" class="mt-3">
     <div class="row g-2">
@@ -7,7 +7,8 @@
         </div>
 
         <div class="col-6 col-md-2">
-            <x-form.input name="status" label="Status" :value="$filters['status'] ?? ''" class="form-control-sm" />
+            <x-form.select name="status" label="Status" :value="$filters['status'] ?? ''" :options="$statusOptions" placeholder="Tous"
+                class="form-select-sm" />
         </div>
 
         <div class="col-6 col-md-2">

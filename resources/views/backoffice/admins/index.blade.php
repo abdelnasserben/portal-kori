@@ -20,6 +20,7 @@
             'routeName' => 'admin.admins.index',
             'filters' => $filters,
             'queryPlaceholder' => 'Username...',
+            'statusOptions' => $actorStatusOptions,
         ])
     </div>
 

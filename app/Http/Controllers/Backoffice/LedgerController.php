@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\LedgerIndexRequest;
 use App\Services\Backoffice\LedgerService;
+use App\Support\Backoffice\FilterEnums;
 
 class LedgerController extends Controller
 {
@@ -41,6 +42,9 @@ class LedgerController extends Controller
             'scope'   => $scope,
             'items'   => $items,
             'next'    => $next,
+            'accountTypeOptions' => FilterEnums::options(FilterEnums::LEDGER_ACCOUNT_TYPES),
+            'transactionTypeOptions' => FilterEnums::options(FilterEnums::TRANSACTION_TYPES),
+            'transactionViewOptions' => FilterEnums::options(FilterEnums::TRANSACTION_HISTORY_VIEWS),
         ]);
     }
 }

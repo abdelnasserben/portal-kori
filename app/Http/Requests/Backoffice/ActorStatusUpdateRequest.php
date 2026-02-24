@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\Backoffice;
 
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ActorStatusUpdateRequest extends FormRequest
 {
-    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
     public function authorize(): bool
     {
@@ -16,7 +16,7 @@ class ActorStatusUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
+            'targetStatus' => ['required', 'string', 'in:' . implode(',', FilterEnums::ACTOR_STATUSES)],
             'reason' => ['nullable', 'string', 'max:255'],
         ];
     }

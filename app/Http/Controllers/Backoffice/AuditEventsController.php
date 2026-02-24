@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backoffice\AuditEventsIndexRequest;
 use App\Services\Backoffice\AuditEventsService;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Http\Request;
 
 class AuditEventsController extends Controller
@@ -22,6 +23,7 @@ class AuditEventsController extends Controller
             'filters' => $filtersUi,
             'items'   => $data['items'] ?? [],
             'page'    => $data['page'] ?? ['hasMore' => false],
+            'actorTypeOptions' => FilterEnums::options(FilterEnums::ACTOR_TYPES),
         ]);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Requests\Backoffice;
 
 use App\Http\Requests\Concerns\DateFilterNormalizer;
 use App\Http\Requests\Concerns\DateRangeFilters;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuditEventsIndexRequest extends FormRequest
@@ -28,7 +29,7 @@ class AuditEventsIndexRequest extends FormRequest
     {
         return [
             'action'       => ['nullable', 'string', 'max:120'],
-            'actorType'    => ['nullable', 'string', 'max:50'],
+            'actorType'    => ['nullable', 'string', 'in:' . implode(',', FilterEnums::ACTOR_TYPES)],
             'actorRef'     => ['nullable', 'string', 'max:120'],
             'resourceType' => ['nullable', 'string', 'max:80'],
             'resourceRef'  => ['nullable', 'string', 'max:120'],

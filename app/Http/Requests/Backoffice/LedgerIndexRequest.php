@@ -4,6 +4,7 @@ namespace App\Http\Requests\Backoffice;
 
 use App\Http\Requests\Concerns\DateFilterNormalizer;
 use App\Http\Requests\Concerns\DateRangeFilters;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LedgerIndexRequest extends FormRequest
@@ -28,9 +29,9 @@ class LedgerIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'accountType'          => ['nullable', 'string', 'max:50'],
+            'accountType'          => ['nullable', 'string', 'in:' . implode(',', FilterEnums::LEDGER_ACCOUNT_TYPES)],
             'ownerRef'             => ['nullable', 'string', 'max:120'],
-            'transactionType'      => ['nullable', 'string', 'max:50'],
+            'transactionType'      => ['nullable', 'string', 'in:' . implode(',', FilterEnums::TRANSACTION_TYPES)],
 
             'from'                 => ['nullable', 'string', 'max:60'],
             'to'                   => ['nullable', 'string', 'max:60'],
@@ -38,7 +39,7 @@ class LedgerIndexRequest extends FormRequest
             'minAmount'            => ['nullable', 'numeric'],
             'maxAmount'            => ['nullable', 'numeric'],
 
-            'view'                 => ['nullable', 'string', 'max:50'],
+            'view'                 => ['nullable', 'string', 'in:' . implode(',', FilterEnums::TRANSACTION_HISTORY_VIEWS)],
 
             'beforeCreatedAt'      => ['nullable', 'string', 'max:60'],
             'beforeTransactionId'  => ['nullable', 'string', 'max:120'],

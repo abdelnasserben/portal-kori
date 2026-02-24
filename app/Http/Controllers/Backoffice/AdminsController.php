@@ -9,6 +9,7 @@ use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
 use App\Services\Backoffice\AuditEventsService;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -39,6 +40,7 @@ class AdminsController extends AbstractActorController
             'items' => array_map(static fn(ActorSummary $item): array => $item->toArray(), $result->items),
             'page' => $result->page->toArray(),
             'currentAdminUsername' => $this->currentAdminUsername(),
+            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
         ]);
     }
 
@@ -59,6 +61,7 @@ class AdminsController extends AbstractActorController
             'auditEvents' => $auditEvents['items'] ?? [],
             'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
             'currentAdminUsername' => $this->currentAdminUsername(),
+            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
         ]);
     }
 

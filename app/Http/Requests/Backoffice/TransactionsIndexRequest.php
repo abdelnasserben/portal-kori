@@ -4,6 +4,7 @@ namespace App\Http\Requests\Backoffice;
 
 use App\Http\Requests\Concerns\DateFilterNormalizer;
 use App\Http\Requests\Concerns\DateRangeFilters;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TransactionsIndexRequest extends FormRequest
@@ -28,9 +29,9 @@ class TransactionsIndexRequest extends FormRequest
     {
         return [
             'query'        => ['nullable', 'string', 'max:120'],
-            'type'         => ['nullable', 'string', 'max:50'],
-            'status'       => ['nullable', 'string', 'max:50'],
-            'actorType'    => ['nullable', 'string', 'max:50'],
+            'type'         => ['nullable', 'string', 'in:' . implode(',', FilterEnums::TRANSACTION_TYPES)],
+            'status'       => ['nullable', 'string', 'in:' . implode(',', FilterEnums::TRANSACTION_STATUSES)],
+            'actorType'    => ['nullable', 'string', 'in:' . implode(',', FilterEnums::ACTOR_TYPES)],
             'actorRef'     => ['nullable', 'string', 'max:120'],
             'terminalUid'  => ['nullable', 'string', 'max:120'],
             'cardUid'      => ['nullable', 'string', 'max:120'],

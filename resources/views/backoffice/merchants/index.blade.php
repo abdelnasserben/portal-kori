@@ -20,6 +20,7 @@
         @include('backoffice.partials.list-filters', [
             'routeName' => 'admin.merchants.index',
             'filters' => $filters,
+            'statusOptions' => $actorStatusOptions,
             'queryPlaceholder' => 'Code…',
         ])
     </div>
@@ -63,10 +64,7 @@
                                         action="{{ route('admin.merchants.status.update', ['merchantCode' => $it['actorRef']]) }}"
                                         class="d-flex gap-1 align-items-center mt-1">
                                         @csrf
-                                        <x-form.select name="targetStatus" :options="array_combine(
-                                            ['ACTIVE', 'SUSPENDED', 'CLOSED'],
-                                            ['ACTIVE', 'SUSPENDED', 'CLOSED'],
-                                        )" class="form-select-sm"
+                                        <x-form.select name="targetStatus" :options="$actorStatusOptions" class="form-select-sm"
                                             style="min-width:130px" />
                                         <x-form.input name="reason" placeholder="Reason" maxlength="255"
                                             class="form-control-sm" />

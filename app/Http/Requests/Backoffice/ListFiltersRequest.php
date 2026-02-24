@@ -4,6 +4,7 @@ namespace App\Http\Requests\Backoffice;
 
 use App\DTO\Backoffice\ListFilters;
 use App\Http\Requests\Concerns\DateFilterNormalizer;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListFiltersRequest extends FormRequest
@@ -19,7 +20,7 @@ class ListFiltersRequest extends FormRequest
     {
         return [
             'query'          => ['nullable', 'string', 'max:120'],
-            'status'         => ['nullable', 'string', 'max:50'],
+            'status'         => ['nullable', 'string', 'in:' . implode(',', FilterEnums::ACTOR_STATUSES)],
             'createdFrom'    => ['nullable', 'string', 'max:50'], // UI
             'createdTo'      => ['nullable', 'string', 'max:50'], // UI
             'limit'          => ['nullable', 'integer', 'min:1', 'max:200'],
