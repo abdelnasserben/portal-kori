@@ -16,6 +16,7 @@
             <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.terminals.index') }}">Terminaux</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.admins.index') }}">Admins</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.account-profiles.index') }}">Profiles comptes</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.config.index') }}">Configuration</a>
         </div>
     </div>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Backoffice\AccountProfilesController;
 use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
@@ -63,6 +64,9 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::get('/admin/terminals/{terminalUid}', [TerminalsController::class, 'show'])->name('admin.terminals.show');
         Route::post('/admin/terminals/status', [TerminalsController::class, 'updateStatus'])->name('admin.terminals.status.update');
 
+        Route::get('/admin/account-profiles', [AccountProfilesController::class, 'index'])->name('admin.account-profiles.index');
+        Route::post('/admin/account-profiles/status', [AccountProfilesController::class, 'updateStatus'])->name('admin.account-profiles.status.update');
+        
         Route::get('/admin/admins', [AdminsController::class, 'index'])->name('admin.admins.index');
         Route::get('/admin/admins/new', [AdminsController::class, 'create'])->name('admin.admins.create');
         Route::post('/admin/admins', [AdminsController::class, 'store'])->name('admin.admins.store');
