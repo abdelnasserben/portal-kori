@@ -14,7 +14,8 @@ class RequireAuth
         /** @var TokenService $tokens */
         $tokens = app(TokenService::class);
 
-        if (!$tokens->hasAccessToken()) {
+        if (!$tokens->getValidAccessToken()) {
+            $tokens->logoutLocal();
             return redirect()->route('login');
         }
 

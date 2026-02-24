@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backoffice\AdminStatusUpdateRequest;
+use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
 use App\Services\Backoffice\AuditEventsService;
@@ -12,7 +14,6 @@ use Illuminate\Validation\ValidationException;
 
 class AdminsController extends Controller
 {
-    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
     public function __construct(
         private readonly AdminsService $service,
@@ -20,19 +21,9 @@ class AdminsController extends Controller
         private readonly JwtDecoder $decoder,
     ) {}
 
-    public function index(Request $request)
+    public function index(ListFiltersRequest $request)
     {
-        $filters = $request->validate([
-            'query'       => ['nullable', 'string', 'max:120'],
-            'status'      => ['nullable', 'string', 'max:50'],
-            'createdFrom' => ['nullable', 'string', 'max:50'],
-            'createdTo'   => ['nullable', 'string', 'max:50'],
-            'limit'       => ['nullable', 'integer', 'min:1', 'max:200'],
-            'cursor'      => ['nullable', 'string', 'max:500'],
-            'sort'        => ['nullable', 'string', 'max:50'],
-        ]);
-
-        $filters['limit'] = $filters['limit'] ?? 25;
+        $filters = $request->validatedWithDefaults();
 
         $data = $this->service->list($filters);
 
@@ -99,13 +90,9 @@ class AdminsController extends Controller
         ]);
     }
 
-    public function updateStatus(Request $request)
+    public function updateStatus(AdminStatusUpdateRequest $request)
     {
-        $payload = $request->validate([
-            'adminUsername' => ['required', 'string', 'regex:/^[A-Za-z0-9._@-]{3,64}$/'],
-            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
-            'reason' => ['nullable', 'string', 'max:255'],
-        ]);
+        $payload = $request->validated();
 
         if ($this->isCurrentAdmin($payload['adminUsername'])) {
             throw ValidationException::withMessages([
