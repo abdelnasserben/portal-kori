@@ -19,12 +19,14 @@ abstract class AbstractActorController extends Controller
 
     public function index(ListFiltersRequest $request)
     {
-        $filters = $request->toDto();
-        $result = $this->service->list($filters);
+        $filtersDto = $request->toDto();           // ISO pour l’API
+        $filtersUi  = $request->filtersForUi();    // Y-m-d pour l’HTML
+
+        $result = $this->service->list($filtersDto);
 
         return view($this->indexView(), [
-            'filters' => $filters->toArray(),
-            'items' => array_map(static fn (ActorSummary $item): array => $item->toArray(), $result->items),
+            'filters' => $filtersUi, // surtout pas $filtersDto->toArray()
+            'items' => array_map(static fn(ActorSummary $item): array => $item->toArray(), $result->items),
             'page' => $result->page->toArray(),
         ]);
     }

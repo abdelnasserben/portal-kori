@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backoffice\AuditEventsIndexRequest;
 use App\Services\Backoffice\AuditEventsService;
 use Illuminate\Http\Request;
 
@@ -10,29 +11,17 @@ class AuditEventsController extends Controller
 {
     public function __construct(private readonly AuditEventsService $service) {}
 
-    public function index(Request $request)
+    public function index(AuditEventsIndexRequest $request)
     {
-        $filters = $request->validate([
-            'action' => ['nullable', 'string', 'max:120'],
-            'actorType' => ['nullable', 'string', 'max:50'],
-            'actorRef' => ['nullable', 'string', 'max:120'],
-            'resourceType' => ['nullable', 'string', 'max:80'],
-            'resourceRef' => ['nullable', 'string', 'max:120'],
-            'from' => ['nullable', 'string', 'max:60'],
-            'to' => ['nullable', 'string', 'max:60'],
-            'limit' => ['nullable', 'integer', 'min:1', 'max:200'],
-            'cursor' => ['nullable', 'string', 'max:500'],
-            'sort' => ['nullable', 'string', 'max:50'],
-        ]);
+        $filtersUi  = $request->filtersForUi();
+        $filtersApi = $request->filtersForApi();
 
-        $filters['limit'] = $filters['limit'] ?? 25;
-
-        $data = $this->service->list($filters);
+        $data = $this->service->list($filtersApi);
 
         return view('backoffice.audits.index', [
-            'filters' => $filters,
-            'items' => $data['items'] ?? [],
-            'page' => $data['page'] ?? ['hasMore' => false],
+            'filters' => $filtersUi,
+            'items'   => $data['items'] ?? [],
+            'page'    => $data['page'] ?? ['hasMore' => false],
         ]);
     }
 
@@ -57,4 +46,3 @@ class AuditEventsController extends Controller
         ]);
     }
 }
-
