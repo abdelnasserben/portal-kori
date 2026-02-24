@@ -2,46 +2,22 @@
 
 namespace App\Services\Backoffice;
 
-use App\Services\KoriApiClient;
+use App\Services\Backoffice\Actors\AbstractActorService;
 
-class ClientsService
+class ClientsService extends AbstractActorService
 {
-    public function __construct(private readonly KoriApiClient $api) {}
-
-    public function list(array $filters): array
+    protected function listEndpoint(): string
     {
-        $query = array_filter($filters, fn($v) => !is_null($v) && $v !== '');
-
-        return $this->api->get('/api/v1/backoffice/clients', $query);
+        return '/api/v1/backoffice/clients';
     }
 
-    public function show(string $clientCode, ?string $correlationId = null): array
+    protected function statusEndpoint(string $actorCode): string
     {
-        $headers = [];
-
-        if ($correlationId) {
-            $headers['X-Correlation-Id'] = $correlationId;
-        }
-
-        return $this->api->get("/api/v1/backoffice/actors/CLIENT/{$clientCode}", [], $headers);
+        return "/api/v1/clients/{$actorCode}/status";
     }
 
-    public function updateStatus(string $clientCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array
+    protected function actorType(): string
     {
-        $headers = [];
-
-        if ($correlationId) {
-            $headers['X-Correlation-Id'] = $correlationId;
-        }
-
-        $payload = [
-            'targetStatus' => $targetStatus,
-        ];
-
-        if (!is_null($reason) && $reason !== '') {
-            $payload['reason'] = $reason;
-        }
-
-        return $this->api->patch("/api/v1/clients/{$clientCode}/status", $payload, $headers);
+        return 'CLIENT';
     }
 }

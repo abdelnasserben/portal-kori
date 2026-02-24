@@ -26,7 +26,7 @@ abstract class AbstractActorController extends Controller
             'filters' => $filters->toArray(),
             'items' => array_map(static fn (ActorSummary $item): array => $item->toArray(), $result->items),
             'page' => $result->page->toArray(),
-        ] + $this->indexViewData());
+        ]);
     }
 
     public function show(string $actorCode)
@@ -45,7 +45,7 @@ abstract class AbstractActorController extends Controller
             'item' => $item->toArray(),
             'auditEvents' => $auditEvents['items'] ?? [],
             'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
-        ] + $this->showViewData($item));
+        ]);
     }
 
     protected function updateActorStatus(string $actorCode, array $payload, string $successMessage)
@@ -64,14 +64,4 @@ abstract class AbstractActorController extends Controller
     abstract protected function indexView(): string;
 
     abstract protected function showView(): string;
-
-    protected function indexViewData(): array
-    {
-        return [];
-    }
-
-    protected function showViewData(ActorSummary $item): array
-    {
-        return [];
-    }
 }

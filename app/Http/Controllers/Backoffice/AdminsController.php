@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\DTO\Backoffice\ActorSummary;
 use App\Http\Controllers\Backoffice\Actors\AbstractActorController;
 use App\Http\Requests\Backoffice\AdminStatusUpdateRequest;
+use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
 use App\Services\Backoffice\AuditEventsService;
@@ -26,6 +27,39 @@ class AdminsController extends AbstractActorController
     public function create()
     {
         return view('backoffice.admins.create');
+    }
+
+    public function index(ListFiltersRequest $request)
+    {
+        $filters = $request->toDto();
+        $result = $this->adminsService->list($filters);
+
+        return view('backoffice.admins.index', [
+            'filters' => $filters->toArray(),
+            'items' => array_map(static fn(ActorSummary $item): array => $item->toArray(), $result->items),
+            'page' => $result->page->toArray(),
+            'currentAdminUsername' => $this->currentAdminUsername(),
+        ]);
+    }
+
+    public function show(string $adminUsername)
+    {
+        $item = $this->adminsService->show($adminUsername, (string) Str::uuid());
+
+        $actorRef = $item->actorRef !== '' ? $item->actorRef : $adminUsername;
+        $auditEvents = $this->auditEvents->list([
+            'actorType' => $this->actorType(),
+            'actorRef' => $actorRef,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
+        ]);
+
+        return view('backoffice.admins.show', [
+            'item' => $item->toArray(),
+            'auditEvents' => $auditEvents['items'] ?? [],
+            'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
+            'currentAdminUsername' => $this->currentAdminUsername(),
+        ]);
     }
 
     public function store(Request $request)
@@ -79,19 +113,9 @@ class AdminsController extends AbstractActorController
         return 'backoffice.admins.index';
     }
 
-        protected function showView(): string
+    protected function showView(): string
     {
         return 'backoffice.admins.show';
-    }
-
-    protected function indexViewData(): array
-    {
-        return ['currentAdminUsername' => $this->currentAdminUsername()];
-    }
-
-    protected function showViewData(ActorSummary $item): array
-    {
-        return ['currentAdminUsername' => $this->currentAdminUsername()];
     }
 
     private function currentAdminUsername(): ?string
