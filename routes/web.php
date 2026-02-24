@@ -64,7 +64,8 @@ Route::middleware(['auth.portal'])->group(function () {
 
         Route::get('/admin/clients', [ClientsController::class, 'index'])->name('admin.clients.index');
         Route::get('/admin/clients/{clientCode}', [ClientsController::class, 'show'])->name('admin.clients.show');
-
+        Route::post('/admin/clients/{clientCode}/status', [ClientsController::class, 'updateStatus'])->name('admin.clients.status.update');
+        
         Route::get('/admin/config', [ConfigurationsController::class, 'index'])->name('admin.config.index');
         Route::post('/admin/config/fees', [ConfigurationsController::class, 'updateFees'])->name('admin.config.fees.update');
         Route::post('/admin/config/commissions', [ConfigurationsController::class, 'updateCommissions'])->name('admin.config.commissions.update');

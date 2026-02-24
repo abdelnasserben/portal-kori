@@ -10,6 +10,8 @@ use Illuminate\Support\Str;
 
 class ClientsController extends Controller
 {
+    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
+
     public function __construct(
         private readonly ClientsService $service,
         private readonly AuditEventsService $auditEvents,
@@ -57,5 +59,26 @@ class ClientsController extends Controller
             'auditEvents' => $auditEvents['items'] ?? [],
             'historyRoute' => route('admin.audits.index', ['actorType' => 'CLIENT', 'actorRef' => $item['actorRef'] ?? $clientCode]),
         ]);
+    }
+
+    public function updateStatus(Request $request, string $clientCode)
+    {
+        $payload = $request->validate([
+            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
+            'reason' => ['nullable', 'string', 'max:255'],
+        ]);
+
+        $this->service->updateStatus(
+            clientCode: $clientCode,
+            targetStatus: $payload['targetStatus'],
+            reason: $payload['reason'] ?? null,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return back()->with('status_success', sprintf(
+            'Statut client %s mis à jour vers %s.',
+            $clientCode,
+            $payload['targetStatus']
+        ));
     }
 }

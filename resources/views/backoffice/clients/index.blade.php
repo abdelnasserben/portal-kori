@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('status_success'))
+        <div class="alert alert-success">{{ session('status_success') }}</div>
+    @endif
+
     <div class="card p-4 mb-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
@@ -82,6 +86,21 @@
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-secondary"
                                         href="{{ route('admin.clients.show', ['clientCode' => $it['actorRef']]) }}">Voir</a>
+
+                                    <form method="POST"
+                                        action="{{ route('admin.clients.status.update', ['clientCode' => $it['actorRef']]) }}"
+                                        class="d-flex gap-1 align-items-center mt-1">
+                                        @csrf
+                                        <select name="targetStatus" class="form-select form-select-sm"
+                                            style="min-width:130px">
+                                            @foreach (['ACTIVE', 'SUSPENDED', 'CLOSED'] as $status)
+                                                <option value="{{ $status }}">{{ $status }}</option>
+                                            @endforeach
+                                        </select>
+                                        <input name="reason" class="form-control form-control-sm" placeholder="Reason"
+                                            maxlength="255">
+                                        <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
+                                    </form>
                                 @endif
                             </td>
                         </tr>
