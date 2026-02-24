@@ -5,6 +5,7 @@ use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
 use App\Http\Controllers\Backoffice\CardsController;
+use App\Http\Controllers\Backoffice\ClientRefundsController;
 use App\Http\Controllers\Backoffice\ClientsController;
 use App\Http\Controllers\Backoffice\ConfigurationsController;
 use App\Http\Controllers\Backoffice\LedgerController;
@@ -41,6 +42,11 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::post('/admin/payouts/request', [PayoutsController::class, 'store'])->name('admin.payouts.store');
         Route::post('/admin/payouts/{payoutId}/complete', [PayoutsController::class, 'complete'])->name('admin.payouts.complete');
         Route::post('/admin/payouts/{payoutId}/fail', [PayoutsController::class, 'fail'])->name('admin.payouts.fail');
+        
+        Route::get('/admin/client-refunds/new', [ClientRefundsController::class, 'create'])->name('admin.client-refunds.create');
+        Route::post('/admin/client-refunds/request', [ClientRefundsController::class, 'store'])->name('admin.client-refunds.store');
+        Route::post('/admin/client-refunds/{refundId}/complete', [ClientRefundsController::class, 'complete'])->name('admin.client-refunds.complete');
+        Route::post('/admin/client-refunds/{refundId}/fail', [ClientRefundsController::class, 'fail'])->name('admin.client-refunds.fail');
         
         Route::get('/admin/audits', [AuditEventsController::class, 'index'])->name('admin.audits.index');
         Route::get('/admin/audits/{eventRef}', [AuditEventsController::class, 'show'])->name('admin.audits.show');

@@ -50,6 +50,20 @@
         </dl>
     </div>
 
+    @if (!empty($item['clientCode']) && empty($item['clientRefund']))
+        <div class="card p-4 mb-3">
+            <h6 class="fw-semibold mb-3">Actions remboursement</h6>
+            <p class="text-muted small mb-3">
+                Vous pouvez initier un remboursement pour ce client via <span class="mono">POST
+                    /api/v1/client-refunds/requests</span>.
+            </p>
+            <a class="btn btn-sm btn-outline-primary"
+                href="{{ route('admin.client-refunds.create', ['clientCode' => $item['clientCode']]) }}">
+                Demander un remboursement client
+            </a>
+        </div>
+    @endif
+
     @if (!empty($item['payout']))
         <div class="card p-4 mb-3">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
@@ -102,7 +116,31 @@
 
     @if (!empty($item['clientRefund']))
         <div class="card p-4 mb-3">
-            <h6 class="fw-semibold mb-3">Remboursement client lié</h6>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <h6 class="fw-semibold mb-0">Remboursement client lié</h6>
+                @if (!empty($item['clientRefund']['refundRef']) && ($item['clientRefund']['status'] ?? null) === 'REQUESTED')
+                    <div class="d-flex gap-2">
+                        <form method="POST"
+                            action="{{ route('admin.client-refunds.complete', $item['clientRefund']['refundRef']) }}">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-success" type="submit">
+                                Marquer complété
+                            </button>
+                        </form>
+
+                        <form method="POST"
+                            action="{{ route('admin.client-refunds.fail', $item['clientRefund']['refundRef']) }}"
+                            class="d-flex gap-2">
+                            @csrf
+                            <input class="form-control form-control-sm" name="reason" maxlength="255" required
+                                placeholder="Raison de l'échec">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                Marquer en échec
+                            </button>
+                        </form>
+                    </div>
+                @endif
+            </div>
             <dl class="row mb-0">
                 <dt class="col-sm-3">Refund Ref</dt>
                 <dd class="col-sm-9 mono">{{ $item['clientRefund']['refundRef'] ?? '—' }}</dd>
