@@ -2,59 +2,26 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Backoffice\Actors\AbstractActorController;
 use App\Http\Requests\Backoffice\ActorStatusUpdateRequest;
-use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\MerchantsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class MerchantsController extends Controller
+class MerchantsController extends AbstractActorController
 {
 
     public function __construct(
-        private readonly MerchantsService $service,
-        private readonly AuditEventsService $auditEvents,
-    ) {}
-
-    public function index(ListFiltersRequest $request)
-    {
-        $filters = $request->validatedWithDefaults();
-
-        $data = $this->service->list($filters);
-
-        return view('backoffice.merchants.index', [
-            'filters' => $filters,
-            'items'   => $data['items'] ?? [],
-            'page'    => $data['page'] ?? ['hasMore' => false],
-        ]);
+        private readonly MerchantsService $merchantsService,
+        AuditEventsService $auditEvents,
+    ) {
+        parent::__construct($merchantsService, $auditEvents);
     }
 
     public function create()
     {
         return view('backoffice.merchants.create');
-    }
-
-    public function show(string $merchantCode)
-    {
-        $item = $this->service->show(
-            merchantCode: $merchantCode,
-            correlationId: (string) Str::uuid(),
-        );
-
-        $auditEvents = $this->auditEvents->list([
-            'actorType' => 'MERCHANT',
-            'actorRef' => $item['actorRef'] ?? $merchantCode,
-            'limit' => 10,
-            'sort' => 'occurredAt:desc',
-        ]);
-
-        return view('backoffice.merchants.show', [
-            'item' => $item,
-            'auditEvents' => $auditEvents['items'] ?? [],
-            'historyRoute' => route('admin.audits.index', ['actorType' => 'MERCHANT', 'actorRef' => $item['actorRef'] ?? $merchantCode]),
-        ]);
     }
 
     public function store(Request $request)
@@ -66,7 +33,7 @@ class MerchantsController extends Controller
         $idempotencyKey = (string) Str::uuid();
         $correlationId = (string) Str::uuid();
 
-        $created = $this->service->create(
+        $created = $this->merchantsService->create(
             displayName: $payload['displayName'],
             idempotencyKey: $idempotencyKey,
             correlationId: $correlationId,
@@ -84,19 +51,21 @@ class MerchantsController extends Controller
 
     public function updateStatus(ActorStatusUpdateRequest $request, string $merchantCode)
     {
-        $payload = $request->validated();
+        return $this->updateActorStatus($merchantCode, $request->validated(), 'Statut marchand %s mis à jour vers %s.');
+    }
 
-        $this->service->updateStatus(
-            merchantCode: $merchantCode,
-            targetStatus: $payload['targetStatus'],
-            reason: $payload['reason'] ?? null,
-            correlationId: (string) Str::uuid(),
-        );
+    protected function actorType(): string
+    {
+        return 'MERCHANT';
+    }
 
-        return back()->with('status_success', sprintf(
-            'Statut marchand %s mis à jour vers %s.',
-            $merchantCode,
-            $payload['targetStatus']
-        ));
+    protected function indexView(): string
+    {
+        return 'backoffice.merchants.index';
+    }
+
+    protected function showView(): string
+    {
+        return 'backoffice.merchants.show';
     }
 }

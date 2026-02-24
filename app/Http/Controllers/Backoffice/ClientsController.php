@@ -3,33 +3,23 @@
 namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Backoffice\ActorStatusUpdateRequest;
+use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\ClientsService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class ClientsController extends Controller
 {
-    private const ALLOWED_STATUSES = ['ACTIVE', 'SUSPENDED', 'CLOSED'];
 
     public function __construct(
         private readonly ClientsService $service,
         private readonly AuditEventsService $auditEvents,
     ) {}
 
-    public function index(Request $request)
+    public function index(ListFiltersRequest $request)
     {
-        $filters = $request->validate([
-            'query'       => ['nullable', 'string', 'max:120'],
-            'status'      => ['nullable', 'string', 'max:50'],
-            'createdFrom' => ['nullable', 'string', 'max:50'],
-            'createdTo'   => ['nullable', 'string', 'max:50'],
-            'limit'       => ['nullable', 'integer', 'min:1', 'max:200'],
-            'cursor'      => ['nullable', 'string', 'max:500'],
-            'sort'        => ['nullable', 'string', 'max:50'],
-        ]);
-
-        $filters['limit'] = $filters['limit'] ?? 25;
+        $filters = $request->validatedWithDefaults();
 
         $data = $this->service->list($filters);
 
@@ -61,12 +51,9 @@ class ClientsController extends Controller
         ]);
     }
 
-    public function updateStatus(Request $request, string $clientCode)
+    public function updateStatus(ActorStatusUpdateRequest $request, string $clientCode)
     {
-        $payload = $request->validate([
-            'targetStatus' => ['required', 'string', 'in:' . implode(',', self::ALLOWED_STATUSES)],
-            'reason' => ['nullable', 'string', 'max:255'],
-        ]);
+        $payload = $request->validated();
 
         $this->service->updateStatus(
             clientCode: $clientCode,

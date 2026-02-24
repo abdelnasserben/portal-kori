@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Http\Controllers\Controller;
+use App\DTO\Backoffice\ActorSummary;
+use App\Http\Controllers\Backoffice\Actors\AbstractActorController;
 use App\Http\Requests\Backoffice\AdminStatusUpdateRequest;
-use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Auth\JwtDecoder;
 use App\Services\Backoffice\AdminsService;
 use App\Services\Backoffice\AuditEventsService;
@@ -12,54 +12,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class AdminsController extends Controller
+class AdminsController extends AbstractActorController
 {
 
     public function __construct(
-        private readonly AdminsService $service,
-        private readonly AuditEventsService $auditEvents,
+        private readonly AdminsService $adminsService,
+        AuditEventsService $auditEvents,
         private readonly JwtDecoder $decoder,
-    ) {}
-
-    public function index(ListFiltersRequest $request)
-    {
-        $filters = $request->validatedWithDefaults();
-
-        $data = $this->service->list($filters);
-
-        return view('backoffice.admins.index', [
-            'filters' => $filters,
-            'items'   => $data['items'] ?? [],
-            'page'    => $data['page'] ?? ['hasMore' => false],
-            'currentAdminUsername' => $this->currentAdminUsername(),
-        ]);
+    ) {
+        parent::__construct($adminsService, $auditEvents);
     }
 
     public function create()
     {
         return view('backoffice.admins.create');
-    }
-
-    public function show(string $adminUsername)
-    {
-        $item = $this->service->show(
-            adminUsername: $adminUsername,
-            correlationId: (string) Str::uuid(),
-        );
-
-        $auditEvents = $this->auditEvents->list([
-            'actorType' => 'ADMIN',
-            'actorRef' => $item['actorRef'] ?? $adminUsername,
-            'limit' => 10,
-            'sort' => 'occurredAt:desc',
-        ]);
-
-        return view('backoffice.admins.show', [
-            'item' => $item,
-            'auditEvents' => $auditEvents['items'] ?? [],
-            'historyRoute' => route('admin.audits.index', ['actorType' => 'ADMIN', 'actorRef' => $item['actorRef'] ?? $adminUsername]),
-            'currentAdminUsername' => $this->currentAdminUsername(),
-        ]);
     }
 
     public function store(Request $request)
@@ -72,7 +38,7 @@ class AdminsController extends Controller
         $idempotencyKey = (string) Str::uuid();
         $correlationId = (string) Str::uuid();
 
-        $created = $this->service->create(
+        $created = $this->adminsService->create(
             username: $payload['username'],
             displayName: $payload['displayName'],
             idempotencyKey: $idempotencyKey,
@@ -100,21 +66,34 @@ class AdminsController extends Controller
             ]);
         }
 
-        $this->service->updateStatus(
-            adminUsername: $payload['adminUsername'],
-            targetStatus: $payload['targetStatus'],
-            reason: $payload['reason'] ?? null,
-            correlationId: (string) Str::uuid(),
-        );
-
-        return back()->with('status_success', sprintf(
-            'Statut admin %s mis à jour vers %s.',
-            $payload['adminUsername'],
-            $payload['targetStatus']
-        ));
+        return $this->updateActorStatus($payload['adminUsername'], $payload, 'Statut admin %s mis à jour vers %s.');
     }
 
-    // Is not the username of Keycloak but the actorRef
+    protected function actorType(): string
+    {
+        return 'ADMIN';
+    }
+
+    protected function indexView(): string
+    {
+        return 'backoffice.admins.index';
+    }
+
+        protected function showView(): string
+    {
+        return 'backoffice.admins.show';
+    }
+
+    protected function indexViewData(): array
+    {
+        return ['currentAdminUsername' => $this->currentAdminUsername()];
+    }
+
+    protected function showViewData(ActorSummary $item): array
+    {
+        return ['currentAdminUsername' => $this->currentAdminUsername()];
+    }
+
     private function currentAdminUsername(): ?string
     {
         $payload = $this->decoder->decodePayload(session('access_token'));

@@ -2,33 +2,21 @@
 
 namespace App\Http\Controllers\Backoffice;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Backoffice\Actors\AbstractActorController;
 use App\Http\Requests\Backoffice\TerminalStatusUpdateRequest;
-use App\Http\Requests\Backoffice\ListFiltersRequest;
 use App\Services\Backoffice\AuditEventsService;
 use App\Services\Backoffice\TerminalsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
-class TerminalsController extends Controller
+class TerminalsController extends AbstractActorController
 {
 
     public function __construct(
-        private readonly TerminalsService $service,
-        private readonly AuditEventsService $auditEvents,
-    ) {}
-
-    public function index(ListFiltersRequest $request)
-    {
-        $filters = $request->validatedWithDefaults();
-
-        $data = $this->service->list($filters);
-
-        return view('backoffice.terminals.index', [
-            'filters' => $filters,
-            'items'   => $data['items'] ?? [],
-            'page'    => $data['page'] ?? ['hasMore' => false],
-        ]);
+        private readonly TerminalsService $terminalsService,
+        AuditEventsService $auditEvents,
+    ) {
+        parent::__construct($terminalsService, $auditEvents);
     }
 
     public function create(Request $request)
@@ -42,27 +30,6 @@ class TerminalsController extends Controller
         ]);
     }
 
-    public function show(string $terminalUid)
-    {
-        $item = $this->service->show(
-            terminalUid: $terminalUid,
-            correlationId: (string) Str::uuid(),
-        );
-
-        $auditEvents = $this->auditEvents->list([
-            'actorType' => 'TERMINAL',
-            'actorRef' => $item['actorRef'] ?? $terminalUid,
-            'limit' => 10,
-            'sort' => 'occurredAt:desc',
-        ]);
-
-        return view('backoffice.terminals.show', [
-            'item' => $item,
-            'auditEvents' => $auditEvents['items'] ?? [],
-            'historyRoute' => route('admin.audits.index', ['actorType' => 'TERMINAL', 'actorRef' => $item['actorRef'] ?? $terminalUid]),
-        ]);
-    }
-
     public function store(Request $request)
     {
         $payload = $request->validate([
@@ -73,7 +40,7 @@ class TerminalsController extends Controller
         $idempotencyKey = (string) Str::uuid();
         $correlationId = (string) Str::uuid();
 
-        $created = $this->service->create(
+        $created = $this->terminalsService->create(
             merchantCode: $payload['merchantCode'],
             displayName: $payload['displayName'],
             idempotencyKey: $idempotencyKey,
@@ -94,19 +61,21 @@ class TerminalsController extends Controller
     public function updateStatus(TerminalStatusUpdateRequest $request)
     {
         $payload = $request->validated();
-        $terminalUid = $payload['terminalUid'];
+        return $this->updateActorStatus($payload['terminalUid'], $payload, 'Statut terminal %s mis à jour vers %s.');
+    }
 
-        $this->service->updateStatus(
-            terminalUid: $terminalUid,
-            targetStatus: $payload['targetStatus'],
-            reason: $payload['reason'] ?? null,
-            correlationId: (string) Str::uuid(),
-        );
+    protected function actorType(): string
+    {
+        return 'TERMINAL';
+    }
 
-        return back()->with('status_success', sprintf(
-            'Statut terminal %s mis à jour vers %s.',
-            $terminalUid,
-            $payload['targetStatus']
-        ));
+    protected function indexView(): string
+    {
+        return 'backoffice.terminals.index';
+    }
+
+    protected function showView(): string
+    {
+        return 'backoffice.terminals.show';
     }
 }

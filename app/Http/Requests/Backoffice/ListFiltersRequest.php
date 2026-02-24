@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Backoffice;
 
+use App\DTO\Backoffice\ListFilters;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ListFiltersRequest extends FormRequest
@@ -30,5 +31,10 @@ class ListFiltersRequest extends FormRequest
         $validated['limit'] = $validated['limit'] ?? 25;
 
         return $validated;
+    }
+
+    public function toDto(): ListFilters
+    {
+        return ListFilters::fromArray($this->validatedWithDefaults());
     }
 }

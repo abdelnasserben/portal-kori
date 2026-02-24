@@ -2,59 +2,29 @@
 
 namespace App\Services\Backoffice;
 
-use App\Services\KoriApiClient;
+use App\Services\Backoffice\Actors\AbstractActorService;
 
-class MerchantsService
+class MerchantsService extends AbstractActorService
 {
-    public function __construct(private readonly KoriApiClient $api) {}
-
-    public function list(array $filters): array
-    {
-        $query = array_filter($filters, fn ($v) => !is_null($v) && $v !== '');
-        return $this->api->get('/api/v1/backoffice/merchants', $query);
-    }
 
     public function create(string $displayName, string $idempotencyKey, ?string $correlationId = null): array
     {
-        $headers = [
-            'Idempotency-Key' => $idempotencyKey,
-        ];
-        if ($correlationId) {
-            $headers['X-Correlation-Id'] = $correlationId;
-        }
-
-        return $this->api->post('/api/v1/merchants', [
-            'displayName' => $displayName,
-        ], $headers);
+        $headers = ['Idempotency-Key' => $idempotencyKey] + $this->correlationHeaders($correlationId);
+        return $this->api->post('/api/v1/merchants', ['displayName' => $displayName], $headers);
     }
 
-    public function updateStatus(string $merchantCode, string $targetStatus, ?string $reason = null, ?string $correlationId = null): array
+    protected function listEndpoint(): string
     {
-        $headers = [];
-
-        if ($correlationId) {
-            $headers['X-Correlation-Id'] = $correlationId;
-        }
-
-        $payload = [
-            'targetStatus' => $targetStatus,
-        ];
-
-        if (!is_null($reason) && $reason !== '') {
-            $payload['reason'] = $reason;
-        }
-
-        return $this->api->patch("/api/v1/merchants/{$merchantCode}/status", $payload, $headers);
+        return '/api/v1/backoffice/merchants';
     }
 
-    public function show(string $merchantCode, ?string $correlationId = null): array
+    protected function statusEndpoint(string $actorCode): string
     {
-        $headers = [];
+        return "/api/v1/merchants/{$actorCode}/status";
+    }
 
-        if ($correlationId) {
-            $headers['X-Correlation-Id'] = $correlationId;
-        }
-
-        return $this->api->get("/api/v1/backoffice/actors/MERCHANT/{$merchantCode}", [], $headers);
+    protected function actorType(): string
+    {
+        return 'MERCHANT';
     }
 }
