@@ -96,6 +96,7 @@
                     <th style="white-space:nowrap;">Status</th>
                     <th class="text-end" style="white-space:nowrap;">Amount</th>
                     <th style="white-space:nowrap;">Currency</th>
+                    <th class="text-end" style="white-space:nowrap;">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -127,10 +128,18 @@
                         <td style="white-space:nowrap;">
                             {{ $it['currency'] ?? '' }}
                         </td>
+
+                        <td class="text-end" style="white-space:nowrap;">
+                            @if(!empty($it['transactionRef']))
+                                <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.transactions.show', ['transactionRef' => $it['transactionRef']]) }}">Voir</a>
+                            @else
+                                <button class="btn btn-sm btn-outline-secondary" disabled>Voir</button>
+                            @endif
+                        </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted p-4">
+                        <td colspan="7" class="text-center text-muted p-4">
                             Aucune transaction.
                         </td>
                     </tr>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Http\Controllers\Controller;
 use App\Services\Backoffice\TransactionsService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class TransactionsController extends Controller
 {
@@ -45,6 +46,18 @@ class TransactionsController extends Controller
             'filters' => $validated,
             'items'   => $data['items'] ?? [],
             'page'    => $data['page'] ?? ['hasMore' => false],
+        ]);
+    }
+
+    public function show(string $transactionRef)
+    {
+        $item = $this->service->show(
+            transactionRef: $transactionRef,
+            correlationId: (string) Str::uuid(),
+        );
+
+        return view('backoffice.transactions.show', [
+            'item' => $item,
         ]);
     }
 }

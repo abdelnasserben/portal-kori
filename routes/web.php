@@ -30,8 +30,8 @@ Route::middleware(['auth.portal'])->group(function () {
 
         Route::get('/admin/lookups', [LookupsController::class, 'index'])->name('admin.lookups.index');
 
-        Route::get('/admin/transactions', [TransactionsController::class, 'index'])
-            ->name('admin.transactions.index');
+        Route::get('/admin/transactions', [TransactionsController::class, 'index'])->name('admin.transactions.index');
+        Route::get('/admin/transactions/{transactionRef}', [TransactionsController::class, 'show'])->name('admin.transactions.show');
 
         Route::get('/admin/audits', [AuditEventsController::class, 'index'])->name('admin.audits.index');
         Route::get('/admin/audits/{eventRef}', [AuditEventsController::class, 'show'])->name('admin.audits.show');
