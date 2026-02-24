@@ -6,6 +6,7 @@
 
         <div class="d-flex gap-2 flex-wrap">
             <a class="btn btn-primary" href="{{ route('admin.transactions.index') }}">Transactions</a>
+            <a class="btn btn-outline-primary" href="{{ route('admin.ledger.index') }}">Ledger</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.audits.index') }}">Audits</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Marchands</a>
             <a class="btn btn-outline-primary" href="{{ route('admin.clients.index') }}">Clients</a>

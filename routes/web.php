@@ -6,6 +6,7 @@ use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
 use App\Http\Controllers\Backoffice\ClientsController;
 use App\Http\Controllers\Backoffice\ConfigurationsController;
+use App\Http\Controllers\Backoffice\LedgerController;
 use App\Http\Controllers\Backoffice\LookupsController;
 use App\Http\Controllers\Backoffice\MerchantsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
@@ -32,7 +33,8 @@ Route::middleware(['auth.portal'])->group(function () {
 
         Route::get('/admin/transactions', [TransactionsController::class, 'index'])->name('admin.transactions.index');
         Route::get('/admin/transactions/{transactionRef}', [TransactionsController::class, 'show'])->name('admin.transactions.show');
-
+        Route::get('/admin/ledger', [LedgerController::class, 'index'])->name('admin.ledger.index');
+        
         Route::get('/admin/audits', [AuditEventsController::class, 'index'])->name('admin.audits.index');
         Route::get('/admin/audits/{eventRef}', [AuditEventsController::class, 'show'])->name('admin.audits.show');
 
