@@ -10,6 +10,7 @@ use App\Http\Controllers\Backoffice\ConfigurationsController;
 use App\Http\Controllers\Backoffice\LedgerController;
 use App\Http\Controllers\Backoffice\LookupsController;
 use App\Http\Controllers\Backoffice\MerchantsController;
+use App\Http\Controllers\Backoffice\PayoutsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
 use App\Http\Controllers\Backoffice\TransactionsController;
 use App\Http\Controllers\HealthController;
@@ -35,6 +36,11 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::get('/admin/transactions', [TransactionsController::class, 'index'])->name('admin.transactions.index');
         Route::get('/admin/transactions/{transactionRef}', [TransactionsController::class, 'show'])->name('admin.transactions.show');
         Route::get('/admin/ledger', [LedgerController::class, 'index'])->name('admin.ledger.index');
+        
+        Route::get('/admin/payouts/new', [PayoutsController::class, 'create'])->name('admin.payouts.create');
+        Route::post('/admin/payouts/request', [PayoutsController::class, 'store'])->name('admin.payouts.store');
+        Route::post('/admin/payouts/{payoutId}/complete', [PayoutsController::class, 'complete'])->name('admin.payouts.complete');
+        Route::post('/admin/payouts/{payoutId}/fail', [PayoutsController::class, 'fail'])->name('admin.payouts.fail');
         
         Route::get('/admin/audits', [AuditEventsController::class, 'index'])->name('admin.audits.index');
         Route::get('/admin/audits/{eventRef}', [AuditEventsController::class, 'show'])->name('admin.audits.show');
@@ -70,7 +76,7 @@ Route::middleware(['auth.portal'])->group(function () {
         Route::get('/admin/cards', [CardsController::class, 'index'])->name('admin.cards.index');
         Route::post('/admin/cards/status', [CardsController::class, 'updateStatus'])->name('admin.cards.status.update');
         Route::post('/admin/cards/unblock', [CardsController::class, 'unblock'])->name('admin.cards.unblock');
-        
+
         Route::get('/admin/config', [ConfigurationsController::class, 'index'])->name('admin.config.index');
         Route::post('/admin/config/fees', [ConfigurationsController::class, 'updateFees'])->name('admin.config.fees.update');
         Route::post('/admin/config/commissions', [ConfigurationsController::class, 'updateCommissions'])->name('admin.config.commissions.update');

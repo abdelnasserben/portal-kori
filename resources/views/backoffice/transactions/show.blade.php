@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    @if (session('status_success'))
+        <div class="alert alert-success py-2">{{ session('status_success') }}</div>
+    @endif
+
     <div class="card p-4 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <h5 class="fw-semibold mb-0">Détail transaction</h5>
@@ -48,7 +52,29 @@
 
     @if (!empty($item['payout']))
         <div class="card p-4 mb-3">
-            <h6 class="fw-semibold mb-3">Payout lié</h6>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <h6 class="fw-semibold mb-0">Payout lié</h6>
+                @if (!empty($item['payout']['payoutRef']) && ($item['payout']['status'] ?? null) === 'REQUESTED')
+                    <div class="d-flex gap-2">
+                        <form method="POST" action="{{ route('admin.payouts.complete', $item['payout']['payoutRef']) }}">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-success" type="submit">
+                                Marquer complété
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{{ route('admin.payouts.fail', $item['payout']['payoutRef']) }}"
+                            class="d-flex gap-2">
+                            @csrf
+                            <input class="form-control form-control-sm" name="reason" maxlength="255" required
+                                placeholder="Raison de l'échec">
+                            <button class="btn btn-sm btn-outline-danger" type="submit">
+                                Marquer en échec
+                            </button>
+                        </form>
+                    </div>
+                @endif
+            </div>
             <dl class="row mb-0">
                 <dt class="col-sm-3">Payout Ref</dt>
                 <dd class="col-sm-9 mono">{{ $item['payout']['payoutRef'] ?? '—' }}</dd>
