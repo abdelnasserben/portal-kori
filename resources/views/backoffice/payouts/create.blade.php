@@ -15,13 +15,8 @@
         <form method="POST" action="{{ route('admin.payouts.store') }}" class="row g-3">
             @csrf
             <div class="col-md-6">
-                <label class="form-label">Code agent</label>
-                <input name="agentCode" class="form-control @error('agentCode') is-invalid @enderror"
-                    value="{{ old('agentCode', $prefillAgentCode ?? '') }}" required maxlength="16"
-                    placeholder="AG-0001">
-                @error('agentCode')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <x-form.input name="agentCode" label="Code agent" :value="$prefillAgentCode ?? ''" maxlength="16" placeholder="AG-0001"
+                    required />
             </div>
 
             <div class="col-12 d-flex gap-2">

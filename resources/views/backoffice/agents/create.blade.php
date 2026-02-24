@@ -12,12 +12,7 @@
         <form method="POST" action="{{ route('admin.agents.store') }}" class="row g-3">
             @csrf
             <div class="col-12 col-md-6">
-                <label class="form-label">Nom <span class="text-danger">*</span></label>
-                <input name="displayName" class="form-control @error('displayName') is-invalid @enderror"
-                    value="{{ old('displayName') }}" maxlength="120" required>
-                @error('displayName')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
+                <x-form.input name="displayName" label="Nom" maxlength="120" required />
             </div>
 
             <div class="col-12 d-flex gap-2">
