@@ -13,46 +13,35 @@ class ConfigurationsController extends Controller
 
     public function index()
     {
-        $fees = $this->service->getFees((string) Str::uuid());
-        $commissions = $this->service->getCommissions((string) Str::uuid());
-        $platform = $this->service->getPlatform((string) Str::uuid());
-
         return view('backoffice.configurations.index', [
-            'fees' => $fees ?? [],
-            'feesNotConfigured' => is_null($fees),
-
-            'commissions' => $commissions ?? [],
-            'commissionsNotConfigured' => is_null($commissions),
-
-            'platform' => $platform ?? [],
-            'platformNotConfigured' => is_null($platform),
+            'fees' => $this->service->getFees((string) Str::uuid()),
+            'commissions' => $this->service->getCommissions((string) Str::uuid()),
+            'platform' => $this->service->getPlatform((string) Str::uuid()),
         ]);
     }
 
     public function updateFees(Request $request)
     {
         $payload = $request->validate([
-            'cardEnrollmentPrice' => ['required', 'numeric', 'min:0'],
-
-            'cardPaymentFeeRate' => ['required', 'numeric', 'min:0'],
-            'cardPaymentFeeMin' => ['required', 'numeric', 'min:0', 'lte:cardPaymentFeeMax'],
-            'cardPaymentFeeMax' => ['required', 'numeric', 'min:0', 'gte:cardPaymentFeeMin'],
-
-            'merchantWithdrawFeeRate' => ['required', 'numeric', 'min:0'],
-            'merchantWithdrawFeeMin' => ['required', 'numeric', 'min:0', 'lte:merchantWithdrawFeeMax'],
-            'merchantWithdrawFeeMax' => ['required', 'numeric', 'min:0', 'gte:merchantWithdrawFeeMin'],
-
-            'clientTransferFeeRate' => ['required', 'numeric', 'min:0'],
-            'clientTransferFeeMin' => ['required', 'numeric', 'min:0', 'lte:clientTransferFeeMax'],
-            'clientTransferFeeMax' => ['required', 'numeric', 'min:0', 'gte:clientTransferFeeMin'],
-
-            'merchantTransferFeeRate' => ['required', 'numeric', 'min:0'],
-            'merchantTransferFeeMin' => ['required', 'numeric', 'min:0', 'lte:merchantTransferFeeMax'],
-            'merchantTransferFeeMax' => ['required', 'numeric', 'min:0', 'gte:merchantTransferFeeMin'],
-
+            'cardEnrollmentPrice' => ['required', 'numeric'],
+            'cardPaymentFeeRate' => ['required', 'numeric'],
+            'cardPaymentFeeMin' => ['required', 'numeric'],
+            'cardPaymentFeeMax' => ['required', 'numeric'],
+            'merchantWithdrawFeeRate' => ['required', 'numeric'],
+            'merchantWithdrawFeeMin' => ['required', 'numeric'],
+            'merchantWithdrawFeeMax' => ['required', 'numeric'],
+            'clientTransferFeeRate' => ['required', 'numeric'],
+            'clientTransferFeeMin' => ['required', 'numeric'],
+            'clientTransferFeeMax' => ['required', 'numeric'],
+            'merchantTransferFeeRate' => ['required', 'numeric'],
+            'merchantTransferFeeMin' => ['required', 'numeric'],
+            'merchantTransferFeeMax' => ['required', 'numeric'],
+            'cardPaymentFeeRefundable' => ['nullable', 'boolean'],
+            'merchantWithdrawFeeRefundable' => ['nullable', 'boolean'],
+            'cardEnrollmentPriceRefundable' => ['nullable', 'boolean'],
             'reason' => ['nullable', 'string', 'max:255'],
         ]);
-        
+
         $payload['cardPaymentFeeRefundable'] = $request->boolean('cardPaymentFeeRefundable');
         $payload['merchantWithdrawFeeRefundable'] = $request->boolean('merchantWithdrawFeeRefundable');
         $payload['cardEnrollmentPriceRefundable'] = $request->boolean('cardEnrollmentPriceRefundable');
