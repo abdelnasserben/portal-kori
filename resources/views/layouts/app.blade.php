@@ -8,25 +8,11 @@
 
     {{-- Bootstrap via CDN --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-tune.css') }}">
 
     <style>
-        body {
-            font-family: Inter, system-ui, -apple-system, sans-serif;
-            background-color: #f8f9fa;
-        }
-
-        .navbar {
-            border-bottom: 1px solid #e5e7eb;
-        }
-
         .container-portal {
             max-width: 1200px;
-        }
-
-        .card {
-            border-radius: 4px;
-            border: 1px solid #e5e7eb;
-            box-shadow: none;
         }
 
         .mono {
