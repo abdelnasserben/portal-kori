@@ -1,26 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
-            <div>
-                <h5 class="fw-semibold mb-1">Transactions</h5>
-                <div class="text-muted" style="font-size: .9rem;">Backoffice — liste paginée (cursor)</div>
-            </div>
+    <x-page-header title="Transactions" subtitle="Backoffice transaction monitoring" :back-href="route('admin.home')"
+        back-label="Back to backoffice" />
 
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Retour Admin</a>
-        </div>
-
-        <form method="GET" action="{{ route('admin.transactions.index') }}" class="mt-3">
+    <x-filters-bar>
+        <form method="GET" action="{{ route('admin.transactions.index') }}">
             <div class="row g-2">
                 <div class="col-12 col-md-4">
-                    <label class="form-label mb-1">Recherche</label>
-                    <x-form.input name="query" :value="$filters['query'] ?? ''" placeholder="…" class="form-control-sm" />
+                    <label class="form-label mb-1">Search</label>
+                    <x-form.input name="query" :value="$filters['query'] ?? ''" placeholder="Reference or code" class="form-control-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Type</label>
-                    <x-form.select name="type" :value="$filters['type'] ?? ''" :options="$transactionTypeOptions" placeholder="Tous"
+                    <x-form.select name="type" :value="$filters['type'] ?? ''" :options="$transactionTypeOptions" placeholder="All"
                         class="form-select-sm" />
                 </div>
 
@@ -41,21 +35,21 @@
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Min</label>
-                    <x-form.input name="min" :value="$filters['min'] ?? ''" placeholder="1000…" class="form-control-sm" />
+                    <label class="form-label mb-1">Minimum</label>
+                    <x-form.input name="min" :value="$filters['min'] ?? ''" placeholder="1000" class="form-control-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Max</label>
-                    <x-form.input name="max" :value="$filters['max'] ?? ''" placeholder="50000…" class="form-control-sm" />
+                    <label class="form-label mb-1">Maximum</label>
+                    <x-form.input name="max" :value="$filters['max'] ?? ''" placeholder="50000" class="form-control-sm" />
                 </div>
 
                 <div class="col-12 col-md-3">
                     <label class="form-label mb-1">Actor</label>
                     <div class="d-flex gap-2">
-                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="Tous"
+                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="All"
                             class="form-select-sm" />
-                        <x-form.input name="actorRef" :value="$filters['actorRef'] ?? ''" placeholder="super@admin…"
+                        <x-form.input name="actorRef" :value="$filters['actorRef'] ?? ''" placeholder="actor reference"
                             class="form-control-sm" />
                     </div>
                 </div>
@@ -81,83 +75,62 @@
                     <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="createdAt:desc" class="form-control-sm" />
                 </div>
 
-                {{-- Cursor est géré par les liens Next; on ne l’expose pas dans le form --}}
                 <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Filtrer</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.transactions.index') }}">Reset</a>
+                    <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.transactions.index') }}">Clear</a>
                 </div>
             </div>
         </form>
-    </div>
+    </x-filters-bar>
 
-    <div class="card p-0">
-        <div class="table-responsive">
-            <table class="table table-sm mb-0 align-middle">
-                <thead class="table-light">
+    <x-data-table>
+        <table class="table table-sm mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Created</th>
+                    <th>Transaction reference</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th class="text-end">Amount</th>
+                    <th>Currency</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($items as $it)
                     <tr>
-                        <th style="white-space:nowrap;">Created</th>
-                        <th style="white-space:nowrap;">Transaction Ref</th>
-                        <th style="white-space:nowrap;">Type</th>
-                        <th style="white-space:nowrap;">Status</th>
-                        <th class="text-end" style="white-space:nowrap;">Amount</th>
-                        <th style="white-space:nowrap;">Currency</th>
-                        <th class="text-end" style="white-space:nowrap;">Action</th>
+                        <td class="text-muted">@dateIso($it['createdAt'] ?? null)</td>
+                        <td class="mono">
+                            {{ $it['transactionRef'] ?? '' }}
+                            @if (!empty($it['transactionRef']))
+                                <x-copy-button :value="$it['transactionRef']" />
+                            @endif
+                        </td>
+                        <td><x-status-badge :value="$it['type'] ?? ''" /></td>
+                        <td><x-status-badge :value="$it['status'] ?? ''" /></td>
+                        <td class="text-end mono">{{ number_format((float) ($it['amount'] ?? 0), 0, '.', ' ') }}</td>
+                        <td>{{ $it['currency'] ?? '' }}</td>
+                        <td class="text-end">
+                            @if (!empty($it['transactionRef']))
+                                <a class="btn btn-sm btn-outline-primary"
+                                    href="{{ route('admin.transactions.show', ['transactionRef' => $it['transactionRef']]) }}">View</a>
+                            @else
+                                <button class="btn btn-sm btn-outline-secondary" disabled>View</button>
+                            @endif
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse($items as $it)
-                        <tr>
-                            <td style="white-space:nowrap;" class="text-muted">
-                                @dateIso($it['createdAt'] ?? null)
-                            </td>
+                @empty
+                    <tr>
+                        <td colspan="7">
+                            <x-empty-state title="No transactions found." message="Try adjusting your filters." />
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-                            <td class="mono" style="white-space:nowrap;">
-                                {{ $it['transactionRef'] ?? '' }}
-                                @if (!empty($it['transactionRef']))
-                                    <x-copy-button :value="$it['transactionRef']" />
-                                @endif
-                            </td>
-
-                            <td style="white-space:nowrap;">
-                                <span class="badge text-bg-secondary">{{ $it['type'] ?? '' }}</span>
-                            </td>
-
-                            <td style="white-space:nowrap;">
-                                <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
-                            </td>
-
-                            <td class="text-end mono" style="white-space:nowrap;">
-                                {{ $it['amount'] ?? '' }}
-                            </td>
-
-                            <td style="white-space:nowrap;">
-                                {{ $it['currency'] ?? '' }}
-                            </td>
-
-                            <td class="text-end" style="white-space:nowrap;">
-                                @if (!empty($it['transactionRef']))
-                                    <a class="btn btn-sm btn-outline-primary"
-                                        href="{{ route('admin.transactions.show', ['transactionRef' => $it['transactionRef']]) }}">Voir</a>
-                                @else
-                                    <button class="btn btn-sm btn-outline-secondary" disabled>Voir</button>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="7" class="text-center text-muted p-4">
-                                Aucune transaction.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="p-3 d-flex align-items-center justify-content-between">
-            <div class="text-muted" style="font-size:.9rem;">
-                {{ count($items) }} item(s)
-            </div>
+        <x-slot:footer>
+            <div class="text-muted small">{{ count($items) }} item(s)</div>
 
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
@@ -167,32 +140,11 @@
                             array_merge($filters, ['cursor' => $page['nextCursor']]),
                         );
                     @endphp
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">
-                        Next →
-                    </a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Next</button>
                 @endif
             </div>
-        </div>
-    </div>
-
-    {{-- JS minimal pour copier --}}
-    <script>
-        (function() {
-            document.addEventListener('click', async function(e) {
-                const btn = e.target.closest('[data-copy-value]');
-                if (!btn) return;
-                const value = btn.getAttribute('data-copy-value');
-                try {
-                    await navigator.clipboard.writeText(value);
-                    const old = btn.innerText;
-                    btn.innerText = 'Copié';
-                    setTimeout(() => btn.innerText = old, 900);
-                } catch (err) {
-                    alert('Impossible de copier');
-                }
-            });
-        })();
-    </script>
+        </x-slot:footer>
+    </x-data-table>
 @endsection

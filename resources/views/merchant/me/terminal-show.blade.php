@@ -1,22 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="fw-semibold mb-0">Détail terminal marchand</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.me.terminals') }}">Retour liste</a>
-        </div>
+    <x-page-header title="Terminal details" subtitle="Merchant terminal record" :back-href="route('merchant.me.terminals')"
+        back-label="Back to terminals" />
 
-        <table class="table table-sm mb-0 align-middle">
-            <tbody>
-                @foreach (['terminalUid', 'status', 'createdAt', 'lastSeen', 'merchantCode'] as $field)
-                    <tr>
-                        <th style="width:220px;">{{ $field }}</th>
-                        <td class="{{ in_array($field, ['terminalUid', 'merchantCode']) ? 'mono' : '' }}">
-                            {{ $item[$field] ?? '—' }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="panel">
+        <dl class="row mb-0">
+            <dt class="col-sm-4 text-muted">Terminal UID</dt>
+            <dd class="col-sm-8 mono">{{ $item['terminalUid'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Status</dt>
+            <dd class="col-sm-8"><x-status-badge :value="$item['status'] ?? ''" /></dd>
+
+            <dt class="col-sm-4 text-muted">Created at</dt>
+            <dd class="col-sm-8">@dateIso($item['createdAt'] ?? null)</dd>
+
+            <dt class="col-sm-4 text-muted">Last seen</dt>
+            <dd class="col-sm-8">@dateIso($item['lastSeen'] ?? null)</dd>
+
+            <dt class="col-sm-4 text-muted">Merchant code</dt>
+            <dd class="col-sm-8 mono">{{ $item['merchantCode'] ?? '—' }}</dd>
+        </dl>
     </div>
 @endsection

@@ -1,22 +1,43 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4">
-        <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="fw-semibold mb-0">Détail transaction marchand</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.me.transactions') }}">Retour liste</a>
-        </div>
+    <x-page-header title="Transaction details" subtitle="Merchant transaction record" :back-href="route('merchant.me.transactions')"
+        back-label="Back to transactions" />
 
-        <table class="table table-sm mb-0 align-middle">
-            <tbody>
-                @foreach (['transactionRef', 'type', 'status', 'amount', 'fee', 'totalDebited', 'currency', 'agentCode', 'clientCode', 'originalTransactionRef', 'createdAt'] as $field)
-                    <tr>
-                        <th style="width:220px;">{{ $field }}</th>
-                        <td class="{{ str_contains($field, 'Ref') || str_contains($field, 'Code') ? 'mono' : '' }}">
-                            {{ $item[$field] ?? '—' }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+    <div class="panel">
+        <dl class="row mb-0">
+            <dt class="col-sm-4 text-muted">Transaction reference</dt>
+            <dd class="col-sm-8 mono">{{ $item['transactionRef'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Type</dt>
+            <dd class="col-sm-8"><x-status-badge :value="$item['type'] ?? ''" /></dd>
+
+            <dt class="col-sm-4 text-muted">Status</dt>
+            <dd class="col-sm-8"><x-status-badge :value="$item['status'] ?? ''" /></dd>
+
+            <dt class="col-sm-4 text-muted">Amount</dt>
+            <dd class="col-sm-8">{{ number_format((float) ($item['amount'] ?? 0), 0, '.', ' ') }}</dd>
+
+            <dt class="col-sm-4 text-muted">Fee</dt>
+            <dd class="col-sm-8">{{ number_format((float) ($item['fee'] ?? 0), 0, '.', ' ') }}</dd>
+
+            <dt class="col-sm-4 text-muted">Total debited</dt>
+            <dd class="col-sm-8">{{ number_format((float) ($item['totalDebited'] ?? 0), 0, '.', ' ') }}</dd>
+
+            <dt class="col-sm-4 text-muted">Currency</dt>
+            <dd class="col-sm-8">{{ $item['currency'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Agent code</dt>
+            <dd class="col-sm-8 mono">{{ $item['agentCode'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Client code</dt>
+            <dd class="col-sm-8 mono">{{ $item['clientCode'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Original transaction reference</dt>
+            <dd class="col-sm-8 mono">{{ $item['originalTransactionRef'] ?? '—' }}</dd>
+
+            <dt class="col-sm-4 text-muted">Created at</dt>
+            <dd class="col-sm-8">@dateIso($item['createdAt'] ?? null)</dd>
+        </dl>
     </div>
 @endsection

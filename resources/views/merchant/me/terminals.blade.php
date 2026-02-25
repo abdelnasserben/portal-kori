@@ -1,90 +1,82 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
-            <div>
-                <h5 class="fw-semibold mb-1">Mes terminaux</h5>
-                <div class="text-muted" style="font-size: .9rem;">Endpoint: <code>/merchant/me/terminals</code></div>
-            </div>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.home') }}">Retour</a>
-        </div>
+    <x-page-header title="Terminals" subtitle="Merchant terminal directory" :back-href="route('merchant.home')" back-label="Back to merchant home" />
 
-        <form method="GET" action="{{ route('merchant.me.terminals') }}" class="mt-3">
+    <x-filters-bar>
+        <form method="GET" action="{{ route('merchant.me.terminals') }}">
             <div class="row g-2">
                 <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Status</label>
-                    <x-form.select name="status" :value="$filters['status'] ?? ''" :options="$statusOptions" placeholder="Tous"
+                    <x-form.select name="status" :value="$filters['status'] ?? ''" :options="$statusOptions" placeholder="All"
                         class="form-select-sm" />
                 </div>
                 <div class="col-6 col-md-3">
-                    <label class="form-label mb-1">Terminal UID</label>
-                    <x-form.input name="terminalUid" :value="$filters['terminalUid'] ?? ''" class="form-control-sm" />
+                    <label class="form-label mb-1">From</label>
+                    <x-form.input name="from" type="date" :value="$filters['from'] ?? ''" class="form-control-sm" />
                 </div>
-                <div class="col-6 col-md-2">
+                <div class="col-6 col-md-3">
+                    <label class="form-label mb-1">To</label>
+                    <x-form.input name="to" type="date" :value="$filters['to'] ?? ''" class="form-control-sm" />
+                </div>
+                <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Limit</label>
                     <x-form.input name="limit" type="number" :value="$filters['limit'] ?? 25" min="1" max="200"
                         class="form-control-sm" />
                 </div>
-                <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Sort</label>
-                    <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="-createdAt" class="form-control-sm" />
-                </div>
                 <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Filtrer</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.me.terminals') }}">Reset</a>
+                    <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
+                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.me.terminals') }}">Clear</a>
                 </div>
             </div>
         </form>
-    </div>
+    </x-filters-bar>
 
-    <div class="card p-0">
-        <div class="table-responsive">
-            <table class="table table-sm mb-0 align-middle">
-                <thead class="table-light">
+    <x-data-table>
+        <table class="table table-sm mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Created</th>
+                    <th>Terminal UID</th>
+                    <th>Status</th>
+                    <th>Last seen</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($items as $it)
                     <tr>
-                        <th>Terminal UID</th>
-                        <th>Status</th>
-                        <th>Créé le</th>
-                        <th>Last seen</th>
-                        <th>Merchant code</th>
-                        <th class="text-end">Action</th>
+                        <td class="text-muted">@dateIso($it['createdAt'] ?? null)</td>
+                        <td class="mono">{{ $it['terminalUid'] ?? '' }}</td>
+                        <td><x-status-badge :value="$it['status'] ?? ''" /></td>
+                        <td class="text-muted">@dateIso($it['lastSeen'] ?? null)</td>
+                        <td class="text-end">
+                            @if (!empty($it['terminalUid']))
+                                <a class="btn btn-sm btn-outline-primary"
+                                    href="{{ route('merchant.me.terminals.show', ['terminalUid' => $it['terminalUid']]) }}">View</a>
+                            @endif
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse($items as $it)
-                        <tr>
-                            <td class="mono">{{ $it['terminalUid'] ?? '' }}</td>
-                            <td><span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span></td>
-                            <td>@dateIso($it['createdAt'] ?? null)</td>
-                            <td>@dateIso($it['lastSeen'] ?? null)</td>
-                            <td class="mono">{{ $it['merchantCode'] ?? '' }}</td>
-                            <td class="text-end">
-                                @if (!empty($it['terminalUid']))
-                                    <a class="btn btn-sm btn-outline-primary"
-                                        href="{{ route('merchant.me.terminals.show', ['terminalUid' => $it['terminalUid']]) }}">Voir</a>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted p-4">Aucun terminal.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                @empty
+                    <tr>
+                        <td colspan="5">
+                            <x-empty-state title="No terminals found." />
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-        <div class="p-3 d-flex align-items-center justify-content-between">
-            <div class="text-muted" style="font-size:.9rem;">{{ count($items) }} item(s)</div>
+        <x-slot:footer>
+            <div class="text-muted small">{{ count($items) }} item(s)</div>
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
                     @php($nextUrl = route('merchant.me.terminals', array_merge($filters, ['cursor' => $page['nextCursor']])))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next →</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Next</button>
                 @endif
             </div>
-        </div>
-    </div>
+        </x-slot:footer>
+    </x-data-table>
 @endsection

@@ -1,24 +1,15 @@
-/* bootstrap-tune.css
-   Minimal "premium" tune for Bootstrap without rewriting templates.
-*/
-
 :root {
-    --bs-body-bg: #ffffff;
+    --bs-body-bg: #f8fafc;
     --bs-body-color: #0f172a;
 
-    --bs-border-color: #e9ecef;
+    --bs-border-color: #e2e8f0;
     --bs-border-radius: .75rem;
-    --bs-border-radius-sm: .6rem;
-    --bs-border-radius-lg: 1rem;
-
+    --bs-border-radius-sm: .5rem;
     --bs-link-color: #0f172a;
-    --bs-link-hover-color: #0b1220;
-
+    --bs-link-hover-color: #111827;
     --bs-secondary-color: #64748b;
-    /* muted text */
 }
 
-/* Base typography + smoothing */
 html,
 body {
     -webkit-font-smoothing: antialiased;
@@ -30,50 +21,37 @@ body {
     line-height: 1.5;
 }
 
-small,
-.small {
-    color: var(--bs-secondary-color);
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .9rem;
 }
 
-/* Containers feel less cramped */
-.container,
-.container-fluid {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
+.topbar {
+    border-bottom: 1px solid var(--bs-border-color);
 }
 
-/* Make cards look modern */
-.card {
-    border-color: var(--bs-border-color);
-    box-shadow: none !important;
-}
-
-.card-header,
-.card-footer {
-    background: transparent;
-    border-color: var(--bs-border-color);
-}
-
-.card-title {
-    letter-spacing: -.2px;
-}
-
-/* Subtle elevation utility (use .elevate where needed) */
-.elevate {
-    box-shadow: 0 1px 2px rgba(15, 23, 42, .06), 0 10px 24px rgba(15, 23, 42, .06);
+.panel {
+    background: #fff;
     border: 1px solid var(--bs-border-color);
+    border-radius: 1rem;
+    padding: 1rem;
 }
 
-/* Buttons: less "bootstrapy" */
+.panel-filters {
+    background: #fff;
+    border: 1px solid var(--bs-border-color);
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.table-footer {
+    padding: .85rem 1rem;
+    border-top: 1px solid var(--bs-border-color);
+}
+
 .btn {
     border-radius: .5rem;
     font-weight: 600;
-    padding: .55rem .85rem;
-}
-
-.btn:focus,
-.btn:focus-visible {
-    box-shadow: 0 0 0 .2rem rgba(15, 23, 42, .10) !important;
 }
 
 .btn-primary {
@@ -82,104 +60,51 @@ small,
 }
 
 .btn-primary:hover {
-    background: #0b1220 !important;
-    border-color: #0b1220 !important;
+    background: #111827;
+    border-color: #111827;
 }
 
-.btn-outline-primary {
-    color: #0f172a;
-    border-color: #cbd5e1;
-}
-
-.btn-outline-primary:hover {
-    background: #0f172a !important;
-    border-color: #0f172a !important;
-}
-
-/* Forms: softer, cleaner */
 .form-control,
 .form-select {
-    border-radius: .75rem;
-    border-color: #e5e7eb;
-    padding: .6rem .75rem;
+    border-radius: .6rem;
+    border-color: #dbe2ea;
 }
 
-.form-control:focus,
-.form-select:focus {
-    border-color: #cbd5e1;
-    box-shadow: 0 0 0 .2rem rgba(15, 23, 42, .08) !important;
-}
-
-.form-label {
-    font-weight: 600;
-    color: #334155;
-}
-
-/* Tables: lighter borders + nicer header */
 .table {
-    --bs-table-border-color: #eef2f7;
+    --bs-table-border-color: #edf2f7;
 }
 
 .table thead th {
-    font-size: .8rem;
+    font-size: .76rem;
     text-transform: uppercase;
     letter-spacing: .06em;
     color: #64748b;
     font-weight: 700;
-    border-bottom-color: #e9ecef;
+    white-space: nowrap;
 }
 
-.table tbody tr:hover {
-    background: #f8fafc;
+.nav-pills .nav-link {
+    color: #334155;
+    border-radius: .5rem;
+    font-weight: 600;
 }
 
-/* Badges: less saturated by default */
+.nav-pills .nav-link.active {
+    background: #0f172a;
+}
+
 .badge {
     font-weight: 600;
     border-radius: 999px;
 }
 
-.bg-success,
-.bg-danger,
-.bg-warning,
-.bg-info {
-    filter: saturate(.85);
+.empty-state {
+    min-height: 96px;
+    display: grid;
+    place-content: center;
 }
 
-/* Alerts: calmer */
-.alert {
-    border-radius: 1rem;
-    border-color: var(--bs-border-color);
-}
-
-/* Navbar: clean white by default */
-.navbar {
-    border-bottom: 1px solid var(--bs-border-color);
-}
-
-.navbar.bg-primary,
-.navbar.bg-dark {
-    background: #ffffff !important;
-}
-
-.navbar .navbar-brand,
-.navbar .nav-link {
-    color: #0f172a !important;
-}
-
-.navbar .nav-link:hover {
-    opacity: .8;
-}
-
-/* Dropdowns: subtle */
-.dropdown-menu {
-    border-radius: 1rem;
-    border-color: var(--bs-border-color);
-    box-shadow: 0 10px 30px rgba(15, 23, 42, .10);
-}
-
-/* Modals */
 .modal-content {
-    border-radius: 1.25rem;
+    border-radius: 1rem;
     border-color: var(--bs-border-color);
 }

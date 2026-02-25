@@ -4,89 +4,80 @@
     @if (session('status_success'))
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
-    <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
-            <div>
-                <h5 class="fw-semibold mb-1">Agents</h5>
-                <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
-            </div>
 
-            <div>
-                <a class="btn btn-sm btn-primary" href="{{ route('admin.agents.create') }}">+ Créer un agent</a>
-            </div>
-        </div>
+    <x-page-header title="Agents" subtitle="Backoffice agent directory" :back-href="route('admin.home')" back-label="Back to backoffice">
+        <x-slot:actions>
+            <a class="btn btn-sm btn-primary" href="{{ route('admin.agents.create') }}">Create agent</a>
+        </x-slot:actions>
+    </x-page-header>
 
-        @include('backoffice.partials.list-filters', [
-            'routeName' => 'admin.agents.index',
-            'filters' => $filters,
-            'statusOptions' => $actorStatusOptions,
-            'queryPlaceholder' => 'Code…',
-        ])
-    </div>
+    @include('backoffice.partials.list-filters', [
+        'routeName' => 'admin.agents.index',
+        'filters' => $filters,
+        'statusOptions' => $actorStatusOptions,
+        'queryPlaceholder' => 'Code',
+    ])
 
-    <div class="card p-0">
-        <div class="table-responsive">
-            <table class="table table-sm mb-0 align-middle">
-                <thead class="table-light">
+    <x-data-table>
+        <table class="table table-sm mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Created</th>
+                    <th>Agent code</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($items as $it)
                     <tr>
-                        <th>Created</th>
-                        <th>Actor Ref</th>
-                        <th>Nom</th>
-                        <th>Status</th>
-                        <th>Actions</th>
+                        <td class="text-muted">@dateIso($it['createdAt'] ?? null)</td>
+                        <td class="mono">
+                            {{ $it['actorRef'] ?? '' }}
+                            @if (!empty($it['actorRef']))
+                                <x-copy-button :value="$it['actorRef']" />
+                            @endif
+                        </td>
+                        <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
+                        <td><x-status-badge :value="$it['status'] ?? ''" /></td>
+                        <td>
+                            @if (!empty($it['actorRef']))
+                                <a class="btn btn-sm btn-outline-secondary"
+                                    href="{{ route('admin.agents.show', ['agentCode' => $it['actorRef']]) }}">View</a>
+
+                                <form method="POST" action="{{ route('admin.agents.status.update', ['agentCode' => $it['actorRef']]) }}"
+                                    class="d-flex gap-1 align-items-center mt-1" data-confirm
+                                    data-confirm-message="Confirm status update for this agent?">
+                                    @csrf
+                                    <x-form.select name="targetStatus" :options="$actorStatusOptions" class="form-select-sm"
+                                        style="min-width:130px" />
+                                    <x-form.input name="reason" placeholder="Reason" maxlength="255" class="form-control-sm" />
+                                    <button class="btn btn-sm btn-outline-primary" type="submit">Update</button>
+                                </form>
+                            @endif
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @forelse($items as $it)
-                        <tr>
-                            <td class="text-muted" style="white-space:nowrap;">@dateIso($it['createdAt'] ?? null)</td>
-                            <td class="mono" style="white-space:nowrap;">
-                                {{ $it['actorRef'] ?? '' }}
-                                @if (!empty($it['actorRef']))
-                                    <x-copy-button :value="$it['actorRef']" />
-                                @endif
-                            </td>
-                            <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
-                            <td style="white-space:nowrap;">
-                                <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
-                            </td>
-                            <td>
-                                @if (!empty($it['actorRef']))
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.agents.show', ['agentCode' => $it['actorRef']]) }}">Voir</a>
+                @empty
+                    <tr>
+                        <td colspan="5">
+                            <x-empty-state title="No agents found." />
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
 
-                                    <form method="POST"
-                                        action="{{ route('admin.agents.status.update', ['agentCode' => $it['actorRef']]) }}"
-                                        class="d-flex gap-1 align-items-center mt-1">
-                                        @csrf
-                                        <x-form.select name="targetStatus" :options="$actorStatusOptions" class="form-select-sm"
-                                            style="min-width:130px" />
-                                        <x-form.input name="reason" placeholder="Reason" maxlength="255"
-                                            class="form-control-sm" />
-                                        <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
-                                    </form>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucun agent.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        <div class="p-3 d-flex align-items-center justify-content-between">
-            <div class="text-muted" style="font-size:.9rem;">{{ count($items) }} item(s)</div>
+        <x-slot:footer>
+            <div class="text-muted small">{{ count($items) }} item(s)</div>
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
                     @php($nextUrl = route('admin.agents.index', array_merge($filters, ['cursor' => $page['nextCursor']])))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next →</a>
+                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-secondary" disabled>Next</button>
                 @endif
             </div>
-        </div>
-    </div>
+        </x-slot:footer>
+    </x-data-table>
 @endsection
