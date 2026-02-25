@@ -103,7 +103,7 @@
                 <tbody>
                     @forelse($items as $it)
                         <tr>
-                            <td class="text-muted" style="white-space:nowrap;">{{ $it['createdAt'] ?? '—' }}</td>
+                            <td class="text-muted" style="white-space:nowrap;">@dateIso($it['createdAt'] ?? null, '—')</td>
                             <td class="mono" style="white-space:nowrap;">
                                 {{ $it['transactionId'] ?? '—' }}
                                 @if (!empty($it['transactionId']))

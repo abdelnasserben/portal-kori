@@ -46,7 +46,7 @@
             <dd class="col-sm-9 mono">{{ $item['originalTransactionRef'] ?? '—' }}</dd>
 
             <dt class="col-sm-3">Créée le</dt>
-            <dd class="col-sm-9">{{ $item['createdAt'] ?? '—' }}</dd>
+            <dd class="col-sm-9">@dateIso($item['createdAt'] ?? null, '—')</dd>
         </dl>
     </div>
 
@@ -100,13 +100,13 @@
                 <dd class="col-sm-9 mono">{{ $item['payout']['amount'] ?? '—' }} {{ $item['currency'] ?? '' }}</dd>
 
                 <dt class="col-sm-3">Créé le</dt>
-                <dd class="col-sm-9">{{ $item['payout']['createdAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['payout']['createdAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Complété le</dt>
-                <dd class="col-sm-9">{{ $item['payout']['completedAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['payout']['completedAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Échec le</dt>
-                <dd class="col-sm-9">{{ $item['payout']['failedAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['payout']['failedAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Raison échec</dt>
                 <dd class="col-sm-9">{{ $item['payout']['failureReason'] ?? '—' }}</dd>
@@ -153,13 +153,13 @@
                 <dd class="col-sm-9 mono">{{ $item['clientRefund']['amount'] ?? '—' }} {{ $item['currency'] ?? '' }}</dd>
 
                 <dt class="col-sm-3">Créé le</dt>
-                <dd class="col-sm-9">{{ $item['clientRefund']['createdAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['clientRefund']['createdAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Complété le</dt>
-                <dd class="col-sm-9">{{ $item['clientRefund']['completedAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['clientRefund']['completedAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Échec le</dt>
-                <dd class="col-sm-9">{{ $item['clientRefund']['failedAt'] ?? '—' }}</dd>
+                <dd class="col-sm-9">@dateIso($item['clientRefund']['failedAt'] ?? null, '—')</dd>
 
                 <dt class="col-sm-3">Raison échec</dt>
                 <dd class="col-sm-9">{{ $item['clientRefund']['failureReason'] ?? '—' }}</dd>

@@ -23,10 +23,10 @@
             <dd class="col-sm-9"><span class="badge text-bg-light">{{ $item['status'] ?? '—' }}</span></dd>
 
             <dt class="col-sm-3">Created At</dt>
-            <dd class="col-sm-9">{{ $item['createdAt'] ?? '—' }}</dd>
+            <dd class="col-sm-9">@dateIso($item['createdAt'] ?? null, '—')</dd>
 
             <dt class="col-sm-3">Last Activity At</dt>
-            <dd class="col-sm-9">{{ $item['lastActivityAt'] ?? '—' }}</dd>
+            <dd class="col-sm-9">@dateIso($item['lastActivityAt'] ?? null, '—')</dd>
         </dl>
     </div>
 

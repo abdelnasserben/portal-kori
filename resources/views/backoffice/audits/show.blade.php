@@ -17,7 +17,7 @@
             <dd class="col-sm-9 mono">{{ $item['eventRef'] ?? $eventRef }}</dd>
 
             <dt class="col-sm-3">Occurred At</dt>
-            <dd class="col-sm-9">{{ $item['occurredAt'] ?? '—' }}</dd>
+            <dd class="col-sm-9">@dateIso($item['occurredAt'] ?? null, '—')</dd>
 
             <dt class="col-sm-3">Actor</dt>
             <dd class="col-sm-9"><span class="badge text-bg-secondary">{{ $item['actorType'] ?? '—' }}</span> <span class="mono">{{ $item['actorRef'] ?? '—' }}</span></dd>

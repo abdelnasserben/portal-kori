@@ -17,7 +17,7 @@
             <tbody>
                 @forelse(($auditEvents ?? []) as $event)
                     <tr>
-                        <td class="text-muted" style="white-space:nowrap;">{{ $event['occurredAt'] ?? '—' }}</td>
+                        <td class="text-muted" style="white-space:nowrap;">@dateIso($event['occurredAt'] ?? null, '—')</td>
                         <td style="white-space:nowrap;"><span
                                 class="badge text-bg-secondary">{{ $event['action'] ?? '—' }}</span></td>
                         <td style="white-space:nowrap;">{{ $event['resourceType'] ?? '—' }}</td>

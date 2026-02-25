@@ -88,7 +88,7 @@
                             );
                         @endphp
                         <tr>
-                            <td class="text-muted" style="white-space:nowrap;">{{ $it['occurredAt'] ?? '—' }}</td>
+                            <td class="text-muted" style="white-space:nowrap;">@dateIso($it['occurredAt'] ?? null, '—')</td>
                             <td class="mono" style="white-space:nowrap;">
                                 {{ $it['eventRef'] ?? '—' }}
                                 @if (!empty($it['eventRef']))

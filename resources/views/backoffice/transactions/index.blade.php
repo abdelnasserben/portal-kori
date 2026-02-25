@@ -108,7 +108,7 @@
                     @forelse($items as $it)
                         <tr>
                             <td style="white-space:nowrap;" class="text-muted">
-                                {{ $it['createdAt'] ?? '' }}
+                                @dateIso($it['createdAt'] ?? null)
                             </td>
 
                             <td class="mono" style="white-space:nowrap;">

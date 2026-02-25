@@ -56,8 +56,8 @@
                         <tr>
                             <td class="mono">{{ $it['terminalUid'] ?? '' }}</td>
                             <td><span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span></td>
-                            <td>{{ $it['createdAt'] ?? '' }}</td>
-                            <td>{{ $it['lastSeen'] ?? '' }}</td>
+                            <td>@dateIso($it['createdAt'] ?? null)</td>
+                            <td>@dateIso($it['lastSeen'] ?? null)</td>
                             <td class="mono">{{ $it['merchantCode'] ?? '' }}</td>
                             <td class="text-end">
                                 @if (!empty($it['terminalUid']))

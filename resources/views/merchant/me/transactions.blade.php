@@ -72,7 +72,7 @@
                 <tbody>
                     @forelse($items as $it)
                         <tr>
-                            <td class="text-muted">{{ $it['createdAt'] ?? '' }}</td>
+                            <td class="text-muted">@dateIso($it['createdAt'] ?? null)</td>
                             <td class="mono">{{ $it['transactionRef'] ?? '' }}</td>
                             <td><span class="badge text-bg-secondary">{{ $it['type'] ?? '' }}</span></td>
                             <td><span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span></td>

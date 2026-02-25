@@ -23,7 +23,7 @@
                 </tr>
                 <tr>
                     <th>Créé le</th>
-                    <td>{{ $item['createdAt'] ?? '—' }}</td>
+                    <td>@dateIso($item['createdAt'] ?? null, '—')</td>
                 </tr>
             </tbody>
         </table>
