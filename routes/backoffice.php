@@ -15,6 +15,7 @@ use App\Http\Controllers\Backoffice\PayoutsController;
 use App\Http\Controllers\Backoffice\TerminalsController;
 use App\Http\Controllers\Backoffice\TransactionsController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\Merchant\MeController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth.portal'])->group(function () {
@@ -81,7 +82,13 @@ Route::middleware(['auth.portal'])->group(function () {
     });
 
     Route::middleware(['role:MERCHANT'])->group(function () {
-        Route::view('/merchant', 'merchant.home')->name('merchant.home');
+        Route::get('/merchant', [MeController::class, 'home'])->name('merchant.home');
+        Route::get('/merchant/me/profile', [MeController::class, 'profile'])->name('merchant.me.profile');
+        Route::get('/merchant/me/balance', [MeController::class, 'balance'])->name('merchant.me.balance');
+        Route::get('/merchant/me/transactions', [MeController::class, 'transactions'])->name('merchant.me.transactions');
+        Route::get('/merchant/me/transactions/{transactionRef}', [MeController::class, 'transaction'])->name('merchant.me.transactions.show');
+        Route::get('/merchant/me/terminals', [MeController::class, 'terminals'])->name('merchant.me.terminals');
+        Route::get('/merchant/me/terminals/{terminalUid}', [MeController::class, 'terminal'])->name('merchant.me.terminals.show');
     });
 
     Route::get('/health', HealthController::class)->name('health');

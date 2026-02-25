@@ -2,6 +2,8 @@
 
 namespace App\Support\Backoffice;
 
+use Illuminate\Support\Str;
+
 class FilterEnums
 {
     public const ACTOR_TYPES = ['AGENT', 'CLIENT', 'MERCHANT', 'TERMINAL', 'ADMIN'];
@@ -38,7 +40,14 @@ class FilterEnums
 
     public static function options(array $values): array
     {
-        return array_combine($values, $values);
+        return collect($values)
+            ->mapWithKeys(fn($value) => [
+                $value => Str::of($value)
+                    ->replace('_', ' ')
+                    ->lower()
+                    ->ucwords()
+                    ->toString()
+            ])
+            ->toArray();
     }
 }
-
