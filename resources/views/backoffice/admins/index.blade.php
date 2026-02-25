@@ -5,14 +5,14 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
     <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div>
                 <h5 class="fw-semibold mb-1">Admins</h5>
-                <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
+                <div class="text-muted" style="font-size:.9rem;">Admins directory</div>
             </div>
 
             <div>
-                <a class="btn btn-sm btn-primary" href="{{ route('admin.admins.create') }}">+ Créer un admin</a>
+                <a class="btn btn-sm btn-primary" href="{{ route('admin.admins.create') }}">Create an admin</a>
             </div>
         </div>
 
@@ -30,8 +30,8 @@
                 <thead class="table-light">
                     <tr>
                         <th>Created</th>
-                        <th>Actor Ref</th>
-                        <th>Nom</th>
+                        <th>Username</th>
+                        <th>Name</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -52,8 +52,8 @@
                             </td>
                             <td>
                                 @if (!empty($it['actorRef']))
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.admins.show', ['adminUsername' => $it['actorRef']]) }}">Voir</a>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                        href="{{ route('admin.admins.show', ['adminUsername' => $it['actorRef']]) }}">View</a>
 
                                     @if (strcasecmp($currentAdminUsername, $it['actorRef']) !== 0)
                                         <form method="POST" action="{{ route('admin.admins.status.update') }}"
@@ -75,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucun admin.</td>
+                            <td colspan="5" class="text-center text-muted p-4">No admins.</td>
                         </tr>
                     @endforelse
                 </tbody>

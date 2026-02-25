@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Créer un agent</h5>
+        <h5 class="fw-semibold mb-2">Create an agent</h5>
 
         <div class="text-muted mb-3">
-            Selon le contrat OpenAPI, la création d'agent passe par <span class="mono">POST /api/v1/agents</span>
+            According to the OpenAPI contract, agent creation goes through <span class="mono">POST /api/v1/agents</span>
             avec un body contenant <span class="mono">displayName</span>.
         </div>
 
@@ -16,7 +16,7 @@
             </div>
 
             <div class="col-12 d-flex gap-2">
-                <button class="btn btn-primary" type="submit">Créer</button>
+                <button class="btn btn-primary" type="submit">Create</button>
                 <a class="btn btn-outline-secondary" href="{{ route('admin.agents.index') }}">Annuler</a>
             </div>
         </form>

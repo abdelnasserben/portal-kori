@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-page-header title="Terminals" subtitle="Merchant terminal directory" :back-href="route('merchant.home')" back-label="Back to merchant home" />
+    <x-page-header title="Terminals" subtitle="Terminal directory" :back-href="route('merchant.home')" back-label="Back" />
 
     <x-filters-bar>
         <form method="GET" action="{{ route('merchant.me.terminals') }}">

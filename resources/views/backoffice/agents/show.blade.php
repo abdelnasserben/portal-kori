@@ -3,12 +3,12 @@
 @section('content')
     <div class="card p-4">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-            <h5 class="fw-semibold mb-0">Détail agent</h5>
+            <h5 class="fw-semibold mb-0">Agent details</h5>
             <div class="d-flex gap-2">
                 <a class="btn btn-sm btn-outline-primary"
                     href="{{ route('admin.payouts.create', ['agentCode' => $item['actorRef'] ?? null]) }}">Demander
                     payout</a>
-                <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.agents.index') }}">← Retour liste</a>
+                <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.agents.index') }}">← Back to list</a>
             </div>
         </div>
 

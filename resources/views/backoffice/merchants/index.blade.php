@@ -5,15 +5,15 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
     <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div>
-                <h5 class="fw-semibold mb-1">Marchands</h5>
-                <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
+                <h5 class="fw-semibold mb-1">Merchants</h5>
+                <div class="text-muted" style="font-size:.9rem;">Listing</div>
             </div>
 
             <div class="d-flex gap-2">
-                <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.terminals.create') }}">+ Créer un terminal</a>
-                <a class="btn btn-sm btn-primary" href="{{ route('admin.merchants.create') }}">+ Créer un marchand</a>
+                <a class="btn btn-sm btn-outline-primary" href="{{ route('admin.terminals.create') }}">New Terminal</a>
+                <a class="btn btn-sm btn-primary" href="{{ route('admin.merchants.create') }}">New Merchant</a>
             </div>
         </div>
 
@@ -31,8 +31,8 @@
                 <thead class="table-light">
                     <tr>
                         <th>Created</th>
-                        <th>Actor Ref</th>
-                        <th>Nom</th>
+                        <th>Code</th>
+                        <th>Name</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -57,8 +57,8 @@
                             </td>
                             <td>
                                 @if (!empty($it['actorRef']))
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.merchants.show', ['merchantCode' => $it['actorRef']]) }}">Voir</a>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                        href="{{ route('admin.merchants.show', ['merchantCode' => $it['actorRef']]) }}">View</a>
 
                                     <form method="POST"
                                         action="{{ route('admin.merchants.status.update', ['merchantCode' => $it['actorRef']]) }}"
@@ -75,7 +75,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucun marchand.</td>
+                            <td colspan="5" class="text-center text-muted p-4">No merchants.</td>
                         </tr>
                     @endforelse
                 </tbody>

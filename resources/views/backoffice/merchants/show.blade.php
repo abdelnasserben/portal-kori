@@ -3,8 +3,8 @@
 @section('content')
     <div class="card p-4">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-semibold mb-0">Détail marchand</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.merchants.index') }}">← Retour liste</a>
+            <h5 class="fw-semibold mb-0">Merchant details</h5>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.merchants.index') }}">← Back to list</a>
         </div>
 
         <dl class="row mb-0">

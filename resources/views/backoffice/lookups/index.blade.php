@@ -4,21 +4,21 @@
     <div class="card p-4 mb-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
             <div>
-                <h5 class="fw-semibold mb-1">Résultats Lookup</h5>
-                <div class="text-muted" style="font-size:.9rem;">Recherche globale backoffice</div>
+                <h5 class="fw-semibold mb-1">Lookup results</h5>
+                <div class="text-muted" style="font-size:.9rem;">Backoffice global search</div>
             </div>
         </div>
 
         <form method="GET" action="{{ route('admin.lookups.index') }}" class="mt-3">
             <div class="row g-2 align-items-end">
                 <div class="col-12 col-md-6">
-                    <label class="form-label mb-1">Recherche</label>
+                    <label class="form-label mb-1">Search</label>
                     <x-form.input name="q" :value="$query" class="form-control-sm" required />
                 </div>
 
                 <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Type</label>
-                    <x-form.select name="type" :options="collect($types)->mapWithKeys(fn($type) => [$type => Str::before($type, '_')])->all()" :value="$selectedType" placeholder="Tous"
+                    <x-form.select name="type" :options="collect($types)->mapWithKeys(fn($type) => [$type => Str::before($type, '_')])->all()" :value="$selectedType" placeholder="All"
                         class="form-select-sm" />
                 </div>
 
@@ -65,7 +65,7 @@
                             <td>
                                 @if (!empty($it['routeTarget']))
                                     <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route($it['routeTarget']['name'], [$it['routeTarget']['parameter'] => $it['routeTarget']['value']]) }}">Voir</a>
+                                        href="{{ route($it['routeTarget']['name'], [$it['routeTarget']['parameter'] => $it['routeTarget']['value']]) }}">View</a>
                                 @else
                                     <span class="text-muted">N/A</span>
                                 @endif
@@ -73,7 +73,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucun résultat.</td>
+                            <td colspan="5" class="text-center text-muted p-4">No results.</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -3,10 +3,10 @@
 
     <div class="alert alert-danger">
         <div class="fw-semibold mb-1">
-            Erreur API ({{ $error['status'] ?? 'N/A' }})
+            API Error ({{ $error['status'] ?? 'N/A' }})
         </div>
         <div>
-            {{ $error['message'] ?? 'Une erreur est survenue.' }}
+            {{ $error['message'] ?? 'An error occurred.' }}
         </div>
     </div>
 @endif

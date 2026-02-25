@@ -7,15 +7,15 @@
 
     <div class="card p-4 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h5 class="fw-semibold mb-0">Gestion des cartes</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">← Retour admin</a>
+            <h5 class="fw-semibold mb-0">Card Managment</h5>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
-        <p class="text-muted mb-0" style="font-size:.9rem;">Actions ADMIN sur les cartes via l’API.</p>
+        <p class="text-muted mb-0" style="font-size:.9rem;">Actions on cards</p>
     </div>
 
     <div class="card p-4 mb-3">
-        <h6 class="fw-semibold mb-3">Changer le statut d'une carte</h6>
+        <h6 class="fw-semibold mb-3">Change a card status</h6>
 
         <form method="POST" action="{{ route('admin.cards.status.update') }}" class="row g-2 align-items-end">
             @csrf
@@ -24,22 +24,22 @@
                 <input name="cardUid" class="form-control form-control-sm" required maxlength="120" placeholder="CARD-...">
             </div>
             <div class="col-6 col-md-3">
-                <label class="form-label mb-1">Nouveau statut</label>
+                <label class="form-label mb-1">New status</label>
                 <input name="targetStatus" class="form-control form-control-sm" required maxlength="50"
                     placeholder="ACTIVE, SUSPENDED, BLOCKED...">
             </div>
             <div class="col-6 col-md-3">
-                <label class="form-label mb-1">Raison (optionnel)</label>
-                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Raison">
+                <label class="form-label mb-1">Reason</label>
+                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Reason">
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <button class="btn btn-sm btn-outline-primary" type="submit">Changer statut</button>
+                <button class="btn btn-sm btn-outline-primary" type="submit">Change status</button>
             </div>
         </form>
     </div>
 
     <div class="card p-4">
-        <h6 class="fw-semibold mb-3">Débloquer une carte</h6>
+        <h6 class="fw-semibold mb-3">Unblock a card</h6>
 
         <form method="POST" action="{{ route('admin.cards.unblock') }}" class="row g-2 align-items-end">
             @csrf
@@ -48,11 +48,11 @@
                 <input name="cardUid" class="form-control form-control-sm" required maxlength="120" placeholder="CARD-...">
             </div>
             <div class="col-6 col-md-6">
-                <label class="form-label mb-1">Raison (optionnel)</label>
-                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Raison">
+                <label class="form-label mb-1">Reason</label>
+                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Reason">
             </div>
             <div class="col-6 col-md-2 d-grid">
-                <button class="btn btn-sm btn-outline-warning" type="submit">Débloquer</button>
+                <button class="btn btn-sm btn-outline-warning" type="submit">Unblock</button>
             </div>
         </form>
     </div>

@@ -2,22 +2,22 @@
 
 @section('content')
 <div class="card p-4">
-    <h5 class="fw-semibold mb-2">Accès refusé</h5>
+    <h5 class="fw-semibold mb-2">Access denied</h5>
 
     <div class="text-muted mb-3">
-        Tu n’as pas les droits nécessaires pour accéder à cette page.
+        You do not have the required permissions to access this page.
     </div>
 
     <div class="mb-3">
-        <div class="fw-semibold">Rôles requis</div>
+        <div class="fw-semibold">Required roles</div>
         <div class="mono">{{ implode(', ', $required ?? []) }}</div>
     </div>
 
     <div class="mb-3">
-        <div class="fw-semibold">Tes rôles</div>
+        <div class="fw-semibold">Your roles</div>
         <div class="mono">{{ implode(', ', $roles ?? []) }}</div>
     </div>
 
-    <a class="btn btn-outline-secondary" href="{{ route('auth.success') }}">Retour</a>
+    <a class="btn btn-outline-secondary" href="{{ route('auth.success') }}">Back</a>
 </div>
 @endsection

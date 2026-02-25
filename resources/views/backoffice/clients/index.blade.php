@@ -6,10 +6,10 @@
     @endif
 
     <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div>
                 <h5 class="fw-semibold mb-1">Clients</h5>
-                <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
+                <div class="text-muted" style="font-size:.9rem;">Listing</div>
             </div>
         </div>
 
@@ -27,7 +27,8 @@
                 <thead class="table-light">
                     <tr>
                         <th>Created</th>
-                        <th>Actor Ref</th>
+                        <th>Code</th>
+                        <th>Name</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -42,13 +43,14 @@
                                     <x-copy-button :value="$it['actorRef']" />
                                 @endif
                             </td>
+                            <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
                             <td style="white-space:nowrap;">
                                 <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
                             </td>
                             <td>
                                 @if (!empty($it['actorRef']))
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.clients.show', ['clientCode' => $it['actorRef']]) }}">Voir</a>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                        href="{{ route('admin.clients.show', ['clientCode' => $it['actorRef']]) }}">View</a>
 
                                     <form method="POST"
                                         action="{{ route('admin.clients.status.update', ['clientCode' => $it['actorRef']]) }}"
@@ -65,7 +67,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted p-4">Aucun client.</td>
+                            <td colspan="5" class="text-center text-muted p-4">No clients.</td>
                         </tr>
                     @endforelse
                 </tbody>

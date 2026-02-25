@@ -6,8 +6,8 @@
     @endif
 
     <div class="card p-4 mb-3">
-        <h5 class="fw-semibold mb-1">Configuration plateforme</h5>
-        <div class="text-muted" style="font-size:.9rem;">Frais, commissions et paramètres globaux</div>
+        <h5 class="fw-semibold mb-1">Platform configuration</h5>
+        <div class="text-muted" style="font-size:.9rem;">Fees, commissions, and global settings</div>
     </div>
 
     <div class="card p-4 mb-3">
@@ -16,19 +16,19 @@
             @csrf
             <div class="row g-2">
                 @foreach ([
-                    'cardEnrollmentPrice' => 'Prix enrôlement carte',
-                    'cardPaymentFeeRate' => 'Taux frais paiement carte',
-                    'cardPaymentFeeMin' => 'Min frais paiement carte',
-                    'cardPaymentFeeMax' => 'Max frais paiement carte',
-                    'merchantWithdrawFeeRate' => 'Taux frais retrait marchand',
-                    'merchantWithdrawFeeMin' => 'Min frais retrait marchand',
-                    'merchantWithdrawFeeMax' => 'Max frais retrait marchand',
-                    'clientTransferFeeRate' => 'Taux frais transfert client',
-                    'clientTransferFeeMin' => 'Min frais transfert client',
-                    'clientTransferFeeMax' => 'Max frais transfert client',
-                    'merchantTransferFeeRate' => 'Taux frais transfert marchand',
-                    'merchantTransferFeeMin' => 'Min frais transfert marchand',
-                    'merchantTransferFeeMax' => 'Max frais transfert marchand',
+                    'cardEnrollmentPrice' => 'Card enrollment price',
+                    'cardPaymentFeeRate' => 'Card payment fee rate',
+                    'cardPaymentFeeMin' => 'Card payment fee min',
+                    'cardPaymentFeeMax' => 'Card payment fee max',
+                    'merchantWithdrawFeeRate' => 'Merchant withdrawal fee rate',
+                    'merchantWithdrawFeeMin' => 'Merchant withdrawal fee min',
+                    'merchantWithdrawFeeMax' => 'Merchant withdrawal fee max',
+                    'clientTransferFeeRate' => 'Client transfer fee rate',
+                    'clientTransferFeeMin' => 'Client transfer fee min',
+                    'clientTransferFeeMax' => 'Client transfer fee max',
+                    'merchantTransferFeeRate' => 'Merchant transfer fee rate',
+                    'merchantTransferFeeMin' => 'Merchant transfer fee min',
+                    'merchantTransferFeeMax' => 'Merchant transfer fee max',
                 ] as $field => $label)
                     <div class="col-12 col-md-4">
                         <label class="form-label mb-1">{{ $label }}</label>
@@ -44,7 +44,7 @@
                     <div class="form-check mt-2">
                         <input class="form-check-input" type="checkbox" name="cardPaymentFeeRefundable" value="1"
                             @checked((bool) old('cardPaymentFeeRefundable', $fees['cardPaymentFeeRefundable'] ?? false))>
-                        <label class="form-check-label">Frais paiement carte remboursables</label>
+                        <label class="form-check-label">Refundable card payment fees</label>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -52,7 +52,7 @@
                     <div class="form-check mt-2">
                         <input class="form-check-input" type="checkbox" name="merchantWithdrawFeeRefundable" value="1"
                             @checked((bool) old('merchantWithdrawFeeRefundable', $fees['merchantWithdrawFeeRefundable'] ?? false))>
-                        <label class="form-check-label">Frais retrait marchand remboursables</label>
+                        <label class="form-check-label">Refundable merchant withdrawal fees</label>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
@@ -60,18 +60,18 @@
                     <div class="form-check mt-2">
                         <input class="form-check-input" type="checkbox" name="cardEnrollmentPriceRefundable" value="1"
                             @checked((bool) old('cardEnrollmentPriceRefundable', $fees['cardEnrollmentPriceRefundable'] ?? false))>
-                        <label class="form-check-label">Prix enrôlement remboursable</label>
+                        <label class="form-check-label">Refundable enrollment price</label>
                     </div>
                 </div>
             </div>
 
             <div class="mt-3">
-                <label class="form-label mb-1">Raison (optionnel)</label>
+                <label class="form-label mb-1">Reason (optional)</label>
                 <input name="reason" class="form-control form-control-sm" maxlength="255" value="{{ old('reason') }}">
             </div>
 
             <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-sm btn-primary" type="submit">Enregistrer les frais</button>
+                <button class="btn btn-sm btn-primary" type="submit">Save fees</button>
             </div>
         </form>
     </div>
@@ -82,10 +82,10 @@
             @csrf
             <div class="row g-2">
                 @foreach ([
-                    'cardEnrollmentAgentCommission' => 'Commission agent enrôlement',
-                    'merchantWithdrawCommissionRate' => 'Taux commission retrait marchand',
-                    'merchantWithdrawCommissionMin' => 'Min commission retrait marchand',
-                    'merchantWithdrawCommissionMax' => 'Max commission retrait marchand',
+                    'cardEnrollmentAgentCommission' => 'Agent enrollment commission',
+                    'merchantWithdrawCommissionRate' => 'Merchant withdrawal commission rate',
+                    'merchantWithdrawCommissionMin' => 'Merchant withdrawal commission min',
+                    'merchantWithdrawCommissionMax' => 'Merchant withdrawal commission max',
                 ] as $field => $label)
                     <div class="col-12 col-md-3">
                         <label class="form-label mb-1">{{ $label }}</label>
@@ -97,30 +97,30 @@
             </div>
 
             <div class="mt-3">
-                <label class="form-label mb-1">Raison (optionnel)</label>
+                <label class="form-label mb-1">Reason (optional)</label>
                 <input name="reason" class="form-control form-control-sm" maxlength="255" value="{{ old('reason') }}">
             </div>
 
             <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-sm btn-primary" type="submit">Enregistrer les commissions</button>
+                <button class="btn btn-sm btn-primary" type="submit">Save commissions</button>
             </div>
         </form>
     </div>
 
     <div class="card p-4">
-        <h6 class="fw-semibold mb-3">Plateforme</h6>
+        <h6 class="fw-semibold mb-3">Platform</h6>
         <form method="POST" action="{{ route('admin.config.platform.update') }}">
             @csrf
             <div class="row g-2">
                 @foreach ([
-                    'agentCashLimitGlobal' => 'Limite cash globale agent',
-                    'clientTransferMinPerTransaction' => 'Transfert client min / transaction',
-                    'clientTransferMaxPerTransaction' => 'Transfert client max / transaction',
-                    'clientTransferDailyMax' => 'Transfert client max / jour',
-                    'merchantTransferMinPerTransaction' => 'Transfert marchand min / transaction',
-                    'merchantTransferMaxPerTransaction' => 'Transfert marchand max / transaction',
-                    'merchantTransferDailyMax' => 'Transfert marchand max / jour',
-                    'merchantWithdrawMinPerTransaction' => 'Retrait marchand min / transaction',
+                    'agentCashLimitGlobal' => 'Agent global cash limit',
+                    'clientTransferMinPerTransaction' => 'Client transfer min / transaction',
+                    'clientTransferMaxPerTransaction' => 'Client transfer max / transaction',
+                    'clientTransferDailyMax' => 'Client transfer max / day',
+                    'merchantTransferMinPerTransaction' => 'Merchant transfer min / transaction',
+                    'merchantTransferMaxPerTransaction' => 'Merchant transfer max / transaction',
+                    'merchantTransferDailyMax' => 'Merchant transfer max / day',
+                    'merchantWithdrawMinPerTransaction' => 'Merchant withdrawal min / transaction',
                 ] as $field => $label)
                     <div class="col-12 col-md-3">
                         <label class="form-label mb-1">{{ $label }}</label>
@@ -131,12 +131,12 @@
             </div>
 
             <div class="mt-3">
-                <label class="form-label mb-1">Raison (optionnel)</label>
+                <label class="form-label mb-1">Reason (optional)</label>
                 <input name="reason" class="form-control form-control-sm" maxlength="255" value="{{ old('reason') }}">
             </div>
 
             <div class="mt-3 d-flex justify-content-end">
-                <button class="btn btn-sm btn-primary" type="submit">Enregistrer la plateforme</button>
+                <button class="btn btn-sm btn-primary" type="submit">Save platform</button>
             </div>
         </form>
     </div>

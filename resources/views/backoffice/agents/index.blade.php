@@ -5,7 +5,7 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
 
-    <x-page-header title="Agents" subtitle="Backoffice agent directory" :back-href="route('admin.home')" back-label="Back to backoffice">
+    <x-page-header title="Agents" subtitle="Agent directory" :back-href="route('admin.home')" back-label="Back">
         <x-slot:actions>
             <a class="btn btn-sm btn-primary" href="{{ route('admin.agents.create') }}">Create agent</a>
         </x-slot:actions>
@@ -23,7 +23,7 @@
             <thead class="table-light">
                 <tr>
                     <th>Created</th>
-                    <th>Agent code</th>
+                    <th>Code</th>
                     <th>Name</th>
                     <th>Status</th>
                     <th>Actions</th>
@@ -43,7 +43,7 @@
                         <td><x-status-badge :value="$it['status'] ?? ''" /></td>
                         <td>
                             @if (!empty($it['actorRef']))
-                                <a class="btn btn-sm btn-outline-secondary"
+                                <a class="btn btn-sm btn-outline-primary"
                                     href="{{ route('admin.agents.show', ['agentCode' => $it['actorRef']]) }}">View</a>
 
                                 <form method="POST" action="{{ route('admin.agents.status.update', ['agentCode' => $it['actorRef']]) }}"

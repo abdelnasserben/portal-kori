@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Terminal créé</h5>
+        <h5 class="fw-semibold mb-2">Terminal created</h5>
 
         <div class="mb-3">
             <div class="fw-semibold">Terminal UID</div>
@@ -34,10 +34,10 @@
         </details>
 
         <div class="d-flex gap-2">
-            <a class="btn btn-primary" href="{{ route('admin.merchants.index') }}">Retour aux marchands</a>
+            <a class="btn btn-primary" href="{{ route('admin.merchants.index') }}">Back aux marchands</a>
             <a class="btn btn-outline-secondary"
                 href="{{ route('admin.terminals.create', ['merchantCode' => $meta['merchantCode']]) }}">
-                Créer un autre terminal pour ce marchand
+                Create another terminal for this merchant
             </a>
         </div>
     </div>

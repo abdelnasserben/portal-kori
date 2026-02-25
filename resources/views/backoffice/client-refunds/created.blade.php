@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-3">Remboursement client demandé</h5>
+        <h5 class="fw-semibold mb-3">Client refund requested</h5>
 
         @if (session('status_success'))
             <div class="alert alert-success py-2">{{ session('status_success') }}</div>
@@ -18,7 +18,7 @@
             <dt class="col-sm-3">Refund ID</dt>
             <dd class="col-sm-9 mono">{{ $created['refundId'] ?? '—' }}</dd>
 
-            <dt class="col-sm-3">Montant</dt>
+            <dt class="col-sm-3">Amount</dt>
             <dd class="col-sm-9 mono">{{ $created['amount'] ?? '—' }}</dd>
 
             <dt class="col-sm-3">Status</dt>
@@ -32,9 +32,9 @@
         </dl>
 
         <div class="d-flex gap-2 mt-4">
-            <a class="btn btn-primary" href="{{ route('admin.client-refunds.create') }}">Nouveau remboursement</a>
+            <a class="btn btn-primary" href="{{ route('admin.client-refunds.create') }}">New refund</a>
             @if (!empty($created['transactionId']))
-                <a class="btn btn-outline-secondary" href="{{ route('admin.transactions.show', $created['transactionId']) }}">Voir transaction</a>
+                <a class="btn btn-outline-secondary" href="{{ route('admin.transactions.show', $created['transactionId']) }}">View transaction</a>
             @endif
         </div>
     </div>

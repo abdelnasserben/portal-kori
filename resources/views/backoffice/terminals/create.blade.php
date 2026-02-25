@@ -6,10 +6,10 @@
     @endif
 
     <div class="card p-4 mb-3">
-        <h5 class="fw-semibold mb-2">Créer un terminal</h5>
+        <h5 class="fw-semibold mb-2">Create a terminal</h5>
 
         <div class="text-muted mb-3">
-            Selon le contrat OpenAPI, la création terminal passe par <span class="mono">POST /api/v1/terminals</span>
+            According to the OpenAPI contract, terminal creation goes through <span class="mono">POST /api/v1/terminals</span>
             avec un body contenant <span class="mono">merchantCode</span> et <span class="mono">displayName</span>.
         </div>
 
@@ -25,14 +25,14 @@
             </div>
 
             <div class="col-12 d-flex gap-2">
-                <button class="btn btn-primary" type="submit">Créer le terminal</button>
+                <button class="btn btn-primary" type="submit">Create terminal</button>
                 <a class="btn btn-outline-secondary" href="{{ route('admin.terminals.index') }}">Annuler</a>
             </div>
         </form>
     </div>
 
     <div class="card p-4">
-        <h6 class="fw-semibold mb-2">Modifier le statut d’un terminal</h6>
+        <h6 class="fw-semibold mb-2">Update terminal status</h6>
         <div class="text-muted mb-3">PATCH <span class="mono">/api/v1/terminals/{terminalUid}/status</span></div>
 
         <form method="POST" action="{{ route('admin.terminals.status.update') }}" class="row g-3">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-12">
-                <button class="btn btn-outline-primary" type="submit">Mettre à jour le statut</button>
+                <button class="btn btn-outline-primary" type="submit">Update status</button>
             </div>
         </form>
     </div>

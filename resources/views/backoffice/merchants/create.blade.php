@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Créer un marchand</h5>
+        <h5 class="fw-semibold mb-2">Create a merchant</h5>
 
         <div class="text-muted mb-3">
-            Selon le contrat OpenAPI, la création de marchand passe par <span class="mono">POST /api/v1/merchants</span>
+            According to the OpenAPI contract, merchant creation goes through <span class="mono">POST /api/v1/merchants</span>
             avec un body contenant <span class="mono">displayName</span>.
         </div>
 
@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-12 d-flex gap-2">
-                <button class="btn btn-primary" type="submit">Créer</button>
+                <button class="btn btn-primary" type="submit">Create</button>
                 <a class="btn btn-outline-secondary" href="{{ route('admin.merchants.index') }}">Annuler</a>
             </div>
         </form>

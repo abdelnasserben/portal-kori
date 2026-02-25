@@ -5,10 +5,10 @@
         <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
             <div>
                 <h5 class="fw-semibold mb-1">Audits</h5>
-                <div class="text-muted" style="font-size: .9rem;">Backoffice — liste paginée (cursor)</div>
+                <div class="text-muted" style="font-size: .9rem;">Audit monitoring</div>
             </div>
 
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Retour Admin</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
         <form method="GET" action="{{ route('admin.audits.index') }}" class="mt-3">
@@ -21,7 +21,7 @@
                 <div class="col-6 col-md-3">
                     <label class="form-label mb-1">Actor</label>
                     <div class="d-flex gap-2">
-                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="Tous"
+                        <x-form.select name="actorType" :value="$filters['actorType'] ?? ''" :options="$actorTypeOptions" placeholder="All"
                             class="form-select-sm" />
                         <x-form.input name="actorRef" :value="$filters['actorRef'] ?? ''" placeholder="AG-000000..."
                             class="form-control-sm" />
@@ -73,7 +73,6 @@
                 <thead class="table-light">
                     <tr>
                         <th style="white-space:nowrap;">Occurred At</th>
-                        <th style="white-space:nowrap;">Event Ref</th>
                         <th style="white-space:nowrap;">Actor</th>
                         <th style="white-space:nowrap;">Action</th>
                         <th style="white-space:nowrap;">Resource</th>
@@ -89,12 +88,7 @@
                         @endphp
                         <tr>
                             <td class="text-muted" style="white-space:nowrap;">@dateIso($it['occurredAt'] ?? null, '—')</td>
-                            <td class="mono" style="white-space:nowrap;">
-                                {{ $it['eventRef'] ?? '—' }}
-                                @if (!empty($it['eventRef']))
-                                    <x-copy-button :value="$it['eventRef']" />
-                                @endif
-                            </td>
+                            
                             <td style="white-space:nowrap;">
                                 <span class="badge text-bg-secondary">{{ $it['actorType'] ?? '—' }}</span>
                                 <span class="mono ms-1">{{ $it['actorRef'] ?? '—' }}</span>
@@ -105,8 +99,8 @@
                                 {{ $it['resourceRef'] ?? '—' }}</td>
                             <td>
                                 @if (!empty($it['eventRef']))
-                                    <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.audits.show', ['eventRef' => $it['eventRef'], 'snapshot' => $snapshot]) }}">Voir</a>
+                                    <a class="btn btn-sm btn-outline-primary"
+                                        href="{{ route('admin.audits.show', ['eventRef' => $it['eventRef'], 'snapshot' => $snapshot]) }}">View</a>
                                 @else
                                     <span class="text-muted">N/A</span>
                                 @endif
@@ -114,7 +108,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center text-muted p-4">Aucun audit trouvé.</td>
+                            <td colspan="6" class="text-center text-muted p-4">No audits found.</td>
                         </tr>
                     @endforelse
                 </tbody>

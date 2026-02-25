@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Admin créé</h5>
+        <h5 class="fw-semibold mb-2">Admin created</h5>
 
         <div class="mb-3">
             <div class="fw-semibold">Admin ID</div>
@@ -34,8 +34,8 @@
         </details>
 
         <div class="d-flex gap-2">
-            <a class="btn btn-primary" href="{{ route('admin.home') }}">Retour admin</a>
-            <a class="btn btn-outline-secondary" href="{{ route('admin.admins.create') }}">Créer un autre admin</a>
+            <a class="btn btn-primary" href="{{ route('admin.home') }}">Back admin</a>
+            <a class="btn btn-outline-secondary" href="{{ route('admin.admins.create') }}">Create another admin</a>
         </div>
     </div>
 @endsection

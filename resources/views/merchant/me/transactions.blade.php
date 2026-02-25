@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-page-header title="Transactions" subtitle="Merchant account transaction history" :back-href="route('merchant.home')" back-label="Back to merchant home" />
+    <x-page-header title="Transactions" subtitle="Account transaction history" :back-href="route('merchant.home')" back-label="Back" />
 
     <x-filters-bar>
         <form method="GET" action="{{ route('merchant.me.transactions') }}">
@@ -54,11 +54,10 @@
             <thead class="table-light">
                 <tr>
                     <th>Created</th>
-                    <th>Transaction reference</th>
+                    <th>Reference</th>
                     <th>Type</th>
                     <th>Status</th>
                     <th class="text-end">Amount</th>
-                    <th>Currency</th>
                     <th class="text-end">Action</th>
                 </tr>
             </thead>
@@ -69,8 +68,7 @@
                         <td class="mono">{{ $it['transactionRef'] ?? '' }}</td>
                         <td><x-status-badge :value="$it['type'] ?? ''" /></td>
                         <td><x-status-badge :value="$it['status'] ?? ''" /></td>
-                        <td class="text-end mono">{{ number_format((float) ($it['amount'] ?? 0), 0, '.', ' ') }}</td>
-                        <td>{{ $it['currency'] ?? '' }}</td>
+                        <td class="text-end mono">{{ number_format((float) ($it['amount'] ?? 0), 0, '.', ' ') }} {{ $it['currency'] ?? 'KMF' }}</td>
                         <td class="text-end">
                             @if (!empty($it['transactionRef']))
                                 <a class="btn btn-sm btn-outline-primary"
@@ -80,7 +78,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="7">
+                        <td colspan="6">
                             <x-empty-state title="No transactions found." />
                         </td>
                     </tr>

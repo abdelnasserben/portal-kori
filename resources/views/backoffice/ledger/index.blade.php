@@ -5,17 +5,17 @@
         <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
             <div>
                 <h5 class="fw-semibold mb-1">Ledger</h5>
-                <div class="text-muted" style="font-size: .9rem;">Consultation balance + historique des écritures</div>
+                <div class="text-muted" style="font-size: .9rem;">Balance lookup and ledger history</div>
             </div>
 
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Retour Admin</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
         <form method="GET" action="{{ route('admin.ledger.index') }}" class="mt-3">
             <div class="row g-2">
                 <div class="col-6 col-md-2">
                     <x-form.select name="accountType" label="Account Type" class="form-select-sm" :value="$filters['accountType'] ?? ''"
-                        :options="$accountTypeOptions" placeholder="Tous" required />
+                        :options="$accountTypeOptions" placeholder="All" required />
                 </div>
 
                 <div class="col-6 col-md-3">
@@ -25,7 +25,7 @@
 
                 <div class="col-6 col-md-2">
                     <x-form.select name="transactionType" label="Transaction Type" class="form-select-sm" :value="$filters['transactionType'] ?? ''"
-                        :options="$transactionTypeOptions" placeholder="Tous" />
+                        :options="$transactionTypeOptions" placeholder="All" />
                 </div>
 
                 <div class="col-6 col-md-2">
@@ -53,14 +53,14 @@
 
                 <div class="col-6 col-md-2">
                     <x-form.select name="view" label="View" class="form-select-sm" :value="$filters['view'] ?? ''"
-                        :options="$transactionViewOptions" placeholder="Tous" />
+                        :options="$transactionViewOptions" placeholder="All" />
                 </div>
 
                 <input type="hidden" name="beforeCreatedAt" value="{{ $filters['beforeCreatedAt'] ?? '' }}">
                 <input type="hidden" name="beforeTransactionId" value="{{ $filters['beforeTransactionId'] ?? '' }}">
 
                 <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Rechercher</button>
+                    <button class="btn btn-sm btn-primary" type="submit">Search</button>
                     <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.ledger.index') }}">Reset</a>
                 </div>
             </div>
@@ -97,7 +97,6 @@
                         <th style="white-space:nowrap;">Transaction Ref</th>
                         <th style="white-space:nowrap;">Type</th>
                         <th class="text-end" style="white-space:nowrap;">Amount</th>
-                        <th style="white-space:nowrap;">Currency</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -113,12 +112,11 @@
                             <td style="white-space:nowrap;"><span
                                     class="badge text-bg-secondary">{{ $it['transactionType'] ?? '—' }}</span>
                             </td>
-                            <td class="text-end mono" style="white-space:nowrap;">{{ $it['amount'] ?? '—' }}</td>
-                            <td style="white-space:nowrap;">KMF</td>
+                            <td class="text-end mono" style="white-space:nowrap;">{{ $it['amount'] ?? '—' }} KMF</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucune écriture ledger.</td>
+                            <td colspan="4" class="text-center text-muted p-4">No ledger entries.</td>
                         </tr>
                     @endforelse
                 </tbody>

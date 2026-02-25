@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Marchand créé</h5>
+        <h5 class="fw-semibold mb-2">Merchant created</h5>
 
         <div class="mb-3">
             <div class="fw-semibold">Code</div>
@@ -36,14 +36,14 @@
         </details>
 
         <div class="d-flex gap-2 flex-wrap">
-            <a class="btn btn-primary" href="{{ route('admin.merchants.index') }}">Voir la liste</a>
+            <a class="btn btn-primary" href="{{ route('admin.merchants.index') }}">View list</a>
             @if (!empty($created['code']))
                 <a class="btn btn-outline-primary"
                     href="{{ route('admin.terminals.create', ['merchantCode' => $created['code']]) }}">
-                    Créer un terminal pour ce marchand
+                    Create a terminal for this merchant
                 </a>
             @endif
-            <a class="btn btn-outline-secondary" href="{{ route('admin.merchants.create') }}">Créer un autre</a>
+            <a class="btn btn-outline-secondary" href="{{ route('admin.merchants.create') }}">Create another</a>
         </div>
     </div>
 @endsection

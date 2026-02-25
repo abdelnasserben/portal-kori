@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="card p-4">
-        <h5 class="fw-semibold mb-2">Agent créé</h5>
+        <h5 class="fw-semibold mb-2">Agent created</h5>
 
         <div class="mb-3">
             <div class="fw-semibold">Agent code</div>
@@ -36,8 +36,8 @@
         </details>
 
         <div class="d-flex gap-2 flex-wrap">
-            <a class="btn btn-primary" href="{{ route('admin.agents.create') }}">Créer un autre</a>
-            <a class="btn btn-outline-secondary" href="{{ route('admin.agents.index') }}">Voir la liste</a>
+            <a class="btn btn-primary" href="{{ route('admin.agents.create') }}">Create another</a>
+            <a class="btn btn-outline-secondary" href="{{ route('admin.agents.index') }}">View list</a>
         </div>
     </div>
 @endsection

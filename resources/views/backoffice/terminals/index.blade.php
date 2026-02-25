@@ -5,14 +5,14 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
     <div class="card p-4 mb-3">
-        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div>
-                <h5 class="fw-semibold mb-1">Terminaux</h5>
-                <div class="text-muted" style="font-size:.9rem;">Backoffice — liste paginée (cursor)</div>
+                <h5 class="fw-semibold mb-1">Terminals</h5>
+                <div class="text-muted" style="font-size:.9rem;">Listing</div>
             </div>
 
             <div>
-                <a class="btn btn-sm btn-primary" href="{{ route('admin.terminals.create') }}">+ Créer un terminal</a>
+                <a class="btn btn-sm btn-primary" href="{{ route('admin.terminals.create') }}">Create a terminal</a>
             </div>
         </div>
 
@@ -30,8 +30,8 @@
                 <thead class="table-light">
                     <tr>
                         <th>Created</th>
-                        <th>Actor Ref</th>
-                        <th>Nom</th>
+                        <th>Reference</th>
+                        <th>Name</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -53,7 +53,7 @@
                             <td>
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-secondary"
-                                        href="{{ route('admin.terminals.show', ['terminalUid' => $it['actorRef']]) }}">Voir</a>
+                                        href="{{ route('admin.terminals.show', ['terminalUid' => $it['actorRef']]) }}">View</a>
 
                                     <form method="POST" action="{{ route('admin.terminals.status.update') }}"
                                         class="d-flex gap-1 align-items-center mt-1">
@@ -70,7 +70,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center text-muted p-4">Aucun terminal.</td>
+                            <td colspan="5" class="text-center text-muted p-4">No terminals.</td>
                         </tr>
                     @endforelse
                 </tbody>
