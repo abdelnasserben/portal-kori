@@ -13,6 +13,11 @@ class MeService
         return $this->api->get('/api/v1/merchant/me/profile', [], $this->headers($correlationId));
     }
 
+    public function dashboard(?string $correlationId = null): array
+    {
+        return $this->api->get('/api/v1/merchant/me/dashboard', [], $this->headers($correlationId));
+    }
+
     public function balance(?string $correlationId = null): array
     {
         return $this->api->get('/api/v1/merchant/me/balance', [], $this->headers($correlationId));

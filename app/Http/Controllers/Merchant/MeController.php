@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Merchant;
 
+use App\Exceptions\KoriApiException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Merchant\TerminalsIndexRequest;
 use App\Http\Requests\Merchant\TransactionsIndexRequest;
@@ -17,10 +18,19 @@ class MeController extends Controller
     {
         $correlationId = (string) Str::uuid();
 
-        return view('merchant.home', [
-            'profile' => $this->service->profile($correlationId),
-            'balance' => $this->service->balance($correlationId),
-        ]);
+        try {
+            return view('merchant.home', [
+                'dashboard' => $this->service->dashboard($correlationId),
+            ]);
+        } catch (KoriApiException $e) {
+            return redirect()
+                ->route('merchant.me.transactions')
+                ->with('api_error', [
+                    'status' => $e->status,
+                    'message' => 'Dashboard unvalaible, redirection to transactions list.',
+                    'payload' => $e->payload,
+                ]);
+        }
     }
 
     public function profile()

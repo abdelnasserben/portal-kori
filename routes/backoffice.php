@@ -5,6 +5,7 @@ use App\Http\Controllers\Backoffice\AdminsController;
 use App\Http\Controllers\Backoffice\AgentsController;
 use App\Http\Controllers\Backoffice\AuditEventsController;
 use App\Http\Controllers\Backoffice\CardsController;
+use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ClientRefundsController;
 use App\Http\Controllers\Backoffice\ClientsController;
 use App\Http\Controllers\Backoffice\ConfigurationsController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth.portal'])->group(function () {
     Route::middleware(['role:ADMIN'])->group(function () {
-        Route::view('/admin', 'admin.home')->name('admin.home');
+        Route::get('/admin', DashboardController::class)->name('admin.home');
 
         Route::get('/admin/lookups', [LookupsController::class, 'index'])->name('admin.lookups.index');
         Route::get('/admin/transactions', [TransactionsController::class, 'index'])->name('admin.transactions.index');

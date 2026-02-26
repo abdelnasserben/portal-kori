@@ -14,8 +14,8 @@
                     <td class="mono">{{ $item['code'] ?? '—' }}</td>
                 </tr>
                 <tr>
-                    <th>Phone</th>
-                    <td>{{ $item['phone'] ?? '—' }}</td>
+                    <th>Name</th>
+                    <td>{{ $item['displayName'] ?? '—' }}</td>
                 </tr>
                 <tr>
                     <th>Status</th>

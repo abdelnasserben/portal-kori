@@ -70,6 +70,13 @@ body {
     border-color: #dbe2ea;
 }
 
+.form-control:focus,
+.form-select:focus,
+.form-check-input:focus {
+    border-color: #dbe2ea;
+    box-shadow: none; 
+}
+
 .table {
     --bs-table-border-color: #edf2f7;
 }

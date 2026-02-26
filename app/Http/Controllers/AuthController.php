@@ -13,7 +13,7 @@ class AuthController extends Controller
     public function login(Request $request, TokenService $tokens): RedirectResponse
     {
         if ($tokens->hasAccessToken()) {
-            return redirect()->route('auth.success');
+            return redirect()->route('post-login.redirect');
         }
 
         $config = config('kori.keycloak');
@@ -96,11 +96,11 @@ class AuthController extends Controller
         session([
             'access_token'  => $tokens['access_token'],
             'refresh_token' => $tokens['refresh_token'] ?? null,
-            'id_token'      => $tokens['id_token'] ?? null, // 👈 important pour logout Keycloak
+            'id_token'      => $tokens['id_token'] ?? null, // important pour logout Keycloak
             'expires_at'    => $expiresAt,
         ]);
 
-        return redirect()->route('auth.success');
+        return redirect()->route('post-login.redirect');
     }
 
     public function logout(Request $request, TokenService $tokens, KeycloakClient $keycloak): RedirectResponse

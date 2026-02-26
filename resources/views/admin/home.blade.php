@@ -1,23 +1,35 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4">
-        <h5 class="fw-semibold mb-3">Admin Area</h5>
+    <h2 class="fw-semibold mb-4">Dashboard</h2>
 
-        <div class="d-flex gap-2 flex-wrap">
-            <a class="btn btn-primary" href="{{ route('admin.transactions.index') }}">Transactions</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.payouts.create') }}">Payouts</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.client-refunds.create') }}">Client Refunds</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.ledger.index') }}">Ledger</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.audits.index') }}">Audits</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.merchants.index') }}">Merchants</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.clients.index') }}">Clients</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.cards.index') }}">Cards</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.agents.index') }}">Agents</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.terminals.index') }}">Terminals</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.admins.index') }}">Admins</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.account-profiles.index') }}">Account Profiles</a>
-            <a class="btn btn-outline-primary" href="{{ route('admin.config.index') }}">Settings</a>
+    <div class="row g-3">
+        <div class="col-12 col-lg-6">
+            <div class="card p-3 h-100">
+                <h6 class="fw-semibold">KPIs Today</h6>
+                <pre class="mb-0 small">{{ json_encode(data_get($dashboard ?? [], 'kpisToday', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card p-3 h-100">
+                <h6 class="fw-semibold">KPIs 7 days</h6>
+                <pre class="mb-0 small">{{ json_encode(data_get($dashboard ?? [], 'kpis7d', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card p-3 h-100">
+                <h6 class="fw-semibold">Queues</h6>
+                <pre class="mb-0 small">{{ json_encode(data_get($dashboard ?? [], 'queues', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+            <div class="card p-3 h-100">
+                <h6 class="fw-semibold">Platform Funds</h6>
+                <pre class="mb-0 small">{{ json_encode(data_get($dashboard ?? [], 'platformFunds', []), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+            </div>
         </div>
     </div>
 @endsection

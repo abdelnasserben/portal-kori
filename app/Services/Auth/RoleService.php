@@ -38,17 +38,18 @@ class RoleService
         }
 
         // Normalisation
-        $roles = array_values(array_unique(array_map('strval', $roles)));
+        $roles = array_values(array_unique(array_map(fn($role) => $this->canonicalizeRole((string) $role), $roles)));
+        $roles = array_values(array_filter($roles, fn(string $role) => $role !== ''));
 
         return $roles;
     }
 
     public function has(string $role): bool
     {
-        $role = strtoupper(trim($role));
+        $role = $this->canonicalizeRole($role);
         if ($role === '') return false;
 
-        $roles = array_map('strtoupper', $this->roles());
+        $roles = $this->roles();
         return in_array($role, $roles, true);
     }
 
@@ -60,5 +61,16 @@ class RoleService
             }
         }
         return false;
+    }
+
+    private function canonicalizeRole(string $role): string
+    {
+        $normalized = strtoupper(trim($role));
+
+        if (str_starts_with($normalized, 'ROLE_')) {
+            $normalized = substr($normalized, 5);
+        }
+
+        return $normalized;
     }
 }
