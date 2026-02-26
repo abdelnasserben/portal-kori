@@ -39,7 +39,7 @@
                 </div>
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Sort</label>
-                    <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="-createdAt" class="form-control-sm" />
+                    <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="createdAt:desc" class="form-control-sm" />
                 </div>
                 <div class="col-12 d-flex gap-2 mt-2">
                     <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>

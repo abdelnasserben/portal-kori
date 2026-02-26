@@ -9,18 +9,20 @@
 
         <table class="table table-sm mb-0 align-middle">
             <tbody>
-                <tr>
-                    <th>Account type</th>
-                    <td>{{ $item['accountType'] ?? '—' }}</td>
-                </tr>
-                <tr>
-                    <th>Owner ref</th>
-                    <td class="mono">{{ $item['ownerRef'] ?? '—' }}</td>
-                </tr>
-                <tr>
-                    <th>Balance</th>
-                    <td class="mono">{{ $item['balance'] ?? '—' }} {{ $item['currency'] ?? '' }}</td>
-                </tr>
+                @foreach ($item['balances'] ?? [] as $balance)
+                    <tr>
+                        <th>Account type</th>
+                        <td>{{ $balance['kind'] ?? '—' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Owner ref</th>
+                        <td class="mono">{{ $item['ownerRef'] ?? '—' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Balance</th>
+                        <td class="mono">{{ $balance['amount'] ?? '—' }} {{ $item['currency'] ?? '' }}</td>
+                    </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -15,7 +15,8 @@
                     <dd class="col-7">{{ data_get($dashboard, 'profile.displayName', '—') }}</dd>
 
                     <dt class="col-5 text-muted">Status</dt>
-                    <dd class="col-7"><span class="badge text-bg-light">{{ data_get($dashboard, 'profile.status', '—') }}</span></dd>
+                    <dd class="col-7"><span
+                            class="badge text-bg-light">{{ data_get($dashboard, 'profile.status', '—') }}</span></dd>
                 </dl>
             </div>
         </div>
@@ -23,15 +24,21 @@
         <div class="col-12 col-lg-6">
             <div class="card p-3 h-100">
                 <h6 class="fw-semibold">Balance</h6>
+
                 <dl class="row mb-0" style="font-size:.92rem;">
-                    <dt class="col-5 text-muted">Account</dt>
-                    <dd class="col-7">{{ data_get($dashboard, 'balance.accountType', '—') }}</dd>
 
-                    <dt class="col-5 text-muted">Owner</dt>
-                    <dd class="col-7 mono">{{ data_get($dashboard, 'balance.ownerRef', '—') }}</dd>
+                    @foreach (data_get($dashboard, 'balance.balances', []) as $balance)
+                        <dt class="col-5 text-muted">Account</dt>
+                        <dd class="col-7">
+                            {{ $balance['kind'] ?? '—' }}
+                        </dd>
 
-                    <dt class="col-5 text-muted">Balance</dt>
-                    <dd class="col-7 mono">{{ data_get($dashboard, 'balance.balance', '—') }} {{ data_get($dashboard, 'balance.currency', '') }}</dd>
+                        <dt class="col-5 text-muted">Balance</dt>
+                        <dd class="col-7 mono">
+                            {{ number_format($balance['amount'] ?? 0, 2) }}
+                            {{ data_get($dashboard, 'balance.currency', '') }}
+                        </dd>
+                    @endforeach
                 </dl>
             </div>
         </div>
