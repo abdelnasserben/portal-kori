@@ -8,7 +8,7 @@
     <div class="card p-4 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
             <h5 class="fw-semibold mb-0">Transaction details</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.transactions.index') }}">← Back to list</a>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.transactions.index') }}">Back to list</a>
         </div>
 
         <dl class="row mb-0">
@@ -49,20 +49,6 @@
             <dd class="col-sm-9">@dateIso($item['createdAt'] ?? null, '—')</dd>
         </dl>
     </div>
-
-    @if (!empty($item['clientCode']) && empty($item['clientRefund']))
-        <div class="card p-4 mb-3">
-            <h6 class="fw-semibold mb-3">Actions remboursement</h6>
-            <p class="text-muted small mb-3">
-                You can initiate a refund for this client via <span class="mono">POST
-                    /api/v1/client-refunds/requests</span>.
-            </p>
-            <a class="btn btn-sm btn-outline-primary"
-                href="{{ route('admin.client-refunds.create', ['clientCode' => $item['clientCode']]) }}">
-                Request a client refund
-            </a>
-        </div>
-    @endif
 
     @if (!empty($item['payout']))
         <div class="card p-4 mb-3">

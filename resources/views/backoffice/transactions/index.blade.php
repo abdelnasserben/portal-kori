@@ -1,12 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-page-header title="Transactions" subtitle="Transaction monitoring" :back-href="route('admin.home')"
-        back-label="Back" />
+    <x-page-header title="Transactions" subtitle="Transaction monitoring" :breadcrumbs="[['label' => 'Dashboard', 'href' => route('admin.home')], ['label' => 'Transactions']]">
+        <x-slot:actions>
+            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.lookups.index') }}">Lookup</a>
+        </x-slot:actions>
+    </x-page-header>
 
     <x-filters-bar>
         <form method="GET" action="{{ route('admin.transactions.index') }}">
-            <div class="row g-2">
+            <div class="row g-2 align-items-end">
                 <div class="col-12 col-md-4">
                     <label class="form-label mb-1">Search</label>
                     <x-form.input name="query" :value="$filters['query'] ?? ''" placeholder="Reference or code" class="form-control-sm" />
@@ -60,7 +63,7 @@
                 </div>
 
                 <div class="col-6 col-md-2">
-                    <label class="form-label mb-1">Terminal UID</label>
+                    <label class="form-label mb-1">Terminal</label>
                     <x-form.input name="terminalUid" :value="$filters['terminalUid'] ?? ''" class="form-control-sm" />
                 </div>
 
@@ -75,9 +78,9 @@
                     <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="createdAt:desc" class="form-control-sm" />
                 </div>
 
-                <div class="col-12 d-flex gap-2 mt-2">
+                <div class="col-12 col-md-4 d-flex gap-2">
                     <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.transactions.index') }}">Clear</a>
+                    <a class="btn btn-sm btn-dark" href="{{ route('admin.transactions.index') }}">Reset</a>
                 </div>
             </div>
         </form>
@@ -107,7 +110,8 @@
                         </td>
                         <td><x-status-badge :value="$it['type'] ?? ''" /></td>
                         <td><x-status-badge :value="$it['status'] ?? ''" /></td>
-                        <td class="text-end mono">{{ number_format((float) ($it['amount'] ?? 0), 0, '.', ' ') }} {{ $it['currency'] ?? 'KMF' }}</td>
+                        <td class="text-end mono">{{ number_format((float) ($it['amount'] ?? 0), 0, '.', ' ') }}
+                            {{ $it['currency'] ?? 'KMF' }}</td>
                         <td class="text-end">
                             @if (!empty($it['transactionRef']))
                                 <a class="btn btn-sm btn-outline-primary"
@@ -120,7 +124,8 @@
                 @empty
                     <tr>
                         <td colspan="6">
-                            <x-empty-state title="No transactions found." message="Try adjusting your filters." />
+                            <x-empty-state title="No transactions found." message="Try adjusting your filters."
+                                :action-href="route('admin.transactions.index')" action-label="Clear filters" />
                         </td>
                     </tr>
                 @endforelse
@@ -131,17 +136,8 @@
             <div class="text-muted small">{{ count($items) }} item(s)</div>
 
             <div>
-                @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
-                    @php
-                        $nextUrl = route(
-                            'admin.transactions.index',
-                            array_merge($filters, ['cursor' => $page['nextCursor']]),
-                        );
-                    @endphp
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next</a>
-                @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next</button>
-                @endif
+                <x-cursor-pager :has-more="$page['hasMore'] ?? false" :next-cursor="$page['nextCursor'] ?? null" route-name="admin.transactions.index"
+                    :filters="$filters" />
             </div>
         </x-slot:footer>
     </x-data-table>

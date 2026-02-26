@@ -22,9 +22,8 @@
         <table class="table table-sm mb-0 align-middle">
             <thead class="table-light">
                 <tr>
-                    <th>Created</th>
-                    <th>Code</th>
                     <th>Name</th>
+                    <th>Code</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -32,14 +31,13 @@
             <tbody>
                 @forelse($items as $it)
                     <tr>
-                        <td class="text-muted">@dateIso($it['createdAt'] ?? null)</td>
+                        <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
                         <td class="mono">
                             {{ $it['actorRef'] ?? '' }}
                             @if (!empty($it['actorRef']))
                                 <x-copy-button :value="$it['actorRef']" />
                             @endif
                         </td>
-                        <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
                         <td><x-status-badge :value="$it['status'] ?? ''" /></td>
                         <td>
                             @if (!empty($it['actorRef']))

@@ -38,20 +38,20 @@
                     <x-form.input name="resourceRef" :value="$filters['resourceRef'] ?? ''" class="form-control-sm" />
                 </div>
 
-                <div class="col-6 col-md-1">
+                <div class="col-6 col-md-2">
+                    <label class="form-label mb-1">Limit</label>
+                    <x-form.input name="limit" type="number" :value="$filters['limit'] ?? 25" min="1" max="200"
+                        class="form-control-sm" />
+                </div>
+
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">From</label>
                     <x-form.input name="from" type="date" :value="$filters['from'] ?? ''" class="form-control-sm" />
                 </div>
 
-                <div class="col-6 col-md-1">
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">To</label>
                     <x-form.input name="to" type="date" :value="$filters['to'] ?? ''" class="form-control-sm" />
-                </div>
-
-                <div class="col-6 col-md-1">
-                    <label class="form-label mb-1">Limit</label>
-                    <x-form.input name="limit" type="number" :value="$filters['limit'] ?? 25" min="1" max="200"
-                        class="form-control-sm" />
                 </div>
 
                 <div class="col-6 col-md-2">
@@ -59,9 +59,9 @@
                     <x-form.input name="sort" :value="$filters['sort'] ?? ''" placeholder="occurredAt:desc" class="form-control-sm" />
                 </div>
 
-                <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Filtrer</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.audits.index') }}">Reset</a>
+                <div class="col-12 col-md-4 d-flex gap-2 mt-2 align-self-end">
+                    <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
+                    <a class="btn btn-sm btn-dark" href="{{ route('admin.audits.index') }}">Reset</a>
                 </div>
             </div>
         </form>

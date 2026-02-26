@@ -1,5 +1,5 @@
 <div class="panel p-0 overflow-hidden">
-    <div class="table-responsive">
+    <div class="table-responsive app-table-wrap">
         {{ $slot }}
     </div>
 

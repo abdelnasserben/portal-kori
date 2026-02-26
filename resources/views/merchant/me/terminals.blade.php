@@ -5,28 +5,28 @@
 
     <x-filters-bar>
         <form method="GET" action="{{ route('merchant.me.terminals') }}">
-            <div class="row g-2">
-                <div class="col-6 col-md-3">
+            <div class="row g-2 align-items-end">
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Status</label>
                     <x-form.select name="status" :value="$filters['status'] ?? ''" :options="$statusOptions" placeholder="All"
                         class="form-select-sm" />
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">From</label>
                     <x-form.input name="from" type="date" :value="$filters['from'] ?? ''" class="form-control-sm" />
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">To</label>
                     <x-form.input name="to" type="date" :value="$filters['to'] ?? ''" class="form-control-sm" />
                 </div>
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Limit</label>
                     <x-form.input name="limit" type="number" :value="$filters['limit'] ?? 25" min="1" max="200"
                         class="form-control-sm" />
                 </div>
-                <div class="col-12 d-flex gap-2 mt-2">
+                <div class="col-12 col-md-4 d-flex gap-2">
                     <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('merchant.me.terminals') }}">Clear</a>
+                    <a class="btn btn-sm btn-dark" href="{{ route('merchant.me.terminals') }}">Reset</a>
                 </div>
             </div>
         </form>

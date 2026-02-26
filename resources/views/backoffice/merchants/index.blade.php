@@ -30,9 +30,8 @@
             <table class="table table-sm mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th>Created</th>
-                        <th>Code</th>
                         <th>Name</th>
+                        <th>Code</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -40,7 +39,7 @@
                 <tbody>
                     @forelse($items as $it)
                         <tr>
-                            <td class="text-muted" style="white-space:nowrap;">@dateIso($it['createdAt'] ?? null)</td>
+                            <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
                             <td class="mono" style="white-space:nowrap;">
                                 {{ $it['actorRef'] ?? '' }}
                                 @if (!empty($it['actorRef']))
@@ -51,10 +50,7 @@
                                     </a>
                                 @endif
                             </td>
-                            <td>{{ $it['displayName'] ?? ($it['display'] ?? '—') }}</td>
-                            <td style="white-space:nowrap;">
-                                <span class="badge text-bg-light">{{ $it['status'] ?? '' }}</span>
-                            </td>
+                            <td><x-status-badge :value="$it['status'] ?? ''" /></td>
                             <td>
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-primary"

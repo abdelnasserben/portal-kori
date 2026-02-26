@@ -16,16 +16,13 @@
             <dd class="col-sm-8"><x-status-badge :value="$item['status'] ?? ''" /></dd>
 
             <dt class="col-sm-4 text-muted">Amount</dt>
-            <dd class="col-sm-8">{{ number_format((float) ($item['amount'] ?? 0), 0, '.', ' ') }}</dd>
+            <dd class="col-sm-8">{{ number_format((float) ($item['amount'] ?? 0), 0, '.', ' ') }} KMF</dd>
 
             <dt class="col-sm-4 text-muted">Fee</dt>
-            <dd class="col-sm-8">{{ number_format((float) ($item['fee'] ?? 0), 0, '.', ' ') }}</dd>
+            <dd class="col-sm-8">{{ number_format((float) ($item['fee'] ?? 0), 0, '.', ' ') }} KMF</dd>
 
             <dt class="col-sm-4 text-muted">Total debited</dt>
-            <dd class="col-sm-8">{{ number_format((float) ($item['totalDebited'] ?? 0), 0, '.', ' ') }}</dd>
-
-            <dt class="col-sm-4 text-muted">Currency</dt>
-            <dd class="col-sm-8">{{ $item['currency'] ?? '—' }}</dd>
+            <dd class="col-sm-8">{{ number_format((float) ($item['totalDebited'] ?? 0), 0, '.', ' ') }} KMF</dd>
 
             <dt class="col-sm-4 text-muted">Agent code</dt>
             <dd class="col-sm-8 mono">{{ $item['agentCode'] ?? '—' }}</dd>

@@ -13,79 +13,76 @@
 <body>
     @php($roles = app(\App\Services\Auth\RoleService::class))
 
-    <header class="topbar sticky-top bg-white">
-        <nav class="navbar navbar-expand-lg px-3 px-lg-4 py-3">
-            <a class="navbar-brand fw-semibold" href="{{ route('home') }}">Kori Portal</a>
+    <div class="app-shell">
+        <aside class="app-sidebar">
+            <div class="app-logo fw-semibold">Kori Portal</div>
+            <nav class="nav flex-column app-nav">
+                @if ($roles->has('ADMIN'))
+                    <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"
+                        href="{{ route('admin.home') }}">Dashboard</a>
+                    <a class="nav-link {{ request()->routeIs('admin.transactions.*') ? 'active' : '' }}"
+                        href="{{ route('admin.transactions.index') }}">Transactions</a>
 
-            @if ($roles->has('ADMIN'))
-                <form method="GET" action="{{ route('admin.lookups.index') }}"
-                    class="d-flex ms-lg-4 me-auto mt-2 mt-lg-0" style="max-width: 560px; width: 100%;">
-                    <input name="q" class="form-control form-control-sm" value="{{ request('q') }}" required
-                        placeholder="Global search: client, merchant, agent, terminal, admin">
-                </form>
-            @endif
+                    <div class="app-nav-section">Actors</div>
+                    <a class="nav-link {{ request()->routeIs('admin.clients.*') ? 'active' : '' }}"
+                        href="{{ route('admin.clients.index') }}">Clients</a>
+                    <a class="nav-link {{ request()->routeIs('admin.merchants.*') ? 'active' : '' }}"
+                        href="{{ route('admin.merchants.index') }}">Merchants</a>
+                    <a class="nav-link {{ request()->routeIs('admin.agents.*') ? 'active' : '' }}"
+                        href="{{ route('admin.agents.index') }}">Agents</a>
+                    <a class="nav-link {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}"
+                        href="{{ route('admin.admins.index') }}">Admins</a>
+                    <a class="nav-link {{ request()->routeIs('admin.terminals.*') ? 'active' : '' }}"
+                        href="{{ route('admin.terminals.index') }}">Terminals</a>
 
-            <div class="d-flex align-items-center gap-2 ms-auto">
-                <a class="btn btn-sm {{ request()->routeIs('home') ? 'btn-primary' : 'btn-outline-secondary' }}"
-                    href="{{ route('home') }}">Dashboard</a>
-                <a class="btn btn-sm {{ request()->routeIs('health') ? 'btn-primary' : 'btn-outline-secondary' }}"
-                    href="{{ route('health') }}">API Health</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button class="btn btn-sm btn-outline-danger" type="submit">Sign out</button>
-                </form>
-            </div>
-        </nav>
-    </header>
+                    <a class="nav-link {{ request()->routeIs('admin.audits.*') ? 'active' : '' }}"
+                        href="{{ route('admin.audits.index') }}">Audit</a>
 
-    <div class="container-fluid py-4">
-        <div class="row g-4">
-            <aside class="col-12 col-lg-2">
-                <div class="panel p-2">
-                    <nav class="nav nav-pills flex-lg-column gap-1">
-                        @if ($roles->has('ADMIN'))
-                            <a class="nav-link {{ request()->routeIs('admin.transactions.*') ? 'active' : '' }}"
-                                href="{{ route('admin.transactions.index') }}">Transactions</a>
-                            <a class="nav-link {{ request()->routeIs('admin.audits.*') ? 'active' : '' }}"
-                                href="{{ route('admin.audits.index') }}">Audits</a>
-                            <a class="nav-link {{ request()->routeIs('admin.merchants.*') ? 'active' : '' }}"
-                                href="{{ route('admin.merchants.index') }}">Merchants</a>
-                            <a class="nav-link {{ request()->routeIs('admin.clients.*') ? 'active' : '' }}"
-                                href="{{ route('admin.clients.index') }}">Clients</a>
-                            <a class="nav-link {{ request()->routeIs('admin.terminals.*') ? 'active' : '' }}"
-                                href="{{ route('admin.terminals.index') }}">Terminals</a>
-                            <a class="nav-link {{ request()->routeIs('admin.cards.*') ? 'active' : '' }}"
-                                href="{{ route('admin.cards.index') }}">Cards</a>
-                            <a class="nav-link {{ request()->routeIs('admin.agents.*') ? 'active' : '' }}"
-                                href="{{ route('admin.agents.index') }}">Agents</a>
-                            <a class="nav-link {{ request()->routeIs('admin.admins.*') ? 'active' : '' }}"
-                                href="{{ route('admin.admins.index') }}">Admins</a>
-                            <a class="nav-link {{ request()->routeIs('admin.account-profiles.*') ? 'active' : '' }}"
-                                href="{{ route('admin.account-profiles.index') }}">Account Profiles</a>
-                            <a class="nav-link {{ request()->routeIs('admin.config.*') ? 'active' : '' }}"
-                                href="{{ route('admin.config.index') }}">Settings</a>
-                            <a class="nav-link {{ request()->routeIs('admin.payouts.*') ? 'active' : '' }}"
-                                href="{{ route('admin.payouts.create') }}">Payout Requests</a>
-                            <a class="nav-link {{ request()->routeIs('admin.client-refunds.*') ? 'active' : '' }}"
-                                href="{{ route('admin.client-refunds.create') }}">Client Refund Requests</a>
-                            <a class="nav-link {{ request()->routeIs('admin.ledger.*') ? 'active' : '' }}"
-                                href="{{ route('admin.ledger.index') }}">Ledger</a>
-                        @endif
-                        @if ($roles->has('MERCHANT'))
-                            <a class="nav-link {{ request()->routeIs('merchant.me.transactions') || request()->routeIs('merchant.me.transactions.show') ? 'active' : '' }}"
-                                href="{{ route('merchant.me.transactions') }}">Transactions</a>
-                            <a class="nav-link {{ request()->routeIs('merchant.me.terminals') || request()->routeIs('merchant.me.terminals.show') ? 'active' : '' }}"
-                                href="{{ route('merchant.me.terminals') }}">Terminals</a>
-                            <a class="nav-link {{ request()->routeIs('merchant.me.profile') ? 'active' : '' }}"
-                                href="{{ route('merchant.me.profile') }}">Profile</a>
-                            <a class="nav-link {{ request()->routeIs('merchant.me.balance') ? 'active' : '' }}"
-                                href="{{ route('merchant.me.balance') }}">Balance</a>
-                        @endif
-                    </nav>
-                </div>
-            </aside>
+                    <div class="app-nav-section">Ledger</div>
+                    <a class="nav-link {{ request()->routeIs('admin.ledger.*') ? 'active' : '' }}"
+                        href="{{ route('admin.ledger.index') }}">Search & Balance</a>
 
-            <main class="col-12 col-lg-10">
+                    <div class="app-nav-section">Config</div>
+                    <a class="nav-link {{ request()->routeIs('admin.config.*') ? 'active' : '' }}"
+                        href="{{ route('admin.config.index') }}">Platform / Fees / Commissions</a>
+                @endif
+
+                @if ($roles->has('MERCHANT'))
+                    <a class="nav-link {{ request()->routeIs('merchant.home') ? 'active' : '' }}"
+                        href="{{ route('merchant.home') }}">Dashboard</a>
+                    <a class="nav-link {{ request()->routeIs('merchant.me.transactions*') ? 'active' : '' }}"
+                        href="{{ route('merchant.me.transactions') }}">Transactions</a>
+                    <a class="nav-link {{ request()->routeIs('merchant.me.terminals*') ? 'active' : '' }}"
+                        href="{{ route('merchant.me.terminals') }}">Terminals</a>
+                    <a class="nav-link {{ request()->routeIs('merchant.me.profile') ? 'active' : '' }}"
+                        href="{{ route('merchant.me.profile') }}">Profile</a>
+                @endif
+            </nav>
+        </aside>
+
+        <div class="app-main">
+            <header class="topbar sticky-top bg-white">
+                <nav class="navbar navbar-expand-lg px-3 px-lg-4 py-2">
+                    @if ($roles->has('ADMIN'))
+                        <form method="GET" action="{{ route('admin.lookups.index') }}" class="d-flex me-auto"
+                            style="max-width: 520px; width: 100%;">
+                            <input name="q" class="form-control form-control-sm" value="{{ request('q') }}"
+                                placeholder="Quick lookup...">
+                        </form>
+                    @endif
+
+                    <div class="d-flex align-items-center gap-2 ms-auto">
+                        <a class="btn btn-sm {{ request()->routeIs('health') ? 'btn-primary' : 'btn-outline-secondary' }}"
+                            href="{{ route('health') }}">API Health</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button class="btn btn-sm btn-outline-danger" type="submit">Sign out</button>
+                        </form>
+                    </div>
+                </nav>
+            </header>
+
+            <main class="app-content p-3 p-lg-4">
                 @include('components.api-error-banner')
                 @yield('content')
             </main>

@@ -1,18 +1,14 @@
 @props(['value' => null])
 
 @php
-    $raw = (string) ($value ?? '');
-    $normalized = strtoupper($raw);
+    $raw = strtoupper((string) ($value ?? 'UNKNOWN'));
 
-    $class = match ($normalized) {
-        'ACTIVE', 'SUCCESS', 'COMPLETED', 'APPROVED' => 'text-bg-success',
-        'PENDING', 'INITIATED', 'PROCESSING' => 'text-bg-warning',
-        'SUSPENDED', 'FAILED', 'REJECTED', 'CLOSED', 'CANCELLED' => 'text-bg-danger',
-        default => 'text-bg-secondary',
+    $class = match ($raw) {
+        'ACTIVE', 'COMPLETED', 'SUCCESS' => 'status-badge--success',
+        'REQUESTED', 'PENDING', 'PROCESSING', 'INITIATED' => 'status-badge--warning',
+        'SUSPENDED', 'FAILED', 'CLOSED', 'REJECTED', 'CANCELLED' => 'status-badge--danger',
+        default => 'status-badge--neutral',
     };
-
-    $label = trim(str_replace('_', ' ', strtolower($raw)));
-    $label = $label !== '' ? ucwords($label) : 'N/A';
 @endphp
 
-<span class="badge {{ $class }}">{{ $label }}</span>
+<span class="status-badge {{ $class }}">{{ $raw }}</span>

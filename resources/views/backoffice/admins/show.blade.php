@@ -16,14 +16,14 @@
         </div>
 
         <dl class="row mb-0">
-            <dt class="col-sm-3">Actor Ref</dt>
+            <dt class="col-sm-3">Username</dt>
             <dd class="col-sm-9 mono">{{ $item['actorRef'] ?? '—' }}</dd>
 
-            <dt class="col-sm-3">Display Name</dt>
+            <dt class="col-sm-3">Name</dt>
             <dd class="col-sm-9">{{ $item['displayName'] ?? ($item['display'] ?? '—') }}</dd>
 
             <dt class="col-sm-3">Status</dt>
-            <dd class="col-sm-9"><span class="badge text-bg-light">{{ $item['status'] ?? '—' }}</span></dd>
+            <dd class="col-sm-9"><x-status-badge :value="$item['status'] ?? ''" /></dd>
 
             <dt class="col-sm-3">Created At</dt>
             <dd class="col-sm-9">@dateIso($item['createdAt'] ?? null, '—')</dd>
