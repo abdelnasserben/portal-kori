@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Backoffice;
 
 use App\Http\Controllers\Controller;
 use App\Services\Backoffice\AccountProfilesService;
+use App\Support\Backoffice\FilterEnums;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class AccountProfilesController extends Controller
 {
@@ -13,16 +15,23 @@ class AccountProfilesController extends Controller
 
     public function index()
     {
-        return view('backoffice.account-profiles.index');
+        $allowedAccountTypes = $this->allowedAccountTypes();
+
+        return view('backoffice.account-profiles.index', [
+            'accountTypeOptions'  => FilterEnums::options($allowedAccountTypes),
+            'targetStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
+        ]);
     }
 
     public function updateStatus(Request $request)
     {
+        $allowedAccountTypes = $this->allowedAccountTypes();
+
         $payload = $request->validate([
-            'accountType' => ['required', 'string', 'max:50'],
-            'ownerRef' => ['required', 'string', 'max:120'],
-            'targetStatus' => ['required', 'string', 'max:50'],
-            'reason' => ['nullable', 'string', 'max:255'],
+            'accountType'   => ['required', Rule::in($allowedAccountTypes)],
+            'ownerRef'      => ['required', 'string', 'max:120'],
+            'targetStatus'  => ['required', Rule::in(FilterEnums::ACTOR_STATUSES)],
+            'reason'        => ['nullable', 'string', 'max:255'],
         ]);
 
         $result = $this->service->updateStatus(
@@ -40,5 +49,19 @@ class AccountProfilesController extends Controller
             $result['previousStatus'] ?? '—',
             $result['newStatus'] ?? $payload['targetStatus'],
         ));
+    }
+
+    /**
+     * Ledger account types allowed for manual status updates
+     * (exclude platform/system and any clearing accounts).
+     */
+    private function allowedAccountTypes(): array
+    {
+        return collect(FilterEnums::LEDGER_ACCOUNT_TYPES)
+            ->reject(fn (string $t) =>
+                str_starts_with($t, 'PLATFORM_') || str_contains($t, 'CLEARING')
+            )
+            ->values()
+            ->all();
     }
 }

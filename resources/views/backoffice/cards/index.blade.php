@@ -5,54 +5,58 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
 
-    <div class="card p-4 mb-3">
+    <div class="card panel p-4 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-semibold mb-0">Card Managment</h5>
             <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
-        <p class="text-muted mb-0" style="font-size:.9rem;">Actions on cards</p>
+        <p class="text-muted mb-0" style="font-size:.9rem;">Perform operational actions on cards (status changes, unblock).
+        </p>
     </div>
 
-    <div class="card p-4 mb-3">
-        <h6 class="fw-semibold mb-3">Change a card status</h6>
+    <div class="card panel p-4 mb-3">
+        <h6 class="fw-semibold mb-3">Change card status</h6>
 
         <form method="POST" action="{{ route('admin.cards.status.update') }}" class="row g-2 align-items-end">
             @csrf
             <div class="col-12 col-md-4">
-                <label class="form-label mb-1">Card UID</label>
-                <input name="cardUid" class="form-control form-control-sm" required maxlength="120" placeholder="CARD-...">
+                <x-form.input name="cardUid" label="Card UID" placeholder="Card UID" required
+                    class="form-control form-control-sm" />
             </div>
             <div class="col-6 col-md-3">
-                <label class="form-label mb-1">New status</label>
-                <input name="targetStatus" class="form-control form-control-sm" required maxlength="50"
-                    placeholder="ACTIVE, SUSPENDED, BLOCKED...">
+                <x-form.select name="targetStatus" label="New status" :options="[
+                    'ACTIVE' => 'ACTIVE',
+                    'LOST' => 'LOST',
+                    'SUSPENDED' => 'SUSPENDED',
+                    'INACTIVE' => 'INACTIVE',
+                ]" placeholder="Select a status"
+                    required class="form-select form-select-sm" />
             </div>
             <div class="col-6 col-md-3">
-                <label class="form-label mb-1">Reason</label>
-                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Reason">
+                <x-form.input name="reason" label="Reason" placeholder="Reason" class="form-control form-control-sm" />
             </div>
             <div class="col-12 col-md-2 d-grid">
-                <button class="btn btn-sm btn-outline-primary" type="submit">Change status</button>
+                <button class="btn btn-sm btn-primary" type="submit">Update</button>
             </div>
         </form>
     </div>
 
-    <div class="card p-4">
+    <div class="card panel p-4">
         <h6 class="fw-semibold mb-3">Unblock a card</h6>
 
         <form method="POST" action="{{ route('admin.cards.unblock') }}" class="row g-2 align-items-end">
             @csrf
             <div class="col-12 col-md-4">
-                <label class="form-label mb-1">Card UID</label>
-                <input name="cardUid" class="form-control form-control-sm" required maxlength="120" placeholder="CARD-...">
+                <x-form.input name="cardUid" label="Card UID" placeholder="Card UID" required
+                    class="form-control form-control-sm" />
             </div>
             <div class="col-6 col-md-6">
-                <label class="form-label mb-1">Reason</label>
-                <input name="reason" class="form-control form-control-sm" maxlength="255" placeholder="Reason">
+                <x-form.input name="reason" label="Reason" placeholder="Why are we unblocking this card?"
+                    class="form-control form-control-sm" />
             </div>
             <div class="col-6 col-md-2 d-grid">
-                <button class="btn btn-sm btn-outline-warning" type="submit">Unblock</button>
+                <button class="btn btn-sm btn-warning" type="submit">Unblock</button>
             </div>
         </form>
     </div>

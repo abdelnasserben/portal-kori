@@ -38,6 +38,12 @@
                     <a class="nav-link {{ request()->routeIs('admin.audits.*') ? 'active' : '' }}"
                         href="{{ route('admin.audits.index') }}">Audit</a>
 
+                    <div class="app-nav-section">Cards & Accounts</div>
+                    <a class="nav-link {{ request()->routeIs('admin.cards.*') ? 'active' : '' }}"
+                        href="{{ route('admin.cards.index') }}">Cards</a>
+                    <a class="nav-link {{ request()->routeIs('admin.account-profiles.*') ? 'active' : '' }}"
+                        href="{{ route('admin.account-profiles.index') }}">Accounts</a>
+
                     <div class="app-nav-section">Ledger</div>
                     <a class="nav-link {{ request()->routeIs('admin.ledger.*') ? 'active' : '' }}"
                         href="{{ route('admin.ledger.index') }}">Search & Balance</a>
