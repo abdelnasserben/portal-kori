@@ -61,7 +61,7 @@ class TerminalsController extends AbstractActorController
     public function updateStatus(TerminalStatusUpdateRequest $request)
     {
         $payload = $request->validated();
-        return $this->updateActorStatus($payload['terminalUid'], $payload, 'Statut terminal %s mis à jour vers %s.');
+        return $this->updateActorStatus($payload['terminalUid'], $payload, 'Terminal status %s updated to %s.');
     }
 
     protected function actorType(): string

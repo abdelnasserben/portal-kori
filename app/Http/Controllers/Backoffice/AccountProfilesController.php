@@ -43,7 +43,7 @@ class AccountProfilesController extends Controller
         );
 
         return back()->with('status_success', sprintf(
-            'Statut profile %s/%s mis à jour (%s → %s).',
+            'Profile status %s/%s updated (%s → %s).',
             $payload['accountType'],
             $payload['ownerRef'],
             $result['previousStatus'] ?? '—',

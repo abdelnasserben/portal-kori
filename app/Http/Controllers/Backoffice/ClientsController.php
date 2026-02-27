@@ -19,7 +19,7 @@ class ClientsController extends AbstractActorController
 
     public function updateStatus(ActorStatusUpdateRequest $request, string $clientCode)
     {
-        return $this->updateActorStatus($clientCode, $request->validated(), 'Statut client %s mis à jour vers %s.');
+        return $this->updateActorStatus($clientCode, $request->validated(), 'Customer status %s updated to %s.');
     }
 
     protected function actorType(): string

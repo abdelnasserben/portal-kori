@@ -50,22 +50,6 @@
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-primary"
                                         href="{{ route('admin.admins.show', ['adminUsername' => $it['actorRef']]) }}">View</a>
-
-                                    @if (strcasecmp($currentAdminUsername, $it['actorRef']) !== 0)
-                                        <form method="POST" action="{{ route('admin.admins.status.update') }}"
-                                            class="d-flex gap-1 align-items-center mt-1">
-                                            @csrf
-                                            <input type="hidden" name="adminUsername" value="{{ $it['actorRef'] }}">
-                                            <x-form.select name="targetStatus" :options="array_combine(
-                                                ['ACTIVE', 'SUSPENDED', 'CLOSED'],
-                                                ['ACTIVE', 'SUSPENDED', 'CLOSED'],
-                                            )" class="form-select-sm"
-                                                style="min-width:130px" />
-                                            <x-form.input name="reason" placeholder="Reason" maxlength="255"
-                                                class="form-control-sm" />
-                                            <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
-                                        </form>
-                                    @endif
                                 @endif
                             </td>
                         </tr>

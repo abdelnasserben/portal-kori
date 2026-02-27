@@ -50,7 +50,7 @@ class PayoutsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
-        return back()->with('status_success', sprintf('Payout %s marqué comme complété.', $payoutId));
+        return back()->with('status_success', sprintf('Payout %s marked as completed.', $payoutId));
     }
 
     public function fail(Request $request, string $payoutId)
@@ -65,6 +65,6 @@ class PayoutsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
-        return back()->with('status_success', sprintf('Payout %s marqué en échec.', $payoutId));
+        return back()->with('status_success', sprintf('Payout %s marked as failed.', $payoutId));
     }
 }

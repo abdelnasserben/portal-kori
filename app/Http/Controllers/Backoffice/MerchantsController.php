@@ -51,7 +51,7 @@ class MerchantsController extends AbstractActorController
 
     public function updateStatus(ActorStatusUpdateRequest $request, string $merchantCode)
     {
-        return $this->updateActorStatus($merchantCode, $request->validated(), 'Statut marchand %s mis à jour vers %s.');
+        return $this->updateActorStatus($merchantCode, $request->validated(), 'Merchant status %s updated to %s.');
     }
 
     protected function actorType(): string

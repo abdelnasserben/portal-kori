@@ -50,17 +50,6 @@
                                 @if (!empty($it['actorRef']))
                                     <a class="btn btn-sm btn-outline-primary"
                                         href="{{ route('admin.terminals.show', ['terminalUid' => $it['actorRef']]) }}">View</a>
-
-                                    <form method="POST" action="{{ route('admin.terminals.status.update') }}"
-                                        class="d-flex gap-1 align-items-center mt-1">
-                                        @csrf
-                                        <input type="hidden" name="terminalUid" value="{{ $it['actorRef'] }}">
-                                        <x-form.select name="targetStatus" :options="$actorStatusOptions" class="form-select-sm"
-                                            style="min-width:130px" />
-                                        <x-form.input name="reason" placeholder="Reason" maxlength="255"
-                                            class="form-control-sm" />
-                                        <button class="btn btn-sm btn-outline-primary" type="submit">OK</button>
-                                    </form>
                                 @endif
                             </td>
                         </tr>

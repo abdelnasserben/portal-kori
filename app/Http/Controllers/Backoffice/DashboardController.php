@@ -22,7 +22,7 @@ class DashboardController extends Controller
                 ->route('admin.transactions.index')
                 ->with('api_error', [
                     'status' => $e->status,
-                    'message' => 'Dashboard backoffice indisponible, redirection vers la liste des transactions.',
+                    'message' => 'Back office dashboard unavailable, redirecting to transaction list.',
                     'payload' => $e->payload,
                 ]);
         }

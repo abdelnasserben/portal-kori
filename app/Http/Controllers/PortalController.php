@@ -31,7 +31,7 @@ class PortalController extends Controller
             ->route('auth.success')
             ->with('api_error', [
                 'status' => 403,
-                'message' => 'Aucun rôle portail autorisé (ADMIN ou MERCHANT) n’a été trouvé dans le token.',
+                'message' => 'No authorised portal role (ADMIN or MERCHANT) was found in the token.',
                 'payload' => ['roles' => $roles->roles()],
             ]);
     }

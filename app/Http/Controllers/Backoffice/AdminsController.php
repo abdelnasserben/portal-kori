@@ -99,11 +99,11 @@ class AdminsController extends AbstractActorController
 
         if ($this->isCurrentAdmin($payload['adminUsername'])) {
             throw ValidationException::withMessages([
-                'adminUsername' => 'Vous ne pouvez pas modifier votre propre statut.',
+                'adminUsername' => 'You cannot change your own status.',
             ]);
         }
 
-        return $this->updateActorStatus($payload['adminUsername'], $payload, 'Statut admin %s mis à jour vers %s.');
+        return $this->updateActorStatus($payload['adminUsername'], $payload, 'Admin status %s updated to %s.');
     }
 
     protected function actorType(): string

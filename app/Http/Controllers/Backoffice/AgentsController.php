@@ -51,7 +51,7 @@ class AgentsController extends AbstractActorController
 
     public function updateStatus(ActorStatusUpdateRequest $request, string $agentCode)
     {
-        return $this->updateActorStatus($agentCode, $request->validated(), 'Statut agent %s mis à jour vers %s.');
+        return $this->updateActorStatus($agentCode, $request->validated(), 'Agent status %s updated to %s.');
     }
 
     protected function actorType(): string

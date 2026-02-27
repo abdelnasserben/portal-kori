@@ -44,7 +44,7 @@ class AuthController extends Controller
                 ->route('auth.success')
                 ->with('api_error', [
                     'status' => 401,
-                    'message' => 'Login Keycloak échoué: ' . $request->string('error')->toString(),
+                    'message' => 'Keycloak login failed: ' . $request->string('error')->toString(),
                     'payload' => [
                         'error' => $request->string('error')->toString(),
                         'error_description' => $request->string('error_description')->toString(),
@@ -61,7 +61,7 @@ class AuthController extends Controller
                 ->route('auth.success')
                 ->with('api_error', [
                     'status' => 400,
-                    'message' => 'OIDC state invalide (CSRF).',
+                    'message' => 'Invalid OIDC state (CSRF).',
                     'payload' => null,
                 ]);
         }
@@ -71,7 +71,7 @@ class AuthController extends Controller
                 ->route('auth.success')
                 ->with('api_error', [
                     'status' => 400,
-                    'message' => 'Code OIDC manquant.',
+                    'message' => 'OIDC code missing.',
                     'payload' => null,
                 ]);
         }
@@ -85,7 +85,7 @@ class AuthController extends Controller
                 ->route('auth.success')
                 ->with('api_error', [
                     'status' => (int) ($tokens['status'] ?? 401),
-                    'message' => 'Impossible de récupérer les tokens auprès de Keycloak.',
+                    'message' => 'Unable to retrieve tokens from Keycloak.',
                     'payload' => $tokens,
                 ]);
         }

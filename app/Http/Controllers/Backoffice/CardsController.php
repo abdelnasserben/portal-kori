@@ -32,7 +32,7 @@ class CardsController extends Controller
         );
 
         return back()->with('status_success', sprintf(
-            'Statut carte %s mis à jour (%s → %s).',
+            'Card status %s updated (%s → %s).',
             $payload['cardUid'],
             $result['previousStatus'] ?? '—',
             $result['newStatus'] ?? $payload['targetStatus'],
@@ -53,7 +53,7 @@ class CardsController extends Controller
         );
 
         return back()->with('status_success', sprintf(
-            'Carte %s débloquée (%s → %s).',
+            'Card %s unlocked (%s → %s).',
             $payload['cardUid'],
             $result['previousStatus'] ?? '—',
             $result['newStatus'] ?? '—',

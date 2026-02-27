@@ -49,6 +49,7 @@ abstract class AbstractActorController extends Controller
             'item' => $item->toArray(),
             'auditEvents' => $auditEvents['items'] ?? [],
             'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
+            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
         ]);
     }
 

@@ -50,7 +50,7 @@ class ClientRefundsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
-        return back()->with('status_success', sprintf('Refund %s marqué comme complété.', $refundId));
+        return back()->with('status_success', sprintf('Refund %s marked as completed.', $refundId));
     }
 
     public function fail(Request $request, string $refundId)
@@ -65,6 +65,6 @@ class ClientRefundsController extends Controller
             correlationId: (string) Str::uuid(),
         );
 
-        return back()->with('status_success', sprintf('Refund %s marqué en échec.', $refundId));
+        return back()->with('status_success', sprintf('Refund %s marked as failed.', $refundId));
     }
 }
