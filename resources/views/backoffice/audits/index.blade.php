@@ -11,7 +11,7 @@
             <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
-        <form method="GET" action="{{ route('admin.audits.index') }}" class="mt-3">
+        <form method="GET" action="{{ route('admin.audits.index') }}" class="panel mt-3">
             <div class="row g-2">
                 <div class="col-6 col-md-2">
                     <label class="form-label mb-1">Action</label>

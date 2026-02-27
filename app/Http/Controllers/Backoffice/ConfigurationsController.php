@@ -48,7 +48,7 @@ class ConfigurationsController extends Controller
 
         $this->service->updateFees($this->trimReason($payload), (string) Str::uuid());
 
-        return to_route('admin.config.index')->with('status_success', 'Configuration des frais mise à jour.');
+        return to_route('admin.config.index')->with('status_success', 'Fee settings updated successfully.');
     }
 
     public function updateCommissions(Request $request)
@@ -63,7 +63,7 @@ class ConfigurationsController extends Controller
 
         $this->service->updateCommissions($this->trimReason($payload), (string) Str::uuid());
 
-        return to_route('admin.config.index')->with('status_success', 'Configuration des commissions mise à jour.');
+        return to_route('admin.config.index')->with('status_success', 'Commission settings updated successfully.');
     }
 
     public function updatePlatform(Request $request)
@@ -82,7 +82,7 @@ class ConfigurationsController extends Controller
 
         $this->service->updatePlatform($this->trimReason($payload), (string) Str::uuid());
 
-        return to_route('admin.config.index')->with('status_success', 'Configuration de la plateforme mise à jour.');
+        return to_route('admin.config.index')->with('status_success', 'Platform configuration updated successfully.');
     }
 
     private function trimReason(array $payload): array

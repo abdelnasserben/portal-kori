@@ -11,7 +11,7 @@
             <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
-        <form method="GET" action="{{ route('admin.ledger.index') }}" class="mt-3">
+        <form method="GET" action="{{ route('admin.ledger.index') }}" class="panel mt-3">
             <div class="row g-2">
                 <div class="col-6 col-md-2">
                     <x-form.select name="accountType" label="Account Type" class="form-select-sm" :value="$filters['accountType'] ?? ''"
@@ -19,8 +19,8 @@
                 </div>
 
                 <div class="col-6 col-md-3">
-                    <x-form.input name="ownerRef" label="Owner Ref" class="form-control-sm" :value="$filters['ownerRef'] ?? ''"
-                        placeholder="MRC_0001..." required />
+                    <x-form.input name="ownerRef" label="Owner" class="form-control-sm" :value="$filters['ownerRef'] ?? ''"
+                        placeholder="Reference or code" required />
                 </div>
 
                 <div class="col-6 col-md-2">
@@ -59,9 +59,9 @@
                 <input type="hidden" name="beforeCreatedAt" value="{{ $filters['beforeCreatedAt'] ?? '' }}">
                 <input type="hidden" name="beforeTransactionId" value="{{ $filters['beforeTransactionId'] ?? '' }}">
 
-                <div class="col-12 d-flex gap-2 mt-2">
-                    <button class="btn btn-sm btn-primary" type="submit">Search</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.ledger.index') }}">Reset</a>
+                <div class="col-12 col-md-4 d-flex gap-2 mt-2 align-self-end">
+                    <button class="btn btn-sm btn-primary" type="submit">Apply filters</button>
+                    <a class="btn btn-sm btn-dark" href="{{ route('admin.ledger.index') }}">Reset</a>
                 </div>
             </div>
         </form>
