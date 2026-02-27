@@ -168,7 +168,7 @@
 
     <section class="panel">
         <div class="d-flex align-items-center justify-content-between mb-3">
-            <h6 class="fw-semibold mb-0">Recent audit events</h6>
+            <h6 class="fw-semibold mb-0">Recent events</h6>
             <a href="{{ route('admin.audits.index') }}" class="btn btn-sm btn-outline-secondary">All audits</a>
         </div>
 
@@ -186,7 +186,7 @@
                     @forelse (data_get($dashboard, 'recentAuditEvents', []) as $event)
                         <tr>
                             <td>@dateIso(data_get($event, 'occurredAt'))</td>
-                            <td>{{ data_get($event, 'action', '—') }}</td>
+                            <td><x-status-badge :value="data_get($event, 'action', '—')" /></td>
                             <td class="mono">{{ data_get($event, 'actorRef', '—') }}</td>
                             <td>{{ data_get($event, 'resourceType', '—') }}</td>
                         </tr>

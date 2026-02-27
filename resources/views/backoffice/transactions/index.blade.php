@@ -1,11 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <x-page-header title="Transactions" subtitle="Transaction monitoring" :breadcrumbs="[['label' => 'Dashboard', 'href' => route('admin.home')], ['label' => 'Transactions']]">
-        <x-slot:actions>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.lookups.index') }}">Lookup</a>
-        </x-slot:actions>
-    </x-page-header>
+    <x-page-header title="Transactions" subtitle="Transaction monitoring" :breadcrumbs="[['label' => 'Dashboard', 'href' => route('admin.home')], ['label' => 'Transactions']]" />
 
     <x-filters-bar>
         <form method="GET" action="{{ route('admin.transactions.index') }}">
