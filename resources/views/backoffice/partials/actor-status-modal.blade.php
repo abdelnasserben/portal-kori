@@ -30,7 +30,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
-                    <button class="btn btn-primary" type="submit">Update status</button>
+                    <button class="btn btn-primary" type="submit">Update</button>
                 </div>
             </form>
         </div>

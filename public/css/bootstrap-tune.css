@@ -280,3 +280,14 @@ body {
     font-weight: 600;
     color: #334155;
 }
+
+.app-error-json {
+    background: #fff;
+    border: 1px solid #f2c7cc;
+    border-radius: .25rem;
+    padding: .6rem;
+    margin: 0;
+    max-height: 280px;
+    overflow: auto;
+    font-size: .8rem;
+}

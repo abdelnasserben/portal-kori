@@ -90,7 +90,7 @@ class KoriApiClient
             throw new KoriApiException(
                 status: $status,
                 payload: $payload,
-                message: "Kori API request failed ($method $uri)",
+                message: $this->messageFromPayload($payload, "Kori API request failed ($method $uri)"),
                 previous: $e
             );
         } catch (ConnectionException $e) {
@@ -123,11 +123,32 @@ class KoriApiClient
             throw new KoriApiException(
                 status: $response->status(),
                 payload: $fallback,
-                message: "Kori API request failed ($context)",
+                message: $this->messageFromPayload($fallback, "Kori API request failed ($context)"),
             );
         }
 
         return $payload ?? [];
+    }
+
+
+    private function messageFromPayload(?array $payload, string $fallback): string
+    {
+        if (!is_array($payload)) {
+            return $fallback;
+        }
+
+        $apiMessage = $payload['message'] ?? null;
+        if (is_string($apiMessage) && trim($apiMessage) !== '') {
+            $code = $payload['code'] ?? $payload['errorCode'] ?? null;
+
+            if (is_string($code) && trim($code) !== '') {
+                return sprintf('[%s] %s', $code, $apiMessage);
+            }
+
+            return $apiMessage;
+        }
+
+        return $fallback;
     }
 
     private function tryJsonArray(Response $response): ?array

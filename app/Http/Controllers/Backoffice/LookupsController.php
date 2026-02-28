@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backoffice;
 use App\Exceptions\KoriApiException;
 use App\Http\Controllers\Controller;
 use App\Services\Backoffice\LookupsService;
+use App\Support\ApiErrorPresenter;
 use Illuminate\Http\Request;
 
 class LookupsController extends Controller
@@ -38,11 +39,7 @@ class LookupsController extends Controller
         } catch (KoriApiException $e) {
             if (in_array($e->status, [401, 403, 500], true)) {
                 return response()->view('errors.api', [
-                    'error' => [
-                        'status' => $e->status,
-                        'message' => $e->getMessage(),
-                        'payload' => $e->payload,
-                    ],
+                    'error' => ApiErrorPresenter::fromException($e),
                 ], $e->status);
             }
 

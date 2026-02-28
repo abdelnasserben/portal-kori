@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Exceptions\KoriApiException;
+use App\Support\ApiErrorPresenter;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,11 +15,7 @@ class HandleApiErrors
         try {
             return $next($request);
         } catch (KoriApiException $e) {
-            $error = [
-                'status'  => $e->status,
-                'message' => $e->getMessage(),
-                'payload' => $e->payload,
-            ];
+            $error = ApiErrorPresenter::fromException($e);
 
             $request->session()->flash('api_error', $error);
 

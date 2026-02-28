@@ -81,7 +81,7 @@
 
                 <div class="text-end">
                     <div class="text-muted small">Balance</div>
-                    <div class="mono fs-5 fw-semibold">{{ $balance['balance'] ?? '—' }} {{ $balance['currency'] ?? '' }}
+                    <div class="mono fs-5 fw-semibold">{{ $balance['balance'] ?? '—' }} KMF
                     </div>
                 </div>
             </div>
@@ -93,30 +93,74 @@
             <table class="table table-sm mb-0 align-middle">
                 <thead class="table-light">
                     <tr>
-                        <th style="white-space:nowrap;">Created At</th>
-                        <th style="white-space:nowrap;">Transaction Ref</th>
+                        <th style="white-space:nowrap;">Created</th>
                         <th style="white-space:nowrap;">Type</th>
-                        <th class="text-end" style="white-space:nowrap;">Amount</th>
+                        <th style="white-space:nowrap;">Actor</th>
+                        <th class="text-end" style="white-space:nowrap;">Debits</th>
+                        <th class="text-end" style="white-space:nowrap;">Credits</th>
+                        <th class="text-end" style="white-space:nowrap;">Net</th>
+                        <th style="white-space:nowrap;">Transaction</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($items as $it)
+                        @php
+                            $actorType = !empty($it['clientId'])
+                                ? 'Client'
+                                : (!empty($it['agentId'])
+                                    ? 'Agent'
+                                    : (!empty($it['merchantId'])
+                                        ? 'Merchant'
+                                        : '—'));
+                            $actorId = $it['clientId'] ?? ($it['agentId'] ?? ($it['merchantId'] ?? null));
+
+                            $debits = (float) ($it['selfTotalDebits'] ?? 0);
+                            $credits = (float) ($it['selfTotalCredits'] ?? 0);
+                            $net = (float) ($it['selfNet'] ?? 0);
+
+                            $netClass = $net < 0 ? 'text-danger' : ($net > 0 ? 'text-success' : 'text-muted');
+                        @endphp
+
                         <tr>
-                            <td class="text-muted" style="white-space:nowrap;">@dateIso($it['createdAt'] ?? null, '—')</td>
+                            <td class="text-muted" style="white-space:nowrap;">
+                                @dateIso($it['createdAt'] ?? null, '—')
+                            </td>
+
+                            <td style="white-space:nowrap;">
+                                <span class="badge text-bg-secondary">{{ $it['transactionType'] ?? '—' }}</span>
+                            </td>
+
+                            <td style="white-space:nowrap;">
+                                <span class="text-muted">{{ $actorType }}:</span>
+                                <span
+                                    class="mono">{{ $actorId ? \Illuminate\Support\Str::limit($actorId, 14, '…') : '—' }}</span>
+                                @if ($actorId)
+                                    <x-copy-button :value="$actorId" />
+                                @endif
+                            </td>
+
+                            <td class="text-end mono" style="white-space:nowrap;">
+                                {{ number_format($debits, 0, '.', ' ') }} KMF
+                            </td>
+
+                            <td class="text-end mono" style="white-space:nowrap;">
+                                {{ number_format($credits, 0, '.', ' ') }} KMF
+                            </td>
+
+                            <td class="text-end mono {{ $netClass }}" style="white-space:nowrap;">
+                                {{ $net < 0 ? '−' : '' }}{{ number_format(abs($net), 0, '.', ' ') }} KMF
+                            </td>
+
                             <td class="mono" style="white-space:nowrap;">
-                                {{ $it['transactionId'] ?? '—' }}
+                                {{ \Illuminate\Support\Str::limit($it['transactionId'] ?? '—', 10, '…') }}
                                 @if (!empty($it['transactionId']))
                                     <x-copy-button :value="$it['transactionId']" />
                                 @endif
                             </td>
-                            <td style="white-space:nowrap;"><span
-                                    class="badge text-bg-secondary">{{ $it['transactionType'] ?? '—' }}</span>
-                            </td>
-                            <td class="text-end mono" style="white-space:nowrap;">{{ $it['amount'] ?? '—' }} KMF</td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-muted p-4">No ledger entries.</td>
+                            <td colspan="7" class="text-center text-muted p-4">No ledger entries.</td>
                         </tr>
                     @endforelse
                 </tbody>

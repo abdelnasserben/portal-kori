@@ -1,4 +1,4 @@
-<div class="card p-4 mt-3">
+<div class="card panel p-4 mt-3">
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h6 class="fw-semibold mb-0">History</h6>
         <span class="text-muted" style="font-size:.9rem;">{{ count($auditEvents ?? []) }} event(s)</span>

@@ -8,6 +8,7 @@ use App\Http\Requests\Merchant\TerminalsIndexRequest;
 use App\Http\Requests\Merchant\TransactionsIndexRequest;
 use App\Services\Merchant\MeService;
 use App\Support\Backoffice\FilterEnums;
+use App\Support\ApiErrorPresenter;
 use Illuminate\Support\Str;
 
 class MeController extends Controller
@@ -25,11 +26,10 @@ class MeController extends Controller
         } catch (KoriApiException $e) {
             return redirect()
                 ->route('merchant.me.transactions')
-                ->with('api_error', [
-                    'status' => $e->status,
-                    'message' => 'Dashboard unvalaible, redirection to transactions list.',
-                    'payload' => $e->payload,
-                ]);
+                ->with('api_error', ApiErrorPresenter::fromException(
+                    $e,
+                    'Dashboard unavailable, redirection to transactions list.'
+                ));
         }
     }
 
