@@ -6,7 +6,7 @@
     'backLabel' => 'Back',
 ])
 
-<div class="page-header mb-4">
+<div class="page-header panel mb-4">
     @if (!empty($breadcrumbs))
         <nav aria-label="breadcrumb" class="mb-2">
             <ol class="breadcrumb app-breadcrumb mb-0">

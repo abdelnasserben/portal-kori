@@ -4,7 +4,7 @@
     @if (session('status_success'))
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
-    <div class="card p-4 mb-3">
+    <div class="card panel p-4 mb-3">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
             <div>
                 <h5 class="fw-semibold mb-1">Merchants</h5>

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="card p-4 mb-3">
+    <div class="card panel p-4 mb-3">
         <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
             <div>
                 <h5 class="fw-semibold mb-1">Audits</h5>
