@@ -4,7 +4,7 @@
 <div class="card panel p-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h5 class="fw-semibold mb-0">Audit details</h5>
-        <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.audits.index') }}">Back to list</a>
+        <a class="btn btn-sm btn-dark" href="{{ route('admin.audits.index') }}">Back to list</a>
     </div>
 
     @if(empty($item))

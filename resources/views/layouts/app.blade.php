@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>{{ config('app.name', 'Kori Portal') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/x-icon">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/bootstrap-tune.css') }}">
