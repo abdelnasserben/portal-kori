@@ -38,19 +38,77 @@ abstract class AbstractActorController extends Controller
         $item = $this->service->show($actorCode, (string) Str::uuid());
 
         $actorRef = $item->actorRef !== '' ? $item->actorRef : $actorCode;
-        $auditEvents = $this->auditEvents->list([
-            'actorType' => $this->actorType(),
-            'actorRef' => $actorRef,
+        $auditEvents = $this->loadAuditHistory($this->actorType(), $actorRef);
+
+        return view($this->showView(), [
+            'item' => $item->toArray(),
+            'auditEvents' => $auditEvents,
+            'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
+            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
+        ], $this->extraShowViewData($item->toArray(), $actorRef, $actorCode));
+    }
+
+    /**
+     * Override in child controllers to inject extra view data for show pages.
+     */
+    protected function extraShowViewData(array $item, string $actorRef, string $actorCode): array
+    {
+        return [];
+    }
+
+    /**
+     * @return array<int, array>
+     */
+    protected function loadAuditHistory(string $subjectType, string $subjectRef): array
+    {
+        $actorEvents = $this->auditEvents->list([
+            'actorType' => $subjectType,
+            'actorRef' => $subjectRef,
             'limit' => 10,
             'sort' => 'occurredAt:desc',
         ]);
 
-        return view($this->showView(), [
-            'item' => $item->toArray(),
-            'auditEvents' => $auditEvents['items'] ?? [],
-            'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
-            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
+        $resourceEvents = $this->auditEvents->list([
+            'resourceType' => $subjectType,
+            'resourceRef' => $subjectRef,
+            'limit' => 10,
+            'sort' => 'occurredAt:desc',
         ]);
+
+        $items = array_merge(
+            is_array($actorEvents['items'] ?? null) ? $actorEvents['items'] : [],
+            is_array($resourceEvents['items'] ?? null) ? $resourceEvents['items'] : [],
+        );
+
+        $deduplicated = [];
+        $seenEventRefs = [];
+
+        foreach ($items as $item) {
+            if (!is_array($item)) {
+                continue;
+            }
+
+            $eventRef = $item['eventRef'] ?? null;
+
+            if (is_string($eventRef) && $eventRef !== '') {
+                if (isset($seenEventRefs[$eventRef])) {
+                    continue;
+                }
+
+                $seenEventRefs[$eventRef] = true;
+            }
+
+            $deduplicated[] = $item;
+        }
+
+        usort($deduplicated, static function (array $left, array $right): int {
+            $leftOccurredAt = (string) ($left['occurredAt'] ?? '');
+            $rightOccurredAt = (string) ($right['occurredAt'] ?? '');
+
+            return strcmp($rightOccurredAt, $leftOccurredAt);
+        });
+
+        return array_slice($deduplicated, 0, 10);
     }
 
     protected function updateActorStatus(string $actorCode, array $payload, string $successMessage)

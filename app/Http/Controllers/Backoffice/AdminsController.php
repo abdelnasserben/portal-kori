@@ -44,25 +44,13 @@ class AdminsController extends AbstractActorController
         ]);
     }
 
-    public function show(string $adminUsername)
+    protected function extraShowViewData(array $item, string $actorRef, string $actorCode): array
     {
-        $item = $this->adminsService->show($adminUsername, (string) Str::uuid());
+        $current = $this->currentAdminUsername();
 
-        $actorRef = $item->actorRef !== '' ? $item->actorRef : $adminUsername;
-        $auditEvents = $this->auditEvents->list([
-            'actorType' => $this->actorType(),
-            'actorRef' => $actorRef,
-            'limit' => 10,
-            'sort' => 'occurredAt:desc',
-        ]);
-
-        return view('backoffice.admins.show', [
-            'item' => $item->toArray(),
-            'auditEvents' => $auditEvents['items'] ?? [],
-            'historyRoute' => route('admin.audits.index', ['actorType' => $this->actorType(), 'actorRef' => $actorRef]),
-            'currentAdminUsername' => $this->currentAdminUsername(),
-            'actorStatusOptions' => FilterEnums::options(FilterEnums::ACTOR_STATUSES),
-        ]);
+        return [
+            'isCurrentAdmin' => is_string($current) && strcasecmp($current, $actorRef) === 0,
+        ];
     }
 
     public function store(Request $request)

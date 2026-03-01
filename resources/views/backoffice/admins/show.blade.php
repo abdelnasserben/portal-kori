@@ -1,12 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    @php
-        $isCurrentAdmin = !empty($currentAdminUsername) && !empty($item['actorRef']) && strcasecmp($currentAdminUsername, $item['actorRef']) === 0;
-    @endphp
+    @php($isCurrentAdmin = (bool) ($isCurrentAdmin ?? false))
 
     @if ($isCurrentAdmin)
-        <div class="alert alert-warning">You are viewing your own admin account. Status updates are disabled.</div>
+        <div class="alert alert-warning">You are viewing your own admin account.</div>
     @endif
 
     @if (session('status_success'))
@@ -53,5 +51,8 @@
         ])
     @endunless
 
-    @include('backoffice.partials.actor-history', ['auditEvents' => $auditEvents ?? [], 'historyRoute' => $historyRoute ?? route('admin.audits.index')])
+    @include('backoffice.partials.actor-history', [
+        'auditEvents' => $auditEvents ?? [],
+        'historyRoute' => $historyRoute ?? route('admin.audits.index'),
+    ])
 @endsection

@@ -17,13 +17,17 @@
         <aside class="app-sidebar offcanvas-lg offcanvas-start" tabindex="-1" id="appSidebar"
             aria-labelledby="appSidebarLabel">
             <div class="offcanvas-header d-lg-none">
-                <div class="app-logo fw-semibold p-0" id="appSidebarLabel">Kori Portal</div>
+                <div class="app-logo fw-semibold p-0" id="appSidebarLabel">
+                    <img src="{{ asset('img/logo.jpeg') }}" alt="Lipa logo" width="60" class="img-fluid"> Portal
+                </div>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#appSidebar"
                     aria-label="Close"></button>
             </div>
 
             <div class="offcanvas-body p-0 d-flex flex-column">
-                <div class="app-logo fw-semibold d-none d-lg-block">Kori Portal</div>
+                <div class="app-logo fw-semibold d-none d-lg-block">
+                    <img src="{{ asset('img/logo.jpeg') }}" alt="Lipa logo" width="80" class="img-fluid"> Portal
+                </div>
                 <nav class="nav flex-column app-nav">
                     @if ($roles->has('ADMIN'))
                         <a class="nav-link {{ request()->routeIs('admin.home') ? 'active' : '' }}"
