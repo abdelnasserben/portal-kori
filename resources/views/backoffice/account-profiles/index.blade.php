@@ -8,7 +8,6 @@
     <div class="card panel p-4 mb-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h5 class="fw-semibold mb-0">Account profile management</h5>
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
         <p class="text-muted mb-5" style="font-size:.9rem;">Perform update status action on account</p>

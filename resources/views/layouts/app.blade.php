@@ -88,7 +88,8 @@
                         ☰
                     </button>
                     @if ($roles->has('ADMIN'))
-                        <form method="GET" action="{{ route('admin.lookups.index') }}" class="d-flex app-lookup-form order-3 order-lg-2 w-100 mt-2 mt-lg-0 me-lg-auto"
+                        <form method="GET" action="{{ route('admin.lookups.index') }}"
+                            class="d-flex app-lookup-form order-3 order-lg-2 w-100 mt-2 mt-lg-0 me-lg-auto"
                             style="max-width: 520px;">
                             <input name="q" class="form-control form-control-sm" value="{{ request('q') }}"
                                 placeholder="Quick lookup...">
@@ -96,11 +97,13 @@
                     @endif
 
                     <div class="d-flex align-items-center gap-2 ms-auto order-2 order-lg-3 app-topbar-actions">
-                        <a class="btn btn-sm {{ request()->routeIs('health') ? 'btn-primary' : 'btn-outline-secondary' }}"
-                            href="{{ route('health') }}">API Health</a>
+                        @if ($roles->has('ADMIN'))
+                            <a class="btn btn-sm {{ request()->routeIs('health') ? 'btn-primary' : 'btn-outline-dark' }}"
+                                href="{{ route('health') }}">API Health</a>
+                        @endif
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <button class="btn btn-sm btn-outline-danger" type="submit">Sign out</button>
+                            <button class="btn btn-sm btn-danger" type="submit">Sign out</button>
                         </form>
                     </div>
                 </nav>

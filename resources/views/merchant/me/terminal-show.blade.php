@@ -2,7 +2,7 @@
 
 @section('content')
     <x-page-header title="Terminal details" subtitle="Merchant terminal record" :back-href="route('merchant.me.terminals')"
-        back-label="Back to terminals" />
+        back-label="Back to list" />
 
     <div class="panel">
         <dl class="row mb-0">

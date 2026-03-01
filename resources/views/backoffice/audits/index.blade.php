@@ -7,8 +7,6 @@
                 <h5 class="fw-semibold mb-1">Audits</h5>
                 <div class="text-muted" style="font-size: .9rem;">Audit monitoring</div>
             </div>
-
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
         <form method="GET" action="{{ route('admin.audits.index') }}" class="panel mt-3">
@@ -119,11 +117,11 @@
             <div class="text-muted" style="font-size:.9rem;">{{ count($items) }} item(s)</div>
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
-                    <a class="btn btn-sm btn-outline-primary"
+                    <a class="btn btn-sm btn-outline-dark"
                         href="{{ route('admin.audits.index', array_merge($filters, ['cursor' => $page['nextCursor']])) }}">Next
                         →</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-dark" disabled>Next →</button>
                 @endif
             </div>
         </div>

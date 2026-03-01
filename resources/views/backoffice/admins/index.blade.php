@@ -67,9 +67,9 @@
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
                     @php($nextUrl = route('admin.admins.index', array_merge($filters, ['cursor' => $page['nextCursor']])))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next →</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ $nextUrl }}">Next →</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-dark" disabled>Next →</button>
                 @endif
             </div>
         </div>

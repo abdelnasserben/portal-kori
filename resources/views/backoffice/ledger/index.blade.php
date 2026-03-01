@@ -7,8 +7,6 @@
                 <h5 class="fw-semibold mb-1">Ledger</h5>
                 <div class="text-muted" style="font-size: .9rem;">Balance lookup and ledger history</div>
             </div>
-
-            <a class="btn btn-sm btn-outline-secondary" href="{{ route('admin.home') }}">Back</a>
         </div>
 
         <form method="GET" action="{{ route('admin.ledger.index') }}" class="panel mt-3">
@@ -171,12 +169,12 @@
             <div class="text-muted" style="font-size:.9rem;">{{ count($items) }} item(s)</div>
             <div>
                 @if (!empty($next['beforeCreatedAt']) && !empty($next['beforeTransactionId']))
-                    <a class="btn btn-sm btn-outline-primary"
+                    <a class="btn btn-sm btn-outline-dark"
                         href="{{ route('admin.ledger.index', array_merge($filters, ['beforeCreatedAt' => $next['beforeCreatedAt'], 'beforeTransactionId' => $next['beforeTransactionId']])) }}">
                         Next →
                     </a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next →</button>
+                    <button class="btn btn-sm btn-outline-dark" disabled>Next →</button>
                 @endif
             </div>
         </div>

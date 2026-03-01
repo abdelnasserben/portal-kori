@@ -1,4 +1,8 @@
 :root {
+    --app-primary: #1cae90;
+    --app-primary-rgb: 28, 174, 144;
+
+    /* Bootstrap theme mapping */
     --bs-body-bg: #f3f5f8;
     --bs-body-color: #111827;
     --bs-border-color: #d9e0e8;
@@ -6,6 +10,16 @@
     --bs-border-radius-sm: .2rem;
     --bs-link-color: #0f172a;
     --bs-secondary-color: #667085;
+
+    --bs-primary: var(--app-primary);
+    --bs-primary-rgb: var(--app-primary-rgb);
+
+    --bs-link-color: var(--app-primary);
+    --bs-link-hover-color: var(--app-primary);
+
+    --bs-primary-text-emphasis: var(--app-primary);
+    --bs-primary-bg-subtle: rgba(var(--app-primary-rgb), .1);
+    --bs-primary-border-subtle: rgba(var(--app-primary-rgb), .3);
 }
 
 html,
@@ -80,14 +94,51 @@ body {
     border-top: 1px solid var(--bs-border-color);
 }
 
-.btn {
-    border-radius: .25rem;
-    font-weight: 600;
+.btn-primary {
+    --bs-btn-bg: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+
+    --bs-btn-hover-bg: var(--app-primary);
+    --bs-btn-hover-border-color: var(--app-primary);
+
+    --bs-btn-active-bg: var(--app-primary);
+    --bs-btn-active-border-color: var(--app-primary);
+
+    --bs-btn-focus-shadow-rgb: var(--app-primary-rgb);
 }
 
-.btn-primary {
-    background: #0b5db7;
-    border-color: #0b5db7;
+.btn-outline-primary {
+    --bs-btn-color: var(--app-primary);
+    --bs-btn-border-color: var(--app-primary);
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--app-primary);
+    --bs-btn-hover-border-color: var(--app-primary);
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--app-primary);
+    --bs-btn-active-border-color: var(--app-primary);
+
+    --bs-btn-focus-shadow-rgb: var(--app-primary-rgb);
+}
+
+.form-check-input {
+    border-color: rgba(var(--app-primary-rgb), .4);
+}
+
+.form-check-input:checked {
+    background-color: var(--app-primary);
+    border-color: var(--app-primary);
+}
+
+.form-check-input:focus {
+    border-color: var(--app-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--app-primary-rgb), .25);
+}
+
+.form-check-input[type="checkbox"]:indeterminate {
+    background-color: var(--app-primary);
+    border-color: var(--app-primary);
 }
 
 .form-control,

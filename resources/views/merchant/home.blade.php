@@ -17,7 +17,7 @@
         </div>
         <div class="d-flex gap-2">
             <a class="btn btn-sm btn-light" href="{{ route('merchant.me.terminals') }}">Terminals</a>
-            <a class="btn btn-sm btn-primary" href="{{ route('merchant.me.transactions') }}">Transactions</a>
+            <a class="btn btn-sm btn-dark" href="{{ route('merchant.me.transactions') }}">Transactions</a>
         </div>
     </section>
 

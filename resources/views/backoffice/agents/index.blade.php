@@ -5,7 +5,7 @@
         <div class="alert alert-success">{{ session('status_success') }}</div>
     @endif
 
-    <x-page-header title="Agents" subtitle="Agent directory" :back-href="route('admin.home')" back-label="Back">
+    <x-page-header title="Agents" subtitle="Agent directory">
         <x-slot:actions>
             <a class="btn btn-sm btn-primary" href="{{ route('admin.agents.create') }}">Create agent</a>
         </x-slot:actions>
@@ -61,9 +61,9 @@
             <div>
                 @if (($page['hasMore'] ?? false) && !empty($page['nextCursor']))
                     @php($nextUrl = route('admin.agents.index', array_merge($filters, ['cursor' => $page['nextCursor']])))
-                    <a class="btn btn-sm btn-outline-primary" href="{{ $nextUrl }}">Next</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ $nextUrl }}">Next</a>
                 @else
-                    <button class="btn btn-sm btn-outline-secondary" disabled>Next</button>
+                    <button class="btn btn-sm btn-outline-dark" disabled>Next</button>
                 @endif
             </div>
         </x-slot:footer>

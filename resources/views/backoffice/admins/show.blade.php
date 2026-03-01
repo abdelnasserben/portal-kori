@@ -19,7 +19,7 @@
                     <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal"
                         data-bs-target="#adminStatusModal">Update status</button>
                 @endunless
-                <a class="btn btn-sm btn-dark" href="{{ route('admin.admins.index') }}">← Back to list</a>
+                <a class="btn btn-sm btn-dark" href="{{ route('admin.admins.index') }}">Back to list</a>
             </div>
         </div>
 

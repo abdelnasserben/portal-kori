@@ -34,7 +34,7 @@
         <div class="d-flex align-items-center gap-2">
             {{ $actions ?? '' }}
             @if ($backHref)
-                <a class="btn btn-sm btn-outline-secondary" href="{{ $backHref }}">{{ $backLabel }}</a>
+                <a class="btn btn-sm btn-outline-dark" href="{{ $backHref }}">{{ $backLabel }}</a>
             @endif
         </div>
     </div>
